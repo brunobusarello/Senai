@@ -7,7 +7,7 @@ programa
 		cadeia nome
 		real sal_fixo, tot_sal
 		inteiro tot_vendas
-		const real comissao = 0.15
+		const real COMISSAO = 0.15
 		
 		// inputs do usuário
 		escreva("Nome: ")
@@ -18,7 +18,7 @@ programa
 		leia(tot_vendas)
 
 		// cálculo do salário
-		tot_sal = sal_fixo + tot_vendas*comissao
+		tot_sal = sal_fixo + tot_vendas*COMISSAO
 
 		// resultado
 		escreva("\n\n", nome, " recebe R$", sal_fixo, ", porém com suas vendas no mês, seu salário final foi de, R$", tot_sal)
