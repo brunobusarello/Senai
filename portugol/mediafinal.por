@@ -1,5 +1,6 @@
 programa
 {
+	inclua biblioteca Matematica --> m
 	
 	funcao inicio()
 	{
@@ -31,6 +32,7 @@ programa
 
 		// calcular média final
 		mf = (n1+n2+n3)/3
+		mf = m.arredondar(mf, 2)
 		
 		// verificação da média
 		/*
@@ -67,7 +69,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 774; 
+ * @POSICAO-CURSOR = 46; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
