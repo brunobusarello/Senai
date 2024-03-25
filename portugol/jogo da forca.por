@@ -1,26 +1,30 @@
 programa
 {
-	inclua biblioteca Texto --> txt
+	inclua biblioteca Texto --> txt
 	
 	funcao inicio()
 	{
-		cadeia palavraSecreta, desenho[6], palavraOriginal[200], palavraJogador[200], palpite, palpitesUsados[200]
+		cadeia palavraSecreta, palavraOriginal[200], palavraJogador[200], palpite, palpitesUsados[200]
 		inteiro tam, erros = 0, aux = 0, letrasCertas = 0, cont = 0
 		logico forca = verdadeiro
+		// matriz que forma o desenho da forca
+		caracter desenho[7][7] = {
+		{' ', '_', '_', '_', '_', '_', '_'},
+		{' ', ' ', ' ', '|', ' ', ' ', '|'},
+		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+		{'_', '_', '_', '_', '_', '_', '|'}
+		}
 
-		desenho[0] = "  ______"
-		desenho[1] = "    |  |"
-		desenho[2] = "   ()  |"
-		desenho[3] = "  /||\\ |"
-		desenho[4] = "   /\\  |"
-		desenho[5] = "  /  \\ |"
-
-		// digitação da palavra secreta e geração dos espaços em branco
+		// digitação da palavra secreta
 		escreva("Digite a palavra secreta: ")
 		leia(palavraSecreta)
 		palavraSecreta = txt.caixa_alta(palavraSecreta)
 		tam = txt.numero_caracteres(palavraSecreta)
 
+		// geração dos espaços em branco
 		para(inteiro c = 0; c < tam; c ++){
 			palavraOriginal[c] = (txt.obter_caracter(palavraSecreta, c) + "")
 			palavraJogador[c] = "_"
@@ -32,18 +36,28 @@ programa
 		enquanto(forca){
 			aux = letrasCertas
 			// mostra o desenho da forca
-			para(inteiro c = 0; c < erros + 2; c++){
-					escreva(desenho[c], "\n")
+			para(inteiro l = 0; l < 7; l++){
+				para(inteiro c = 0; c < 7; c++){
+					escreva(desenho[l][c])
+				}
+				escreva("\n")
 			}
+			
 			escreva("\n")
 
-			// mostra os indices 
+			// mostra as letras já acertadas
 			para(inteiro c = 0; c < tam; c++){
 				escreva("[ ", palavraJogador[c], " ]")
 			}
 
+			// mostra as letras usadas
+			escreva("\n\nLetras usadas: ")
+			para(inteiro c = 0; c < cont; c++){
+				escreva(palpitesUsados[c], " ")
+			}
+
 			// lê o palpite
-			escreva("\nPalpite: ")
+			escreva("\n\nPalpite: ")
 			leia(palpite)
 			palpitesUsados[cont] = palpite
 			palpite = txt.caixa_alta(palpite)
@@ -53,22 +67,47 @@ programa
 				se(palpite == palavraOriginal[c]){
 					// adiciona o palpite a palavra do jogador
 					palavraJogador[c] = palpite
-					//palp++
 					letrasCertas++
 				}
 			}
 			
+			// verifica se o palpite não está contido
 			se(aux == letrasCertas){
-				erros++	
+				erros++
+				// atualiza a matriz conforme a quantidade de erros
+				escolha(erros){
+					caso 1:
+						desenho[2][2] = '('
+						desenho[2][4] = ')'
+					pare
+
+					caso 2:
+						desenho[3][2] = '/'
+						desenho[3][3] = '|'
+					pare
+
+					caso 3:
+						desenho[3][4] = '\\'
+					pare
+
+					caso 4:
+						desenho[4][3] = '|'
+					pare
+
+					caso 5:
+						desenho[5][2] = '/'
+					pare
+
+					caso 6:
+						desenho[5][4] = '\\'
+					pare
+						
+				}
 			}
 
-			// verifica se perdeu
-			se(erros >= 4){
+			// verifica se perdeu ou se ganou
+			se(erros >= 6 ou letrasCertas == tam){
 				forca = falso	
-			}
-			// verifica se ganhou
-			senao se(letrasCertas == tam){
-				forca = falso
 			}
 			senao{
 				limpa()
@@ -96,9 +135,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1777; 
+ * @POSICAO-CURSOR = 2549; 
+ * @DOBRAMENTO-CODIGO = [10, 77];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {desenho, 11, 11, 7};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
