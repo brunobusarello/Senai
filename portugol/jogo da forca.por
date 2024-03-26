@@ -79,11 +79,11 @@ programa
 					caso 1:
 						desenho[2][2] = '('
 						desenho[2][4] = ')'
+						desenho[3][3] = '|'
 					pare
 
 					caso 2:
 						desenho[3][2] = '/'
-						desenho[3][3] = '|'
 					pare
 
 					caso 3:
@@ -135,10 +135,9 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 556; 
- * @DOBRAMENTO-CODIGO = [77];
+ * @POSICAO-CURSOR = 2215; 
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {desenho, 11, 11, 7};
+ * @SIMBOLOS-INSPECIONADOS = {letrasCertas, 8, 35, 12};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
