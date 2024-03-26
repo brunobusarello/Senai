@@ -135,8 +135,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2549; 
- * @DOBRAMENTO-CODIGO = [10, 77];
+ * @POSICAO-CURSOR = 556; 
+ * @DOBRAMENTO-CODIGO = [77];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = {desenho, 11, 11, 7};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
