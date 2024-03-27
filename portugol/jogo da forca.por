@@ -1,22 +1,56 @@
 programa
 {
 	inclua biblioteca Texto --> txt
-	
+
+	// matriz que forma o desenho da forca
+	caracter desenho[7][7] = {
+	{' ', '_', '_', '_', '_', '_', '_'},
+	{' ', ' ', ' ', '|', ' ', ' ', '|'},
+	{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+	{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+	{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+	{' ', ' ', ' ', ' ', ' ', ' ', '|'},
+	{'_', '_', '_', '_', '_', '_', '|'}
+	}
+
+	// atualiza a matriz do desenho
+	funcao formarDesenho(inteiro erros){
+		escolha(erros){
+			caso 1:
+				desenho[2][2] = '('
+				desenho[2][4] = ')'
+				desenho[3][3] = '|'
+			pare
+
+			caso 2:
+				desenho[3][2] = '/'
+			pare
+
+			caso 3:
+				desenho[3][4] = '\\'
+			pare
+
+			caso 4:
+				desenho[4][3] = '|'
+			pare
+
+			caso 5:
+				desenho[5][2] = '/'
+			pare
+
+			caso 6:
+				desenho[5][4] = '\\'
+			pare
+		}
+	}
+
+
 	funcao inicio()
 	{
 		cadeia palavraSecreta, palavraOriginal[200], palavraJogador[200], palpite, palpitesUsados[200]
 		inteiro tam, erros = 0, aux = 0, letrasCertas = 0, cont = 0
 		logico forca = verdadeiro
-		// matriz que forma o desenho da forca
-		caracter desenho[7][7] = {
-		{' ', '_', '_', '_', '_', '_', '_'},
-		{' ', ' ', ' ', '|', ' ', ' ', '|'},
-		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
-		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
-		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
-		{' ', ' ', ' ', ' ', ' ', ' ', '|'},
-		{'_', '_', '_', '_', '_', '_', '|'}
-		}
+		
 
 		// digitação da palavra secreta
 		escreva("Digite a palavra secreta: ")
@@ -74,35 +108,7 @@ programa
 			// verifica se o palpite não está contido
 			se(aux == letrasCertas){
 				erros++
-				// atualiza a matriz conforme a quantidade de erros
-				escolha(erros){
-					caso 1:
-						desenho[2][2] = '('
-						desenho[2][4] = ')'
-						desenho[3][3] = '|'
-					pare
-
-					caso 2:
-						desenho[3][2] = '/'
-					pare
-
-					caso 3:
-						desenho[3][4] = '\\'
-					pare
-
-					caso 4:
-						desenho[4][3] = '|'
-					pare
-
-					caso 5:
-						desenho[5][2] = '/'
-					pare
-
-					caso 6:
-						desenho[5][4] = '\\'
-					pare
-						
-				}
+				formarDesenho(erros)
 			}
 
 			// verifica se perdeu ou se ganou
@@ -135,9 +141,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2215; 
+ * @POSICAO-CURSOR = 792; 
+ * @DOBRAMENTO-CODIGO = [5, 16];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {letrasCertas, 8, 35, 12};
+ * @SIMBOLOS-INSPECIONADOS = {letrasCertas, 51, 35, 12};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
