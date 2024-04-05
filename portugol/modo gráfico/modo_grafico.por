@@ -85,19 +85,6 @@ programa
 		}
 	}
 
-	funcao pular(){
-		inteiro gravidade = 2
-		inteiro altura = -10
-		auxiliar = bola_y
-		se(t.tecla_pressionada(49)){
-			enquanto(auxiliar >= bola_y){
-				bola_y += altura
-				altura += gravidade
-				desenhar()
-			}
-		}
-		u.aguarde(20)
-	}
 	
 	funcao inicio()
 	{
@@ -110,7 +97,6 @@ programa
 			velocidade_bolinha()
 			tocando_borda()
 			tiro()
-			pular()
 		}
 	}
 }
@@ -119,10 +105,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 875; 
- * @DOBRAMENTO-CODIGO = [16, 35, 46, 59, 74, 87];
+ * @POSICAO-CURSOR = 1753; 
+ * @DOBRAMENTO-CODIGO = [35, 46, 59, 74];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {bola_x, 9, 9, 6}-{bola_y, 10, 9, 6}-{aguardar, 11, 9, 8};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
