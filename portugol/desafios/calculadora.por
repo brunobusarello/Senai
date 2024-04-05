@@ -16,13 +16,16 @@ programa
 	inteiro pos_q_y[5] = {114, 215, 316, 417, 518}
 	inteiro pos_nums_x[4] = {20, 121, 222, 323}
 	inteiro pos_nums_y[5] = {140, 240, 340, 441, 542}
+
+	// matriz contendo os caracteres da calculadora
 	cadeia numeros_calc[5][4] = {
 		{"AC", "  ", " %", " +"},
 		{" 7", " 8", " 9", " -"},
-		{" 4", " 5", " 6", " *"},
+		{" 4", " 5", " 6", " X"},
 		{" 1", " 2", " 3", " /"},
 		{"00", " 0", " .", " ="}
 	}
+	
 	cadeia resposta = ""
 
 	funcao desenhar(){
@@ -109,15 +112,31 @@ programa
 	funcao calcular(){
 		
 	}
+
+	funcao mouse(inteiro pos_pont_x, inteiro pos_pont_y){
+		para(inteiro c = 0; c < 3; c++){
+			para(inteiro l = 0; l < 4; l++){
+				se(pos_pont_x > pos_q_x[c + 1] e pos_pont_x < pos_q_x[c] e pos_pont_y > pos_q_y[l] e pos_pont_y < pos_q_y[l + 1]){
+					g.definir_cor(g.COR_PRETO)
+					g.definir_opacidade(30)
+				}
+			}
+		}
+	}
 	
 	funcao inicio()
 	{
 		inteiro tecla
+		inteiro pos_mouse_y, pos_mouse_x
 		g.iniciar_modo_grafico(verdadeiro)
 		g.definir_dimensoes_janela(400, 614)
 		enquanto(nao t.tecla_pressionada(t.TECLA_ESC)){
 			desenhar()
 			calcular()
+			pos_mouse_y = m.posicao_y()
+			pos_mouse_x = m.posicao_x()
+			
+			mouse(pos_mouse_y, pos_mouse_x)
 			tecla = t.ler_tecla()
 			tecla_pressionada(tecla)
 		}
@@ -128,9 +147,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 653; 
+ * @POSICAO-CURSOR = 2308; 
+ * @DOBRAMENTO-CODIGO = [20, 30, 62, 111];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {resposta, 26, 8, 8};
+ * @SIMBOLOS-INSPECIONADOS = {resposta, 29, 8, 8}-{pos_pont_x, 116, 22, 10}-{pos_pont_y, 116, 42, 10};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
