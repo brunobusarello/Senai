@@ -3,42 +3,53 @@ programa
 	inclua biblioteca Util --> u
 	inclua biblioteca Mouse --> m
 	inclua biblioteca Teclado --> t
-	inclua biblioteca Graficos -->g
+	inclua biblioteca Graficos -->g
 
-	inteiro pos_quadrados[2][4] = {{11, 111, 211, 313},{204, 300, 396, 492}}
-	inteiro pos_numeros[2][4] = {{37, 135, 237, 339},{216, 312, 408, 504}} 
-	cadeia numeros_calc[4][4] = {
-		{"7", "8", "9", "+"},
-		{"4", "5", "6", "-"},
-		{"1", "2", "3", "*"},
-		{".", "0", "=", "/"}
+	
+	// cores
+	inteiro visor = g.criar_cor(212, 212, 212)
+	inteiro fundo = g.criar_cor(143, 143, 143)
+	inteiro btn_operacoes = g.criar_cor(236,150,71)
+
+	// posições
+	inteiro pos_q_x[4] = {0, 101, 202, 303}
+	inteiro pos_q_y[5] = {114, 215, 316, 417, 518}
+	inteiro pos_nums_x[4] = {20, 121, 222, 323}
+	inteiro pos_nums_y[5] = {140, 240, 340, 441, 542}
+	cadeia numeros_calc[5][4] = {
+		{"AC", "  ", " %", " +"},
+		{" 7", " 8", " 9", " -"},
+		{" 4", " 5", " 6", " *"},
+		{" 1", " 2", " 3", " /"},
+		{"00", " 0", " .", " ="}
 	}
 	cadeia resposta = ""
 
 	funcao desenhar(){
-		g.definir_cor(g.COR_PRETO)
+		g.definir_cor(fundo)
 		g.limpar()
 
-		g.definir_cor(g.COR_BRANCO)
-		g.desenhar_retangulo(20, 40, 360, 100, verdadeiro, verdadeiro)
+		g.definir_cor(visor)
+		g.desenhar_retangulo(0, 0, 400, 110, falso, verdadeiro)
 
 		para(inteiro c = 0; c < 4; c++){
-			para(inteiro v = 0; v < 4; v++){
-				se(v == 3){
-					g.definir_cor(g.COR_AZUL)
+			para(inteiro l = 0; l < 5; l++){
+				se(c == 3){
+					g.definir_cor(btn_operacoes)
 				}
 				senao{
 					g.definir_cor(g.COR_BRANCO)
 				}
-				g.desenhar_retangulo(pos_quadrados[0][v], pos_quadrados[1][c], 75, 75, verdadeiro, verdadeiro)
+				
+				g.desenhar_retangulo(pos_q_x[c], pos_q_y[l], 97, 97, falso, verdadeiro)
 				g.definir_cor(g.COR_PRETO)
 				g.definir_fonte_texto("Arial")
-				g.definir_tamanho_texto(50.0)
-				g.desenhar_texto(pos_numeros[0][v], pos_numeros[1][c], numeros_calc[c][v])
+				g.definir_tamanho_texto(40.0)
+				g.desenhar_texto(pos_nums_x[c], pos_nums_y[l], numeros_calc[l][c])
 			}
 		}
 
-		g.definir_cor(g.COR_VERDE)
+		g.definir_cor(fundo)
 		g.definir_fonte_texto("Arial")
 		g.definir_tamanho_texto(50.0)
 		g.desenhar_texto(37, 60, resposta)
@@ -103,7 +114,7 @@ programa
 	{
 		inteiro tecla
 		g.iniciar_modo_grafico(verdadeiro)
-		g.definir_dimensoes_janela(400, 600)
+		g.definir_dimensoes_janela(400, 614)
 		enquanto(nao t.tecla_pressionada(t.TECLA_ESC)){
 			desenhar()
 			calcular()
@@ -117,9 +128,9 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1973; 
+ * @POSICAO-CURSOR = 653; 
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {resposta, 16, 8, 8};
+ * @SIMBOLOS-INSPECIONADOS = {resposta, 26, 8, 8};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
