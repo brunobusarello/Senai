@@ -10,6 +10,10 @@ programa
 
 	// variável que faz o programa parar
 	logico continuar = verdadeiro
+
+	// variáveis de cálculo
+	cadeia num1 = "", num2 = ""
+	real n1 = 0.0, n2 = 0.0, resp = 0.0
 	
 	// cores
 	inteiro visor = g.criar_cor(212, 212, 212)
@@ -17,6 +21,7 @@ programa
 	inteiro btn_operacoes = g.criar_cor(236,150,71)
 
 	// posições
+	inteiro col = 0, lin = 0
 	inteiro pos_q_x[4] = {0, 101, 202, 303}
 	inteiro pos_q_y[5] = {114, 215, 316, 417, 518}
 	inteiro pos_nums_x[4] = {20, 121, 222, 323}
@@ -47,30 +52,17 @@ programa
 	funcao desenhar(){
 		g.definir_cor(fundo)
 		g.limpar()
-
 		g.definir_cor(visor)
 		g.desenhar_retangulo(0, 0, 400, 110, falso, verdadeiro)
 
-		
-
-		para(inteiro c = 0; c < 4; c++){
-			para(inteiro l = 0; l < 5; l++){
-				
-				
-				se(c == 3){
-					g.definir_cor(btn_operacoes)
+		para(col; col < 4; col++){
+			para(lin; lin < 5; lin++){
+				se(col == 3){
+					desenhar_btn(pos_q_x[col], pos_q_y[lin], btn_operacoes, g.COR_BRANCO, pos_nums_x[col], pos_nums_y[lin], numeros_calc[lin][col])
 				}
-				
 				senao{
-					g.definir_cor(g.COR_BRANCO)
+					desenhar_btn(pos_q_x[col], pos_q_y[lin], g.COR_BRANCO, g.COR_PRETO, pos_nums_x[col], pos_nums_y[lin], numeros_calc[lin][col])
 				}
-				
-				
-				g.desenhar_retangulo(pos_q_x[c], pos_q_y[l], 97, 97, falso, verdadeiro)
-				g.definir_cor(g.COR_PRETO)
-				g.definir_fonte_texto("Arial")
-				g.definir_tamanho_texto(40.0)
-				g.desenhar_texto(pos_nums_x[c], pos_nums_y[l], numeros_calc[l][c])
 			}
 		}
 
@@ -81,9 +73,20 @@ programa
 		para(inteiro c = 0; c < pos_vetor; c++){
 			resposta += valores[c]
 		}
-		g.desenhar_texto(15, 27, resposta)
+		g.desenhar_texto(15, 27, resposta)	
+	}
+
+	// desenha os quadrados de acordo com os parâmetros
+	funcao desenhar_btn(inteiro x_btn, inteiro y_btn, inteiro cor_btn, inteiro cor_texto, inteiro x_texto, inteiro y_texto, cadeia texto){
+		g.definir_cor(cor_btn)
+		g.desenhar_retangulo(x_btn, y_btn, 97, 97, falso, verdadeiro)
+
+		se(m.posicao_x() >= 0 e m.posicao_x() <= 97)
 		
-		
+		g.definir_cor(cor_texto)
+		g.definir_tamanho_texto(40.0)
+		g.definir_fonte_texto("Arial")
+		g.desenhar_texto(x_texto, y_texto, texto)
 	}
 
 	// lê as teclas apertdas e estabelece funções a elas
@@ -204,6 +207,9 @@ programa
 				se(pos_vetor >= 1){
 						pos_vetor--
 					}
+				se(valores[pos_vetor] == '.'){
+					c_pontos--
+				}
 				valores[pos_vetor] = ' '
 
 			caso t.TECLA_ESC:
@@ -215,10 +221,10 @@ programa
 		}
 	}
 
-	// separa os valores pelo sinal de operação e apenas faz o cálculo
-	funcao calcular(){
-		cadeia num1 = "0", num2 = "0"
-		real n1 = 0.0, n2 = 0.0, resp = 0.0
+	// separa os valores pelo sinal de operação
+	funcao separar_valores(){
+		num1 = ""
+		num2 = ""
 		para(inteiro v = 0; v < pos_vetor; v++){
 			se(v < pos_op){
 				num1 += valores[v]
@@ -227,9 +233,13 @@ programa
 				num2 += valores[v]
 			}
 		}
+	}
+
+	// realiza o cálculo dos valores
+	funcao calcular(){
 		n1 = ty.cadeia_para_real(num1)
 		n2 = ty.cadeia_para_real(num2)
-
+		
 		escolha(op){
 			caso '+':
 				resp = n1 + n2
@@ -256,7 +266,7 @@ programa
 			valores[c] = txt.obter_caracter(mostrar, c)
 		}
 		pos_vetor = c
-		c_pontos = 0
+		c_pontos = 1
 	}
 
 	// inicializa as principais funções
@@ -270,7 +280,10 @@ programa
 			g.renderizar()
 			tecla = t.ler_tecla()
 			tecla_pressionada(tecla)
-			calcular()
+			separar_valores()
+			se(num1 != "" e num2 != ""){
+				calcular()
+			}
 		}
 	}
 }
@@ -279,10 +292,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 5122; 
- * @DOBRAMENTO-CODIGO = [37, 46, 89, 218, 251, 262];
+ * @POSICAO-CURSOR = 1791; 
+ * @DOBRAMENTO-CODIGO = [42, 92, 224, 238, 261, 272];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {num1, 15, 8, 4}-{num2, 15, 19, 4}-{n1, 16, 6, 2}-{n2, 16, 16, 2}-{resp, 16, 26, 4}-{resposta, 34, 8, 8};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
