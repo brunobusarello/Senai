@@ -21,12 +21,10 @@ programa
 	inteiro btn_operacoes = g.criar_cor(236,150,71)
 
 	// posições
-	inteiro col = 0, lin = 0
 	inteiro pos_q_x[4] = {0, 101, 202, 303}
 	inteiro pos_q_y[5] = {114, 215, 316, 417, 518}
 	inteiro pos_nums_x[4] = {20, 121, 222, 323}
 	inteiro pos_nums_y[5] = {140, 240, 340, 441, 542}
-	inteiro pos_mouse = 0
 
 	// variáveis de visor e resposta do usuário
 	caracter valores[13]
@@ -35,7 +33,6 @@ programa
 	cadeia mostrar = ""
 	inteiro pos_vetor = 0
 	inteiro pos_op = 0
-	inteiro flag = 0
 	inteiro c_op = 0, c_pontos = 0
 	
 	
@@ -48,6 +45,15 @@ programa
 		{"00", " 0", " .", " ="}
 	}
 
+	// matriz que contém as constantes das teclas usadas
+	inteiro teclas[5][4] = {
+		{127, 0, 0, 107},
+		{103, 104, 105, 109},
+		{100, 101, 102, 106},
+		{97, 98, 99, 111},
+		{0, 96, 108, 10}
+	}
+
 	// toda parte gráfica é desenhada e renderizada aqui
 	funcao desenhar(){
 		g.definir_cor(fundo)
@@ -55,13 +61,13 @@ programa
 		g.definir_cor(visor)
 		g.desenhar_retangulo(0, 0, 400, 110, falso, verdadeiro)
 
-		para(col; col < 4; col++){
-			para(lin; lin < 5; lin++){
-				se(col == 3){
-					desenhar_btn(pos_q_x[col], pos_q_y[lin], btn_operacoes, g.COR_BRANCO, pos_nums_x[col], pos_nums_y[lin], numeros_calc[lin][col])
+		para(inteiro c = 0; c < 4; c++){
+			para(inteiro l = 0; l < 5; l++){
+				se(c == 3){
+					desenhar_btn(pos_q_x[c], pos_q_y[l], btn_operacoes, g.COR_BRANCO, pos_nums_x[c], pos_nums_y[l], numeros_calc[l][c])
 				}
 				senao{
-					desenhar_btn(pos_q_x[col], pos_q_y[lin], g.COR_BRANCO, g.COR_PRETO, pos_nums_x[col], pos_nums_y[lin], numeros_calc[lin][col])
+					desenhar_btn(pos_q_x[c], pos_q_y[l], g.COR_BRANCO, g.COR_PRETO, pos_nums_x[c], pos_nums_y[l], numeros_calc[l][c])
 				}
 			}
 		}
@@ -74,6 +80,8 @@ programa
 			resposta += valores[c]
 		}
 		g.desenhar_texto(15, 27, resposta)	
+
+		g.renderizar()
 	}
 
 	// desenha os quadrados de acordo com os parâmetros
@@ -81,7 +89,12 @@ programa
 		g.definir_cor(cor_btn)
 		g.desenhar_retangulo(x_btn, y_btn, 97, 97, falso, verdadeiro)
 
-		se(m.posicao_x() >= 0 e m.posicao_x() <= 97)
+		se(m.posicao_x() >= x_btn e m.posicao_x() <= x_btn + 97 e m.posicao_y() >= y_btn e m.posicao_y() <= y_btn + 97){
+				g.definir_cor(g.COR_PRETO)
+				g.definir_opacidade(30)
+				g.desenhar_retangulo(x_btn, y_btn, 97, 97, falso, verdadeiro)
+				g.definir_opacidade(255)
+		}
 		
 		g.definir_cor(cor_texto)
 		g.definir_tamanho_texto(40.0)
@@ -90,8 +103,18 @@ programa
 	}
 
 	// lê as teclas apertdas e estabelece funções a elas
-	funcao tecla_pressionada(inteiro v1){
+	funcao tecla_pressionada(){
 		se(pos_vetor < 13){
+			para(inteiro c = 0; c < 4; c++){
+				para(inteiro l = 0; l < 5; l++){
+					se(t.tecla_pressionada(teclas[l][c])){
+						
+					}
+				}
+			}
+		}
+/*
+}
 			escolha(v1){
 				caso t.TECLA_0_NUM:
 					valores[pos_vetor] = '0'
@@ -197,12 +220,12 @@ programa
 						valores[pos_vetor] = '.'
 						pos_vetor++
 						c_pontos++
-					}
-						
+					}		
 			}
 		}
+		
 
-		escolha(v1){
+		escolha(){
 			caso t.TECLA_BACKSPACE:
 				se(pos_vetor >= 1){
 						pos_vetor--
@@ -219,6 +242,7 @@ programa
 				mostrar_resultado()
 				c_op = 0
 		}
+		*/
 	}
 
 	// separa os valores pelo sinal de operação
@@ -272,14 +296,11 @@ programa
 	// inicializa as principais funções
 	funcao inicio()
 	{
-		inteiro tecla
 		g.iniciar_modo_grafico(verdadeiro)
 		g.definir_dimensoes_janela(400, 614)
 		enquanto(continuar == verdadeiro){
 			desenhar()
-			g.renderizar()
-			tecla = t.ler_tecla()
-			tecla_pressionada(tecla)
+			tecla_pressionada()
 			separar_valores()
 			se(num1 != "" e num2 != ""){
 				calcular()
@@ -292,10 +313,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1791; 
- * @DOBRAMENTO-CODIGO = [42, 92, 224, 238, 261, 272];
+ * @POSICAO-CURSOR = 917; 
+ * @DOBRAMENTO-CODIGO = [57, 87, 285, 296];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {num1, 15, 8, 4}-{num2, 15, 19, 4}-{n1, 16, 6, 2}-{n2, 16, 16, 2}-{resp, 16, 26, 4}-{resposta, 34, 8, 8};
+ * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
