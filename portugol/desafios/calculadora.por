@@ -20,12 +20,6 @@ programa
 	inteiro fundo = g.criar_cor(143, 143, 143)
 	inteiro btn_operacoes = g.criar_cor(236,150,71)
 
-	// posições
-	inteiro pos_q_x[4] = {0, 101, 202, 303}
-	inteiro pos_q_y[5] = {114, 215, 316, 417, 518}
-	inteiro pos_nums_x[4] = {20, 121, 222, 323}
-	inteiro pos_nums_y[5] = {140, 240, 340, 441, 542}
-
 	// variáveis de visor e resposta do usuário
 	caracter valores[13]
 	caracter op
@@ -35,23 +29,13 @@ programa
 	inteiro pos_op = 0
 	inteiro c_op = 0, c_pontos = 0
 	
-	
 	// matriz contendo os caracteres da calculadora
 	cadeia numeros_calc[5][4] = {
-		{"AC", "  ", " %", " +"},
+		{"AC", "<-", " %", " +"},
 		{" 7", " 8", " 9", " -"},
 		{" 4", " 5", " 6", " x"},
 		{" 1", " 2", " 3", " /"},
 		{"00", " 0", " .", " ="}
-	}
-
-	// matriz que contém as constantes das teclas usadas
-	inteiro teclas[5][4] = {
-		{127, 0, 0, 107},
-		{103, 104, 105, 109},
-		{100, 101, 102, 106},
-		{97, 98, 99, 111},
-		{0, 96, 108, 10}
 	}
 
 	// toda parte gráfica é desenhada e renderizada aqui
@@ -64,10 +48,10 @@ programa
 		para(inteiro c = 0; c < 4; c++){
 			para(inteiro l = 0; l < 5; l++){
 				se(c == 3){
-					desenhar_btn(pos_q_x[c], pos_q_y[l], btn_operacoes, g.COR_BRANCO, pos_nums_x[c], pos_nums_y[l], numeros_calc[l][c])
+					desenhar_btn(0 + 101 * c, 114 + 101 * l, btn_operacoes, g.COR_BRANCO, 20 + 101 * c, 140 + 100 * l, numeros_calc[l][c])
 				}
 				senao{
-					desenhar_btn(pos_q_x[c], pos_q_y[l], g.COR_BRANCO, g.COR_PRETO, pos_nums_x[c], pos_nums_y[l], numeros_calc[l][c])
+					desenhar_btn(0 + 101 * c, 114 + 101 * l, g.COR_BRANCO, g.COR_PRETO, 20 + 101 * c, 140 + 100 * l, numeros_calc[l][c])
 				}
 			}
 		}
@@ -94,6 +78,10 @@ programa
 				g.definir_opacidade(30)
 				g.desenhar_retangulo(x_btn, y_btn, 97, 97, falso, verdadeiro)
 				g.definir_opacidade(255)
+				se(m.botao_pressionado(m.BOTAO_ESQUERDO)){
+					btn_pressionado(x_btn, y_btn)
+					u.aguarde(100)
+				}
 		}
 		
 		g.definir_cor(cor_texto)
@@ -104,58 +92,14 @@ programa
 
 	// lê as teclas apertdas e estabelece funções a elas
 	funcao tecla_pressionada(){
+		inteiro v1 = t.ler_tecla()
 		se(pos_vetor < 13){
-			para(inteiro c = 0; c < 4; c++){
-				para(inteiro l = 0; l < 5; l++){
-					se(t.tecla_pressionada(teclas[l][c])){
-						
-					}
-				}
+			se(v1 >= 96 e v1 <= 105){
+				valores[pos_vetor] = ty.inteiro_para_caracter(v1 - 96)
+				pos_vetor++
 			}
-		}
-/*
-}
-			escolha(v1){
-				caso t.TECLA_0_NUM:
-					valores[pos_vetor] = '0'
-					pos_vetor++
 		
-				caso t.TECLA_1_NUM:
-					valores[pos_vetor] = '1'
-					pos_vetor++
-				
-				caso t.TECLA_2_NUM:
-					valores[pos_vetor] = '2'
-					pos_vetor++
-				
-				caso t.TECLA_3_NUM:
-					valores[pos_vetor] = '3'
-					pos_vetor++
-				
-				caso t.TECLA_4_NUM:
-					valores[pos_vetor] = '4'
-					pos_vetor++
-				
-				caso t.TECLA_5_NUM:
-					valores[pos_vetor] = '5'
-					pos_vetor++
-				
-				caso t.TECLA_6_NUM:
-					valores[pos_vetor] = '6'
-					pos_vetor++
-				
-				caso t.TECLA_7_NUM:
-					valores[pos_vetor] = '7'
-					pos_vetor++
-				
-				caso t.TECLA_8_NUM:
-					valores[pos_vetor] = '8'
-					pos_vetor++
-				
-				caso t.TECLA_9_NUM:
-					valores[pos_vetor] = '9'
-					pos_vetor++
-	
+			escolha(v1){
 				caso t.TECLA_ADICAO:
 					se(c_op < 1){
 						c_op++
@@ -220,12 +164,12 @@ programa
 						valores[pos_vetor] = '.'
 						pos_vetor++
 						c_pontos++
-					}		
-			}
+					}
+			}		
 		}
 		
 
-		escolha(){
+		escolha(v1){
 			caso t.TECLA_BACKSPACE:
 				se(pos_vetor >= 1){
 						pos_vetor--
@@ -242,7 +186,16 @@ programa
 				mostrar_resultado()
 				c_op = 0
 		}
-		*/
+		
+	}
+
+	// verificação de que botão foi pressionado e retorna o valor
+	funcao btn_pressionado(inteiro x, inteiro y){
+		para(inteiro c = 0; c < 4; c++){
+			para(inteiro l = 0; l < 5; l++){
+				se(
+			}
+		}
 	}
 
 	// separa os valores pelo sinal de operação
@@ -300,7 +253,9 @@ programa
 		g.definir_dimensoes_janela(400, 614)
 		enquanto(continuar == verdadeiro){
 			desenhar()
-			tecla_pressionada()
+			se(t.alguma_tecla_pressionada()){
+				tecla_pressionada()
+			}
 			separar_valores()
 			se(num1 != "" e num2 != ""){
 				calcular()
@@ -313,8 +268,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 917; 
- * @DOBRAMENTO-CODIGO = [57, 87, 285, 296];
+ * @POSICAO-CURSOR = 4430; 
+ * @DOBRAMENTO-CODIGO = [32, 41, 71, 93, 201, 215, 238, 249];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
