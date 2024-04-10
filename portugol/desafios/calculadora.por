@@ -14,6 +14,7 @@ programa
 	// variáveis de cálculo
 	cadeia num1 = "", num2 = ""
 	real n1 = 0.0, n2 = 0.0, resp = 0.0
+	inteiro porcentagem = 0
 	
 	// cores
 	inteiro visor = g.criar_cor(212, 212, 212)
@@ -28,6 +29,15 @@ programa
 	inteiro pos_vetor = 0
 	inteiro pos_op = 0
 	inteiro c_op = 0, c_pontos = 0
+	inteiro pressionado
+
+	inteiro retorno_mouse[5][4] = {
+		{15, 16, 20, 10},
+		{7, 8, 9, 11},
+		{4, 5, 6, 12},
+		{1, 2, 3, 13},
+		{19, 0, 14, 17}
+	}
 	
 	// matriz contendo os caracteres da calculadora
 	cadeia numeros_calc[5][4] = {
@@ -47,12 +57,17 @@ programa
 
 		para(inteiro c = 0; c < 4; c++){
 			para(inteiro l = 0; l < 5; l++){
+				inteiro cor_sqr = 0
+				inteiro cor_txt = 0
 				se(c == 3){
-					desenhar_btn(0 + 101 * c, 114 + 101 * l, btn_operacoes, g.COR_BRANCO, 20 + 101 * c, 140 + 100 * l, numeros_calc[l][c])
+					cor_sqr = btn_operacoes
+					cor_txt = g.COR_BRANCO
 				}
 				senao{
-					desenhar_btn(0 + 101 * c, 114 + 101 * l, g.COR_BRANCO, g.COR_PRETO, 20 + 101 * c, 140 + 100 * l, numeros_calc[l][c])
+					cor_sqr = g.COR_BRANCO
+					cor_txt = g.COR_PRETO
 				}
+				desenhar_btn(0 + 101 * c, 114 + 101 * l, cor_sqr, cor_txt, 20 + 101 * c, 140 + 100 * l, numeros_calc[l][c])
 			}
 		}
 
@@ -93,98 +108,44 @@ programa
 	// lê as teclas apertdas e estabelece funções a elas
 	funcao tecla_pressionada(){
 		inteiro v1 = t.ler_tecla()
-		se(pos_vetor < 13){
-			se(v1 >= 96 e v1 <= 105){
-				valores[pos_vetor] = ty.inteiro_para_caracter(v1 - 96)
-				pos_vetor++
-			}
-		
-			escolha(v1){
-				caso t.TECLA_ADICAO:
-					se(c_op < 1){
-						c_op++
-					}
-					senao{
-						mostrar_resultado()
-					}
-					valores[pos_vetor] = '+'
-					op = '+'
-					pos_op = pos_vetor
-					pos_vetor++
-					
-					
-				caso t.TECLA_SUBTRACAO:
-					se(c_op < 1){
-						c_op++
-					}
-					senao{
-						mostrar_resultado()
-					}
-					valores[pos_vetor] = '-'
-					op = '-'
-					pos_op = pos_vetor
-					pos_vetor++
-					c_op++
-	
-				caso t.TECLA_MULTIPLICACAO:
-					se(c_op < 1){
-						c_op++
-					}
-					senao{
-						mostrar_resultado()
-					}
-					valores[pos_vetor] = 'x'
-					op = 'x'
-					pos_op = pos_vetor
-					pos_vetor++
-					c_op++
-	
-				caso t.TECLA_DIVISAO:
-					se(c_op < 1){
-						c_op++
-					}
-					senao{
-						mostrar_resultado()
-					}
-					valores[pos_vetor] = '/'
-					op = '/'
-					pos_op = pos_vetor
-					pos_vetor++
-					c_op++
-	
-				caso t.TECLA_DECIMAL:
-					se(c_op < 1){
-						se(c_pontos <= 0){
-							valores[pos_vetor] = '.'
-							pos_vetor++
-							c_pontos++
-						}
-					}
-					senao se(c_pontos <= 1){
-						valores[pos_vetor] = '.'
-						pos_vetor++
-						c_pontos++
-					}
-			}		
+		se(v1 >= 96 e v1 <= 105){
+			pressionado = v1 - 96
+			u.aguarde(15)
 		}
+	
+		escolha(v1){
+			caso t.TECLA_ADICAO:
+				pressionado = 10
+				
+			caso t.TECLA_SUBTRACAO:
+				pressionado = 11
+
+			caso t.TECLA_MULTIPLICACAO:
+				pressionado = 12
+
+			caso t.TECLA_DIVISAO:
+				pressionado = 13
+
+			caso t.TECLA_DECIMAL:
+				pressionado = 14
+
+			caso t.TECLA_Q:
+				pressionado = 20
+		}		
 		
 
 		escolha(v1){
+			caso t.TECLA_DELETAR:
+				pressionado = 15
+			
 			caso t.TECLA_BACKSPACE:
-				se(pos_vetor >= 1){
-						pos_vetor--
-					}
-				se(valores[pos_vetor] == '.'){
-					c_pontos--
-				}
-				valores[pos_vetor] = ' '
+				pressionado = 16
 
 			caso t.TECLA_ESC:
-				continuar = falso
+				pressionado = 18
 
 			caso t.TECLA_ENTER:
-				mostrar_resultado()
-				c_op = 0
+				pressionado = 17
 		}
 		
 	}
@@ -193,9 +154,122 @@ programa
 	funcao btn_pressionado(inteiro x, inteiro y){
 		para(inteiro c = 0; c < 4; c++){
 			para(inteiro l = 0; l < 5; l++){
-				se(
+				se(x >= c*101 e x <= 97 + (c*101)){
+					se(y >= 114 + l*101 e y <= 114 + (l+1)*101){
+						pressionado = retorno_mouse[l][c]
+					}
+				}
 			}
 		}
+	}
+
+	// retorna ao vetor o que foi clicado ou digitado
+	funcao retorno(){
+		inteiro btn = pressionado
+		se(pos_vetor < 13){
+			se(btn >= 0 e btn <= 9){
+				valores[pos_vetor] = ty.inteiro_para_caracter(btn)
+				pos_vetor++
+			}
+			
+			escolha(btn){
+				caso 10:
+					quant_btn('+')
+				pare
+				caso 11:
+					quant_btn('-')
+				pare
+				caso 12:
+					quant_btn('x')
+				pare
+				caso 13:
+					quant_btn('/')
+				pare
+				caso 14:
+					se(c_op < 1){
+						se(c_pontos <= 0){
+							valores[pos_vetor] = '.'
+							pos_vetor++
+							c_pontos++
+						}
+						}
+						senao se(c_pontos <= 1){
+							valores[pos_vetor] = '.'
+							pos_vetor++
+							c_pontos++
+						}
+				pare
+				caso 20:
+					se(c_op > 0 e porcentagem >= 0){
+						porcentagem++
+						valores[pos_vetor] = '%'
+						pos_vetor++
+						
+					}
+				pare
+			}
+			pressionado = -1
+		}
+		escolha(btn){
+			caso 15:
+				c_pontos = 0
+				porcentagem = 0
+				c_op = 0
+				para(inteiro c = 0; c < pos_vetor; c++){
+					valores[c] = ' '
+				}
+				pos_vetor = 0
+			pare
+			caso 16:
+				se(pos_vetor >= 1) pos_vetor--
+				se(valores[pos_vetor] == '.') c_pontos--
+				se(valores[pos_vetor] == '%') porcentagem--
+				valores[pos_vetor] = ' '
+			pare
+			caso 17:
+				mostrar_resultado()
+				c_op = 0
+				se(porcentagem > 0) porcentagem--
+			pare
+			caso 18:
+				continuar = falso
+			pare
+			caso 19:
+				valores[pos_vetor] = '0'
+				pos_vetor++
+				valores[pos_vetor] = '0'
+				pos_vetor++
+			pare
+		}
+	}
+
+	// verifica quantos operadores foram digitados e como tratá-los
+	funcao quant_btn(caracter operador){
+		caracter valor = ' '
+		se(c_op < 1){
+			c_op++
+		}
+		senao{
+			mostrar_resultado()
+		}
+		escolha(operador){
+			caso '+':
+				valor = '+'
+			pare
+			caso '-':
+				valor = '-'
+			pare
+			caso 'x':
+				valor = 'x'
+			pare
+			caso '/':
+				valor = '/'
+			pare
+		}
+		valores[pos_vetor] = valor
+		op = valor
+		pos_op = pos_vetor
+		pos_vetor++
 	}
 
 	// separa os valores pelo sinal de operação
@@ -203,10 +277,11 @@ programa
 		num1 = ""
 		num2 = ""
 		para(inteiro v = 0; v < pos_vetor; v++){
+			
 			se(v < pos_op){
 				num1 += valores[v]
 			}
-			senao se(v > pos_op){
+			senao se(v > pos_op e valores[v] != '%'){
 				num2 += valores[v]
 			}
 		}
@@ -216,6 +291,10 @@ programa
 	funcao calcular(){
 		n1 = ty.cadeia_para_real(num1)
 		n2 = ty.cadeia_para_real(num2)
+
+		se(porcentagem > 0){
+			n2 = n1 * n2 / 100
+		}
 		
 		escolha(op){
 			caso '+':
@@ -232,7 +311,7 @@ programa
 			pare
 		}
 
-		mostrar = ty.real_para_cadeia(resp)
+		mostrar = ty.real_para_cadeia(mat.arredondar(resp, 4))
 	}
 
 	// mostra o resultado obtido na função calcular
@@ -251,15 +330,17 @@ programa
 	{
 		g.iniciar_modo_grafico(verdadeiro)
 		g.definir_dimensoes_janela(400, 614)
+		g.definir_titulo_janela("Calculadora")
 		enquanto(continuar == verdadeiro){
 			desenhar()
 			se(t.alguma_tecla_pressionada()){
 				tecla_pressionada()
 			}
-			separar_valores()
 			se(num1 != "" e num2 != ""){
 				calcular()
 			}
+			separar_valores()
+			retorno()
 		}
 	}
 }
@@ -268,10 +349,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 4430; 
- * @DOBRAMENTO-CODIGO = [32, 41, 71, 93, 201, 215, 238, 249];
+ * @POSICAO-CURSOR = 5104; 
+ * @DOBRAMENTO-CODIGO = [42, 51, 86, 108, 153, 246, 275, 290, 317, 328];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {num2, 15, 19, 4}-{porcentagem, 17, 9, 11}-{valores, 25, 10, 7}-{c_op, 31, 9, 4};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
