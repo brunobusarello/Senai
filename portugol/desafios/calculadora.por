@@ -97,7 +97,7 @@ programa
 				g.definir_opacidade(255)
 				se(m.botao_pressionado(m.BOTAO_ESQUERDO)){
 					btn_pressionado(x_btn, y_btn)
-					u.aguarde(100)
+					u.aguarde(180)
 				}
 		}
 		
@@ -354,7 +354,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 7121; 
+ * @POSICAO-CURSOR = 2640; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = {n1, 16, 6, 2}-{n2, 16, 16, 2}-{c_op, 31, 9, 4};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
