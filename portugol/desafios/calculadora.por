@@ -31,6 +31,8 @@ programa
 	inteiro c_op = 0, c_pontos = 0
 	inteiro pressionado
 
+	inteiro c_result = 0
+
 	inteiro retorno_mouse[5][4] = {
 		{15, 16, 20, 10},
 		{7, 8, 9, 11},
@@ -95,7 +97,7 @@ programa
 				g.definir_opacidade(255)
 				se(m.botao_pressionado(m.BOTAO_ESQUERDO)){
 					btn_pressionado(x_btn, y_btn)
-					u.aguarde(100)
+					u.aguarde(180)
 				}
 		}
 		
@@ -128,11 +130,7 @@ programa
 
 			caso t.TECLA_DECIMAL:
 				pressionado = 14
-
-			caso t.TECLA_Q:
-				pressionado = 20
-		}		
-		
+		}
 
 		escolha(v1){
 			caso t.TECLA_DELETAR:
@@ -168,8 +166,13 @@ programa
 		inteiro btn = pressionado
 		se(pos_vetor < 13){
 			se(btn >= 0 e btn <= 9){
-				valores[pos_vetor] = ty.inteiro_para_caracter(btn)
-				pos_vetor++
+				se(c_op > 0){
+					c_result--
+				}
+				se(c_result <= 0){
+					valores[pos_vetor] = ty.inteiro_para_caracter(btn)
+					pos_vetor++
+				}
 			}
 			
 			escolha(btn){
@@ -213,6 +216,7 @@ programa
 		escolha(btn){
 			caso 15:
 				c_pontos = 0
+				c_result = 0
 				porcentagem = 0
 				c_op = 0
 				para(inteiro c = 0; c < pos_vetor; c++){
@@ -316,6 +320,7 @@ programa
 
 	// mostra o resultado obtido na função calcular
 	funcao mostrar_resultado(){
+		c_result = 1
 		inteiro c = 0
 		inteiro tam = txt.numero_caracteres(mostrar)
 		para(c; c < tam; c++){
@@ -349,10 +354,9 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 5104; 
- * @DOBRAMENTO-CODIGO = [42, 51, 86, 108, 153, 246, 275, 290, 317, 328];
+ * @POSICAO-CURSOR = 2640; 
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {num2, 15, 19, 4}-{porcentagem, 17, 9, 11}-{valores, 25, 10, 7}-{c_op, 31, 9, 4};
+ * @SIMBOLOS-INSPECIONADOS = {n1, 16, 6, 2}-{n2, 16, 16, 2}-{c_op, 31, 9, 4};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
