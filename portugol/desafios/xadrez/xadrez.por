@@ -8,16 +8,16 @@ programa
 	inteiro cor_movimento = g.criar_cor(212, 212, 212)
 
 	inteiro clicado = 0
-	inteiro aux_peca = 0
-	inteiro aux_pos_l = 0
-	inteiro aux_pos_c = 0
-	inteiro cor_move = 0
+	inteiro aux_linha = 0
+	inteiro aux_coluna = 0
 
+	inteiro possibilidades[200]
+	inteiro c_possibilidades = 0
 	
 	inteiro pos_pecas[8][8] = {
 		{15, 12, 10, 14, 11, 10, 12, 15},
 		{13, 13, 13, 13, 13, 13, 13, 13},
-		{-1, -1, -1, -1, -1, -1, -1, -1},
+		{-1, -1, -1, 23, 15, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
@@ -62,9 +62,7 @@ programa
 		g.definir_titulo_janela("Xadrez")
 		enquanto(verdadeiro){
 			desenhar()
-			se(clicado == 1){
-				desenhar_movimento(aux_peca, aux_pos_l, aux_pos_c)
-			}
+			se(clicado == 0) verificar_possibilidades(aux_linha, aux_coluna)
 			g.renderizar()
 		}
 	}
@@ -79,6 +77,7 @@ programa
 			senao{
 				comeco = 0
 			}
+			
 			para(inteiro c = 0; c < 8; c++){
 				// desenho do quadriculado
 				se(c % 2 == comeco){
@@ -98,17 +97,17 @@ programa
 						g.desenhar_retangulo(c*100, l*100, 100, 100, falso, verdadeiro)
 						g.definir_opacidade(255)
 						se(m.botao_pressionado(m.BOTAO_ESQUERDO)){
-							clicado = 0
-							possibilidades(c*100, l*100)						
+							clicado = 1
+							verificar_possibilidades(l, c)
 						}
 					}
 				}
 
 				// desenho das peças
-				se(cor_peca(l, c) == 10){
+				se(cor_peca(l, c) == 1){
 					g.desenhar_imagem(20 + c * 100, 20 + l * 100, pretas[tipo_peca(l, c)])
 				}
-				senao se(cor_peca(l, c) == 20){
+				senao se(cor_peca(l, c) == 2){
 					g.desenhar_imagem(20 + c * 100, 20 + l * 100, brancas[tipo_peca(l, c)])
 				}
 				
@@ -116,107 +115,108 @@ programa
 		}
 	}
 
-	funcao desenhar_movimento(inteiro peca, inteiro pos_l, inteiro pos_c){
-		inteiro pos_y = 100
-		inteiro index_c = pos_c / 100
-		inteiro index_l = pos_l / 100
-		se(cor_move == 20) pos_y = -100
-		se(cor_move == 10) pos_y = 100
-		se(clicado == 0){
-			clicado = 1
-			aux_peca = peca
-			aux_pos_l = pos_l
-			aux_pos_c = pos_c
-		}
-		g.definir_cor(cor_movimento)
-		escolha(peca){
-			caso 3:
-				para(inteiro c = 1; c < 3; c++){
-					g.desenhar_elipse(pos_c + 40, c*pos_y + pos_l + 40, 20, 20, verdadeiro)
-				}
-			pare
-			caso 2:
-				g.desenhar_elipse((pos_c - 100) + 40, (pos_l + 200) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c + 100) + 40, (pos_l + 200) + 40, 20, 20, verdadeiro)
-
-				g.desenhar_elipse((pos_c - 100) + 40, (pos_l - 200) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c + 100) + 40, (pos_l - 200) + 40, 20, 20, verdadeiro)
-
-				g.desenhar_elipse((pos_c - 200) + 40, (pos_l - 100) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c - 200) + 40, (pos_l + 100) + 40, 20, 20, verdadeiro)
-
-				g.desenhar_elipse((pos_c + 200) + 40, (pos_l - 100) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c + 200) + 40, (pos_l + 100) + 40, 20, 20, verdadeiro)
-			pare
-			caso 0:
-				para(inteiro v = 1; v < 8; v++){
-					g.desenhar_elipse((v*-100 + pos_c) + 40, (v*-100 + pos_l) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse((v*100 + pos_c) + 40, (v*-100 + pos_l) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse((v*-100 + pos_c) + 40, (v*100 + pos_l) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse((v*100 + pos_c) + 40, (v*100 + pos_l) + 40, 20, 20, verdadeiro)
-				}
-			pare
-			caso 5:
-				para(inteiro c = 1; c < 8; c++){
-					g.desenhar_elipse(pos_c + 40, (pos_l + c * 100) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse(pos_c + 40, (pos_l + c * -100) + 40, 20, 20, verdadeiro)
-
-					g.desenhar_elipse((pos_c + c * 100) + 40, (pos_l) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse((pos_c + c * -100) + 40, (pos_l) + 40, 20, 20, verdadeiro)
-				}
-			pare
-			caso 4:
-				para(inteiro c = 1; c < 8; c++){
-					g.desenhar_elipse(pos_c + 40, (pos_l + c * 100) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse(pos_c + 40, (pos_l + c * -100) + 40, 20, 20, verdadeiro)
-
-					g.desenhar_elipse((pos_c + c * 100) + 40, (pos_l) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse((pos_c + c * -100) + 40, (pos_l) + 40, 20, 20, verdadeiro)
-
-					g.desenhar_elipse((c*-100 + pos_c) + 40, (c*-100 + pos_l) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse((c*100 + pos_c) + 40, (c*-100 + pos_l) + 40, 20, 20, verdadeiro)
-					
-					g.desenhar_elipse((c*-100 + pos_c) + 40, (c*100 + pos_l) + 40, 20, 20, verdadeiro)
-					g.desenhar_elipse((c*100 + pos_c) + 40, (c*100 + pos_l) + 40, 20, 20, verdadeiro)
-				}
-			pare
-			caso 1:
-				g.desenhar_elipse((pos_c + 100) + 40, (pos_l + 100) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c - 100) + 40, (pos_l + 100) + 40, 20, 20, verdadeiro)
-
-				g.desenhar_elipse((pos_c + 100) + 40, (pos_l - 100) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c - 100) + 40, (pos_l - 100) + 40, 20, 20, verdadeiro)
-
-				g.desenhar_elipse((pos_c) + 40, (pos_l - 100) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c) + 40, (pos_l + 100) + 40, 20, 20, verdadeiro)
-
-				g.desenhar_elipse((pos_c + 100) + 40, (pos_l) + 40, 20, 20, verdadeiro)
-				g.desenhar_elipse((pos_c - 100) + 40, (pos_l) + 40, 20, 20, verdadeiro)
-			pare
-		}
-	}
-
 	funcao inteiro cor_peca(inteiro linha, inteiro coluna){
-		retorne pos_pecas[linha][coluna] - pos_pecas[linha][coluna] % 10
+		inteiro aux = pos_pecas[linha][coluna] - pos_pecas[linha][coluna] % 10
+		retorne aux / 10
 	}
 
 	funcao inteiro tipo_peca(inteiro linha, inteiro coluna){
 		retorne pos_pecas[linha][coluna] % 10
 	}
 
-	funcao possibilidades(inteiro pos_c, inteiro pos_l){
-		inteiro index_c = pos_c / 100
-		inteiro index_l = pos_l / 100
-		para(inteiro c = 0; c < 8; c++){
-			se(tipo_peca(index_l, index_c) == c){
-				cor_move = cor_peca(index_l, index_c)
-				desenhar_movimento(c, pos_l, pos_c)
+	funcao verificar_possibilidades(inteiro linha, inteiro coluna){
+		inteiro trava = 0
+		se(m.botao_pressionado(0)){
+			para(inteiro v = 1; v < c_possibilidades; v+=2){
+				se(m.posicao_y() >= possibilidades[v-1] * 100 e m.posicao_y() <= possibilidades[v-1] * 100 + 100){
+					se(m.posicao_x() >= possibilidades[v] * 100 e m.posicao_x() <= possibilidades[v] * 100 + 100){
+						mover_peca(aux_linha, aux_coluna, possibilidades[v-1], possibilidades[v])
+						trava = 1
+					}
+				}
 			}
+		}
+		
+		inteiro peca = tipo_peca(linha, coluna)
+		inteiro cor = cor_peca(linha, coluna)
+
+		inteiro direcao = 0
+		inteiro mod_l = 0
+		inteiro mod_c = 0
+
+		
+
+		se(cor == 1) direcao = 1
+		se(cor == 2) direcao = -1
+
+		se(clicado == 1){
+			clicado = 0
+			aux_linha = linha
+			aux_coluna = coluna
+		}
+
+		c_possibilidades = 0
+
+		escolha(peca){
+			caso 3:
+				para(inteiro c = 1; c < 3; c++){
+					mod_c = coluna
+					mod_l = linha + c * direcao
+					
+					se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
+						desenhar_possibilidade(mod_l, mod_c)
+						possibilidades[c_possibilidades] = mod_l
+						c_possibilidades++
+						possibilidades[c_possibilidades] = mod_c
+						c_possibilidades++
+					}
+					
+					senao trava = 1
+
+					
+				}
+				se(coluna < 7){
+				se(cor_peca(linha + direcao, coluna + 1) != cor e cor_peca(linha + direcao, coluna + 1) != 0) desenhar_ataque(linha + direcao, coluna + 1)
+				}
+				
+				se(coluna > 0){
+					se(cor_peca(linha + direcao, coluna - 1) != cor e cor_peca(linha + direcao, coluna - 1) != 0) desenhar_ataque(linha + direcao, coluna - 1)
+				}
+			pare
+			caso 5:
+				para(inteiro c = 1; c < 8; c++){
+					mod_c = coluna
+					mod_l = linha * c + 1
+
+					se(mod_l < 8 e mod_l > 0){
+						se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
+							desenhar_possibilidade(mod_l, mod_c)
+							possibilidades[c_possibilidades] = mod_l
+							c_possibilidades++
+							possibilidades[c_possibilidades] = mod_c
+							c_possibilidades++
+						}
+					}
+					senao trava = 1
+				}
+			pare
 		}
 	}
 
-	funcao mover_peca(){
-		
+	funcao desenhar_possibilidade(inteiro linha, inteiro coluna){
+		g.definir_cor(cor_movimento)
+		g.desenhar_elipse(coluna * 100 + 40, linha * 100 + 40, 20, 20, verdadeiro)
+	}
+
+	funcao desenhar_ataque(inteiro linha, inteiro coluna){
+		g.definir_cor(g.COR_PRETO)
+		g.desenhar_elipse(coluna * 100 + 35, linha * 100 + 35, 30, 30, verdadeiro)
+	}
+
+	funcao mover_peca(inteiro linha_original, inteiro coluna_original, inteiro linha_atual, inteiro coluna_atual){
+		inteiro aux = pos_pecas[linha_original][coluna_original]
+		pos_pecas[linha_original][coluna_original] = -1
+		pos_pecas[linha_atual][coluna_atual] = aux
 	}
 }
 /* $$$ Portugol Studio $$$ 
@@ -224,10 +224,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 974; 
- * @DOBRAMENTO-CODIGO = [39, 48, 57, 71, 198, 202, 206];
+ * @POSICAO-CURSOR = 4942; 
+ * @DOBRAMENTO-CODIGO = [39, 48, 117, 122, 205, 210, 215];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {c_possibilidades, 15, 9, 16}-{linha_original, 216, 27, 14}-{coluna_original, 216, 51, 15}-{linha_atual, 216, 76, 11}-{coluna_atual, 216, 97, 12};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
