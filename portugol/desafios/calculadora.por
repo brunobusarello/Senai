@@ -315,7 +315,7 @@ programa
 			pare
 		}
 
-		mostrar = ty.real_para_cadeia(mat.arredondar(resp, 4))
+		mostrar = ty.real_para_cadeia(mat.arredondar(resp, 2))
 	}
 
 	// mostra o resultado obtido na função calcular
@@ -354,7 +354,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2640; 
+ * @POSICAO-CURSOR = 6462; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = {n1, 16, 6, 2}-{n2, 16, 16, 2}-{c_op, 31, 9, 4};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
