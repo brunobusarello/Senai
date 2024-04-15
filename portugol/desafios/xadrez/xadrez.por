@@ -7,17 +7,23 @@ programa
 	inteiro cor_branco = g.criar_cor(235, 236, 208)
 	inteiro cor_movimento = g.criar_cor(212, 212, 212)
 
-	inteiro clicado = 0
+	inteiro vez = 2
+
+	inteiro mover = 0
+
+	inteiro clicado = 1
 	inteiro aux_linha = 0
 	inteiro aux_coluna = 0
 
 	inteiro possibilidades[200]
 	inteiro c_possibilidades = 0
+	inteiro ataques[50]
+	inteiro c_ataques = 0
 	
 	inteiro pos_pecas[8][8] = {
 		{15, 12, 10, 14, 11, 10, 12, 15},
 		{13, 13, 13, 13, 13, 13, 13, 13},
-		{-1, -1, -1, 23, 15, -1, -1, -1},
+		{-1, -1, -1, -1, -1, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
 		{-1, -1, -1, -1, -1, -1, -1, -1},
@@ -61,6 +67,7 @@ programa
 		g.definir_dimensoes_janela(800, 800)
 		g.definir_titulo_janela("Xadrez")
 		enquanto(verdadeiro){
+			verificar_movimento()
 			desenhar()
 			se(clicado == 0) verificar_possibilidades(aux_linha, aux_coluna)
 			g.renderizar()
@@ -97,8 +104,10 @@ programa
 						g.desenhar_retangulo(c*100, l*100, 100, 100, falso, verdadeiro)
 						g.definir_opacidade(255)
 						se(m.botao_pressionado(m.BOTAO_ESQUERDO)){
-							clicado = 1
-							verificar_possibilidades(l, c)
+							se(cor_peca(l, c) == vez){
+								clicado = 1
+								verificar_possibilidades(l, c)
+							}
 						}
 					}
 				}
@@ -126,16 +135,6 @@ programa
 
 	funcao verificar_possibilidades(inteiro linha, inteiro coluna){
 		inteiro trava = 0
-		se(m.botao_pressionado(0)){
-			para(inteiro v = 1; v < c_possibilidades; v+=2){
-				se(m.posicao_y() >= possibilidades[v-1] * 100 e m.posicao_y() <= possibilidades[v-1] * 100 + 100){
-					se(m.posicao_x() >= possibilidades[v] * 100 e m.posicao_x() <= possibilidades[v] * 100 + 100){
-						mover_peca(aux_linha, aux_coluna, possibilidades[v-1], possibilidades[v])
-						trava = 1
-					}
-				}
-			}
-		}
 		
 		inteiro peca = tipo_peca(linha, coluna)
 		inteiro cor = cor_peca(linha, coluna)
@@ -143,8 +142,6 @@ programa
 		inteiro direcao = 0
 		inteiro mod_l = 0
 		inteiro mod_c = 0
-
-		
 
 		se(cor == 1) direcao = 1
 		se(cor == 2) direcao = -1
@@ -156,8 +153,9 @@ programa
 		}
 
 		c_possibilidades = 0
+		c_ataques = 0
 
-		escolha(peca){
+		se(mover == 0) escolha(peca){
 			caso 3:
 				para(inteiro c = 1; c < 3; c++){
 					mod_c = coluna
@@ -176,19 +174,128 @@ programa
 					
 				}
 				se(coluna < 7){
-				se(cor_peca(linha + direcao, coluna + 1) != cor e cor_peca(linha + direcao, coluna + 1) != 0) desenhar_ataque(linha + direcao, coluna + 1)
+					se(cor_peca(linha + direcao, coluna + 1) != cor e cor_peca(linha + direcao, coluna + 1) != 0){
+						desenhar_ataque(linha + direcao, coluna + 1)
+						ataques[c_ataques] = linha + direcao
+						c_ataques++
+						ataques[c_ataques] = coluna + 1
+						c_ataques++
+					}
 				}
 				
 				se(coluna > 0){
-					se(cor_peca(linha + direcao, coluna - 1) != cor e cor_peca(linha + direcao, coluna - 1) != 0) desenhar_ataque(linha + direcao, coluna - 1)
+					se(cor_peca(linha + direcao, coluna - 1) != cor e cor_peca(linha + direcao, coluna - 1) != 0){
+						desenhar_ataque(linha + direcao, coluna - 1)
+						ataques[c_ataques] = linha + direcao
+						c_ataques++
+						ataques[c_ataques] = coluna - 1
+						c_ataques++
+					}
 				}
 			pare
 			caso 5:
-				para(inteiro c = 1; c < 8; c++){
-					mod_c = coluna
-					mod_l = linha * c + 1
+				para(inteiro cont = 0; cont < 4; cont++){
+					trava = 0
+					inteiro mult_c = 0
+					inteiro mult_l = 0
+					para(inteiro c = 1; c < 8; c++){
+						se(cont == 0){
+							mult_l = -1
+							mult_c = 0
+						}
+						senao se(cont == 1){
+							mult_l = 1
+							mult_c = 0
+						}
+						senao se(cont == 2){
+							mult_l = 0
+							mult_c = -1
+						}
+						senao{
+							mult_l = 0
+							mult_c = 1
+						}
 
-					se(mod_l < 8 e mod_l > 0){
+						mod_l = linha + c * mult_c
+						mod_c = coluna + c * mult_l
+						
+						se(mod_l < 8 e mod_c < 8 e mod_l >= 0 e mod_c >= 0){
+							se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
+								desenhar_possibilidade(mod_l, mod_c)
+								possibilidades[c_possibilidades] = mod_l
+								c_possibilidades++
+								possibilidades[c_possibilidades] = mod_c
+								c_possibilidades++
+							}
+							senao trava++
+							
+							se(cor_peca(mod_l, mod_c) != cor e cor_peca(mod_l, mod_c) != 0 e trava == 1){
+								desenhar_ataque(mod_l, mod_c)
+								ataques[c_ataques] = mod_l
+								c_ataques++
+								ataques[c_ataques] = mod_c
+								c_ataques++
+							}
+							
+						}
+					}
+				}
+			pare
+			caso 0:
+				para(inteiro cont = 0; cont < 4; cont++){
+					trava = 0
+					inteiro mult_c = 0
+					inteiro mult_l = 0
+					para(inteiro c = 1; c < 8; c++){
+						se(cont == 0){
+							mult_l = -1
+							mult_c = -1
+						}
+						senao se(cont == 1){
+							mult_l = 1
+							mult_c = 1
+						}
+						senao se(cont == 2){
+							mult_l = 1
+							mult_c = -1
+						}
+						senao{
+							mult_l = -1
+							mult_c = 1
+						}
+
+						mod_l = linha + c * mult_c
+						mod_c = coluna + c * mult_l
+						
+						se(mod_l < 8 e mod_c < 8 e mod_l >= 0 e mod_c >= 0){
+							se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
+								desenhar_possibilidade(mod_l, mod_c)
+								possibilidades[c_possibilidades] = mod_l
+								c_possibilidades++
+								possibilidades[c_possibilidades] = mod_c
+								c_possibilidades++
+							}
+							senao trava++
+							
+							se(cor_peca(mod_l, mod_c) != cor e cor_peca(mod_l, mod_c) != 0 e trava == 1){
+								desenhar_ataque(mod_l, mod_c)
+								ataques[c_ataques] = mod_l
+								c_ataques++
+								ataques[c_ataques] = mod_c
+								c_ataques++
+							}
+							
+						}
+					}
+				}
+			pare
+			caso 2:
+				inteiro pos_cavalo[16] = {-2, 1, -1, 2, 1, 2, 2, 1, 2, -1, 1, -2, -1, -2, -2, -1}
+				para(inteiro v = 0; v < 16; v+=2){
+					mod_l = pos_cavalo[v] + linha
+					mod_c = pos_cavalo[v+1] + coluna
+
+					se(mod_l < 8 e mod_c < 8 e mod_l >= 0 e mod_c >= 0){
 						se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
 							desenhar_possibilidade(mod_l, mod_c)
 							possibilidades[c_possibilidades] = mod_l
@@ -196,11 +303,20 @@ programa
 							possibilidades[c_possibilidades] = mod_c
 							c_possibilidades++
 						}
+						senao trava++
+						
+						se(cor_peca(mod_l, mod_c) != cor e cor_peca(mod_l, mod_c) != 0 e trava == 1){
+							desenhar_ataque(mod_l, mod_c)
+							ataques[c_ataques] = mod_l
+							c_ataques++
+							ataques[c_ataques] = mod_c
+							c_ataques++
+						}
 					}
-					senao trava = 1
 				}
 			pare
 		}
+		mover = 0
 	}
 
 	funcao desenhar_possibilidade(inteiro linha, inteiro coluna){
@@ -217,6 +333,36 @@ programa
 		inteiro aux = pos_pecas[linha_original][coluna_original]
 		pos_pecas[linha_original][coluna_original] = -1
 		pos_pecas[linha_atual][coluna_atual] = aux
+		se(vez == 1) vez = 2
+		senao vez = 1
+	}
+
+	funcao matar_peca(inteiro linha_original, inteiro coluna_original, inteiro linha_atual, inteiro coluna_atual){
+		inteiro aux = pos_pecas[linha_original][coluna_original]
+		pos_pecas[linha_original][coluna_original] = -1
+		pos_pecas[linha_atual][coluna_atual] = -1
+		pos_pecas[linha_atual][coluna_atual] = aux
+		se(vez == 1) vez = 2
+		senao vez = 1
+	}
+
+	funcao verificar_movimento(){
+		se(m.botao_pressionado(0)){
+			para(inteiro v = 1; v < c_possibilidades; v+=2){
+				se(m.posicao_y() >= possibilidades[v-1] * 100 e m.posicao_y() <= possibilidades[v-1] * 100 + 100){
+					se(m.posicao_x() >= possibilidades[v] * 100 e m.posicao_x() <= possibilidades[v] * 100 + 100){
+						mover_peca(aux_linha, aux_coluna, possibilidades[v-1], possibilidades[v])
+					}
+				}
+			}
+			para(inteiro v = 1; v < c_ataques; v+=2){
+				se(m.posicao_y() >= ataques[v-1] * 100 e m.posicao_y() <= ataques[v-1] * 100 + 100){
+					se(m.posicao_x() >= ataques[v] * 100 e m.posicao_x() <= ataques[v] * 100 + 100){
+						matar_peca(aux_linha, aux_coluna, ataques[v-1], ataques[v])
+					}
+				}
+			}
+		}
 	}
 }
 /* $$$ Portugol Studio $$$ 
@@ -224,10 +370,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 4942; 
- * @DOBRAMENTO-CODIGO = [39, 48, 117, 122, 205, 210, 215];
+ * @POSICAO-CURSOR = 7369; 
+ * @DOBRAMENTO-CODIGO = [45, 54, 63, 76, 126, 131, 321, 326, 331, 339, 348];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {c_possibilidades, 15, 9, 16}-{linha_original, 216, 27, 14}-{coluna_original, 216, 51, 15}-{linha_atual, 216, 76, 11}-{coluna_atual, 216, 97, 12};
+ * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
