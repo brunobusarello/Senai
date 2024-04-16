@@ -1,6 +1,6 @@
 programa
 {
-	inclua biblioteca Util --> u
+	inclua biblioteca Util --> u
 	
 	funcao inicio()
 	{
@@ -21,14 +21,13 @@ programa
 
 		para(inteiro c = 1; c < tamanho; c++){
 			elementoAtual = vetor[c]
-			indice = c
-
-			enquanto(indice > 0 e vetor[indice - 1] > elementoAtual){
-				vetor[indice] = vetor[indice - 1]
-				indice--
+			
+			enquanto(c > 0 e elementoAtual < vetor[c - 1]){
+				vetor[c] = vetor[c - 1]
+				c--
 			}
 
-			vetor[indice] = elementoAtual
+			vetor[c] = elementoAtual
 		}
 
 		escreva("======= Vetor ordenado ======\n")
@@ -44,9 +43,9 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 144; 
+ * @POSICAO-CURSOR = 537; 
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {vetor, 8, 10, 5}-{elementoAtual, 8, 35, 13}-{indice, 8, 50, 6};
+ * @SIMBOLOS-INSPECIONADOS = {vetor, 8, 10, 5}-{elementoAtual, 8, 35, 13}-{indice, 8, 50, 6}-{c, 11, 15, 1}-{c, 16, 15, 1}-{c, 22, 15, 1}-{c, 34, 15, 1};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
