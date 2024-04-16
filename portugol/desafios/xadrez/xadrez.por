@@ -8,6 +8,8 @@ programa
 	inteiro cor_movimento = g.criar_cor(212, 212, 212)
 
 	inteiro vez = 2
+	inteiro trava = 0
+	inteiro cor = 0
 
 	inteiro mover = 0
 
@@ -75,7 +77,6 @@ programa
 	}
 
 	funcao desenhar(){
-		inteiro cor
 		inteiro comeco = 0
 		para(inteiro l = 0; l < 8; l++){
 			se(l % 2 > 0){
@@ -134,10 +135,10 @@ programa
 	}
 
 	funcao verificar_possibilidades(inteiro linha, inteiro coluna){
-		inteiro trava = 0
+		trava = 0
 		
 		inteiro peca = tipo_peca(linha, coluna)
-		inteiro cor = cor_peca(linha, coluna)
+		cor = cor_peca(linha, coluna)
 
 		inteiro direcao = 0
 		inteiro mod_l = 0
@@ -219,101 +220,37 @@ programa
 						mod_l = linha + c * mult_c
 						mod_c = coluna + c * mult_l
 						
-						se(mod_l < 8 e mod_c < 8 e mod_l >= 0 e mod_c >= 0){
-							se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
-								desenhar_possibilidade(mod_l, mod_c)
-								possibilidades[c_possibilidades] = mod_l
-								c_possibilidades++
-								possibilidades[c_possibilidades] = mod_c
-								c_possibilidades++
-							}
-							senao trava++
-							
-							se(cor_peca(mod_l, mod_c) != cor e cor_peca(mod_l, mod_c) != 0 e trava == 1){
-								desenhar_ataque(mod_l, mod_c)
-								ataques[c_ataques] = mod_l
-								c_ataques++
-								ataques[c_ataques] = mod_c
-								c_ataques++
-							}
-							
-						}
+						verifica_ataques(mod_l, mod_c)
 					}
 				}
 			pare
 			caso 0:
-				para(inteiro cont = 0; cont < 4; cont++){
+				inteiro bispo[8] = {-1, -1, 1, 1, -1, 1, 1, -1} 
+				para(inteiro cont = 0; cont < 8; cont+=2){
 					trava = 0
 					inteiro mult_c = 0
 					inteiro mult_l = 0
 					para(inteiro c = 1; c < 8; c++){
-						se(cont == 0){
-							mult_l = -1
-							mult_c = -1
-						}
-						senao se(cont == 1){
-							mult_l = 1
-							mult_c = 1
-						}
-						senao se(cont == 2){
-							mult_l = 1
-							mult_c = -1
-						}
-						senao{
-							mult_l = -1
-							mult_c = 1
-						}
-
-						mod_l = linha + c * mult_c
-						mod_c = coluna + c * mult_l
 						
-						se(mod_l < 8 e mod_c < 8 e mod_l >= 0 e mod_c >= 0){
-							se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
-								desenhar_possibilidade(mod_l, mod_c)
-								possibilidades[c_possibilidades] = mod_l
-								c_possibilidades++
-								possibilidades[c_possibilidades] = mod_c
-								c_possibilidades++
-							}
-							senao trava++
-							
-							se(cor_peca(mod_l, mod_c) != cor e cor_peca(mod_l, mod_c) != 0 e trava == 1){
-								desenhar_ataque(mod_l, mod_c)
-								ataques[c_ataques] = mod_l
-								c_ataques++
-								ataques[c_ataques] = mod_c
-								c_ataques++
-							}
-							
-						}
+						mod_l = linha + c * bispo[cont + 1]
+						mod_c = coluna + c * bispo[cont]
+						
+						verifica_ataques(mod_l, mod_c)
 					}
 				}
 			pare
 			caso 2:
 				inteiro pos_cavalo[16] = {-2, 1, -1, 2, 1, 2, 2, 1, 2, -1, 1, -2, -1, -2, -2, -1}
 				para(inteiro v = 0; v < 16; v+=2){
+					trava = 0
 					mod_l = pos_cavalo[v] + linha
 					mod_c = pos_cavalo[v+1] + coluna
 
-					se(mod_l < 8 e mod_c < 8 e mod_l >= 0 e mod_c >= 0){
-						se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
-							desenhar_possibilidade(mod_l, mod_c)
-							possibilidades[c_possibilidades] = mod_l
-							c_possibilidades++
-							possibilidades[c_possibilidades] = mod_c
-							c_possibilidades++
-						}
-						senao trava++
-						
-						se(cor_peca(mod_l, mod_c) != cor e cor_peca(mod_l, mod_c) != 0 e trava == 1){
-							desenhar_ataque(mod_l, mod_c)
-							ataques[c_ataques] = mod_l
-							c_ataques++
-							ataques[c_ataques] = mod_c
-							c_ataques++
-						}
-					}
+					verifica_ataques(mod_l, mod_c)
 				}
+			pare
+			caso 4:
+				
 			pare
 		}
 		mover = 0
@@ -364,14 +301,35 @@ programa
 			}
 		}
 	}
+
+	funcao verifica_ataques(inteiro mod_l, inteiro mod_c){
+		se(mod_l < 8 e mod_c < 8 e mod_l >= 0 e mod_c >= 0){
+			se(pos_pecas[mod_l][mod_c] == -1 e trava == 0){
+				desenhar_possibilidade(mod_l, mod_c)
+				possibilidades[c_possibilidades] = mod_l
+				c_possibilidades++
+				possibilidades[c_possibilidades] = mod_c
+				c_possibilidades++
+			}
+			senao trava++
+			
+			se(cor_peca(mod_l, mod_c) != cor e cor_peca(mod_l, mod_c) != 0 e trava == 1){
+				desenhar_ataque(mod_l, mod_c)
+				ataques[c_ataques] = mod_l
+				c_ataques++
+				ataques[c_ataques] = mod_c
+				c_ataques++
+			}
+		}
+	}
 }
 /* $$$ Portugol Studio $$$ 
  * 
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 7369; 
- * @DOBRAMENTO-CODIGO = [45, 54, 63, 76, 126, 131, 321, 326, 331, 339, 348];
+ * @POSICAO-CURSOR = 5750; 
+ * @DOBRAMENTO-CODIGO = [47, 56, 65, 78, 127, 132, 258, 263, 268, 276, 285, 304];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
