@@ -33,17 +33,6 @@ programa
 		{25, 22, 20, 24, 21, 20, 22, 25}
 	}
 
-	inteiro posicoes[8][8] = {
-		{00, 01, 02, 03, 04, 05, 06, 07},
-		{10, 11, 12, 13, 14, 15, 16, 17},
-		{20, 21, 22, 23, 24, 25, 26, 27},
-		{30, 31, 32, 33, 34, 35, 36, 37},
-		{40, 41, 42, 43, 44, 45, 46, 47},
-		{50, 51, 52, 53, 54, 55, 56, 57},
-		{60, 61, 62, 63, 64, 65, 66, 67},
-		{70, 71, 72, 73, 74, 75, 76, 77}
-	}
-
 	// inicialização das peças
 	inteiro brancas[6] = {
 		g.carregar_imagem("/src/brancas/bispo.png"),
@@ -195,30 +184,13 @@ programa
 				}
 			pare
 			caso 5:
-				para(inteiro cont = 0; cont < 4; cont++){
+				inteiro pos_torres[8] = {-1, 0, 1, 0, 0, 1, 0, -1}
+				para(inteiro cont = 0; cont < 8; cont+=2){
 					trava = 0
-					inteiro mult_c = 0
-					inteiro mult_l = 0
 					para(inteiro c = 1; c < 8; c++){
-						se(cont == 0){
-							mult_l = -1
-							mult_c = 0
-						}
-						senao se(cont == 1){
-							mult_l = 1
-							mult_c = 0
-						}
-						senao se(cont == 2){
-							mult_l = 0
-							mult_c = -1
-						}
-						senao{
-							mult_l = 0
-							mult_c = 1
-						}
 
-						mod_l = linha + c * mult_c
-						mod_c = coluna + c * mult_l
+						mod_l = linha + c * pos_torres[cont + 1]
+						mod_c = coluna + c * pos_torres[cont]
 						
 						verifica_ataques(mod_l, mod_c)
 					}
@@ -228,8 +200,6 @@ programa
 				inteiro bispo[8] = {-1, -1, 1, 1, -1, 1, 1, -1} 
 				para(inteiro cont = 0; cont < 8; cont+=2){
 					trava = 0
-					inteiro mult_c = 0
-					inteiro mult_l = 0
 					para(inteiro c = 1; c < 8; c++){
 						
 						mod_l = linha + c * bispo[cont + 1]
@@ -250,7 +220,26 @@ programa
 				}
 			pare
 			caso 4:
-				
+				inteiro pos_rainha[16] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, 1, 1, -1, 1, 1, -1}
+				para(inteiro v = 0; v < 16; v+=2){
+					trava = 0
+					para(inteiro c = 1; c < 8; c++){
+						mod_l = pos_rainha[v + 1] * c + linha
+						mod_c = pos_rainha[v] * c + coluna
+
+						verifica_ataques(mod_l, mod_c)
+					}
+				}
+			pare
+			caso 1:
+				inteiro pos_rei[16] = {-1, -1, 1, 1, -1, 1, 1, -1, -1, 0, 1, 0, 0, -1, 0, 1}
+				para(inteiro v = 0; v < 16; v+=2){
+					trava = 0
+					mod_l = pos_rei[v] + linha
+					mod_c = pos_rei[v+1] + coluna
+
+					verifica_ataques(mod_l, mod_c)
+				}
 			pare
 		}
 		mover = 0
@@ -328,10 +317,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 5750; 
- * @DOBRAMENTO-CODIGO = [47, 56, 65, 78, 127, 132, 258, 263, 268, 276, 285, 304];
+ * @POSICAO-CURSOR = 792; 
+ * @DOBRAMENTO-CODIGO = [36, 45, 54, 67, 116, 121, 125, 247, 252, 257, 265, 274, 293];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {possibilidades, 20, 9, 14}-{ataques, 22, 9, 7};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
