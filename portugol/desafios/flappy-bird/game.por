@@ -2,7 +2,7 @@ programa
 {
 	inclua biblioteca Calendario --> c
 	inclua biblioteca Util --> u
-	inclua biblioteca Mouse --> m
+	inclua biblioteca Mouse --> m
 	inclua biblioteca Graficos --> g
 	inclua biblioteca Teclado --> t
 
@@ -14,10 +14,24 @@ programa
 	inteiro tela_inicial = g.carregar_imagem("/src/message.png")
 	inteiro cano = g.carregar_imagem("/src/pipe-green.png")
 	inteiro bird[3] = {g.carregar_imagem("/src/f_low.png"), g.carregar_imagem("/src/f_mid.png"), g.carregar_imagem("/src/f_high.png")}
+	inteiro n_contador[10] = {g.carregar_imagem("/src/0.png"), g.carregar_imagem("/src/1.png"), g.carregar_imagem("/src/2.png"), g.carregar_imagem("/src/3.png"), 
+						g.carregar_imagem("/src/4.png"), g.carregar_imagem("/src/5.png"), g.carregar_imagem("/src/6.png"), 
+						g.carregar_imagem("/src/7.png"), g.carregar_imagem("/src/8.png"), g.carregar_imagem("/src/9.png")}
+	inteiro end = g.carregar_imagem("/src/gameover.png")
+	
 	inteiro index = 0
+
+	inteiro trava_end = 0
+
+	inteiro contador = 0
+	inteiro i_cano = -1
+	inteiro trava_cont = 0
 
 	inteiro h_cano = g.altura_imagem(cano)
 	inteiro w_cano = g.largura_imagem(cano)
+
+	inteiro h_end = g.altura_imagem(end)
+	inteiro w_end = g.largura_imagem(end)
 	
 	inteiro h_fundo = g.altura_imagem(fundo)
 	inteiro w_fundo = g.largura_imagem(fundo)
@@ -37,8 +51,8 @@ programa
 	inteiro canos_x[2] = {-w_cano, -500}
 	inteiro canos_y[2]
 
-	inteiro y = h_fundo/2 - h_bird/2
-	const inteiro x = 50
+	inteiro y = h_bird
+	inteiro x = w_bird / 2
 	
 	
 	funcao desenhar_tela_inicial(){
@@ -74,6 +88,10 @@ programa
 	}
 
 	funcao desenhar_jogo(){
+		se(x < 50){
+			x += 2
+			y += 2
+		}
 		para(inteiro i = 0; i < 2; i++){
 			se(canos_x[i] == -w_cano){
 				canos_x[i] = w_fundo
@@ -90,6 +108,9 @@ programa
 			se(nao colisao()) canos_x[i]--
 		}
 		passaro()
+		se(contador % 10 - contador == 0){
+			g.desenhar_imagem(w_fundo / 2, 20, n_contador[contador])
+		}
 	}
 	
 	funcao passaro(){
@@ -112,10 +133,41 @@ programa
 
 	funcao logico colisao(){
 		para(inteiro i = 0; i < 2; i++){
-			se(x + w_bird > canos_x[i] e x < canos_x[i] + w_cano e y < canos_y[i]) retorne verdadeiro
-			se(x + w_bird > canos_x[i] e x < canos_x[i] + w_cano e y + h_bird > canos_y[i] + intervalo) retorne verdadeiro
+			se(x + w_bird > canos_x[i] e x < canos_x[i] + w_cano){
+				se(y < canos_y[i]) retorne verdadeiro
+				se(y + h_bird > canos_y[i] + intervalo) retorne verdadeiro
+				trava_cont = 0
+			}
+			se(y + h_bird > h_fundo - 112 ou y <= 0) retorne verdadeiro
+			
+			se(x > w_cano + canos_x[i] e x + w_bird < canos_x[i] + 100 e trava_cont == 0){
+				contador++
+				trava_cont = 1
+			}
+			
+			
 		}
 		retorne falso
+	}
+
+	funcao game_over(){
+		se(colisao()){
+			g.desenhar_imagem(w_fundo / 2 - w_end / 2, h_fundo -75, end)
+			g.desenhar_imagem(w_fundo / 2 - 184 / 2, h_fundo / 2 - 267 / 2, tela_inicial)
+			u.aguarde(100)
+			se(t.tecla_pressionada(t.TECLA_ESPACO) ou m.botao_pressionado(0) e trava_end == 1){
+				trava_inicio = 0
+				trava_end = 0
+				contador = 0
+				canos_x[0] = -w_cano
+				canos_x[1] = -500
+				y = h_bird
+				x = w_bird / 2
+				desenhar_tela_inicial()
+				
+			}
+			trava_end = 1
+		}
 	}
 	
 	funcao inicio(){
@@ -124,6 +176,7 @@ programa
 		g.definir_titulo_janela("Flappy Bird")
 		enquanto(verdadeiro){
 			desenhar_tela_inicial()
+			game_over()
 			g.renderizar()
 			u.aguarde(10)
 		}
@@ -134,7 +187,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2746; 
+ * @POSICAO-CURSOR = 4365; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
