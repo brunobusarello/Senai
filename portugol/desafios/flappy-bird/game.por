@@ -24,6 +24,8 @@ programa
 	inteiro trava_end = 0
 
 	inteiro contador = 0
+	inteiro w_cont = g.largura_imagem(n_contador[0])
+	
 	inteiro i_cano = -1
 	inteiro trava_cont = 0
 
@@ -108,8 +110,11 @@ programa
 			se(nao colisao()) canos_x[i]--
 		}
 		passaro()
-		se(contador % 10 - contador == 0){
-			g.desenhar_imagem(w_fundo / 2, 20, n_contador[contador])
+		se(contador % 10 < 10){
+			g.desenhar_imagem(w_fundo / 2, 20, n_contador[contador % 10])
+		}
+		se(contador / 10 < 10 e contador / 10 > 0){
+			g.desenhar_imagem(w_fundo / 2 - w_cont / 2, 20, n_contador[contador / 10])
 		}
 	}
 	
@@ -152,10 +157,9 @@ programa
 
 	funcao game_over(){
 		se(colisao()){
-			g.desenhar_imagem(w_fundo / 2 - w_end / 2, h_fundo -75, end)
-			g.desenhar_imagem(w_fundo / 2 - 184 / 2, h_fundo / 2 - 267 / 2, tela_inicial)
-			u.aguarde(100)
+			g.desenhar_imagem(w_fundo / 2 - w_end / 2, h_fundo / 2 - h_end / 2, end)
 			se(t.tecla_pressionada(t.TECLA_ESPACO) ou m.botao_pressionado(0) e trava_end == 1){
+				u.aguarde(1000)
 				trava_inicio = 0
 				trava_end = 0
 				contador = 0
@@ -163,10 +167,10 @@ programa
 				canos_x[1] = -500
 				y = h_bird
 				x = w_bird / 2
-				desenhar_tela_inicial()
-				
+				desenhar_jogo()
 			}
 			trava_end = 1
+			
 		}
 	}
 	
@@ -187,9 +191,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 4365; 
+ * @POSICAO-CURSOR = 4492; 
+ * @DOBRAMENTO-CODIGO = [59, 91, 120, 138, 176];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {x, 57, 9, 1};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
