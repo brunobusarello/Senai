@@ -1,5 +1,6 @@
 programa
 {
+	inclua biblioteca Sons --> s
 	inclua biblioteca Calendario --> c
 	inclua biblioteca Util --> u
 	inclua biblioteca Mouse --> m
@@ -8,16 +9,22 @@ programa
 
 	const inteiro intervalo = 80
 	const real gravidade = 0.25
-	
-	inteiro fundo = g.carregar_imagem("/src/background.png")
-	inteiro piso = g.carregar_imagem("/src/floor.png")
-	inteiro tela_inicial = g.carregar_imagem("/src/message.png")
-	inteiro cano = g.carregar_imagem("/src/pipe-green.png")
-	inteiro bird[3] = {g.carregar_imagem("/src/f_low.png"), g.carregar_imagem("/src/f_mid.png"), g.carregar_imagem("/src/f_high.png")}
-	inteiro n_contador[10] = {g.carregar_imagem("/src/0.png"), g.carregar_imagem("/src/1.png"), g.carregar_imagem("/src/2.png"), g.carregar_imagem("/src/3.png"), 
-						g.carregar_imagem("/src/4.png"), g.carregar_imagem("/src/5.png"), g.carregar_imagem("/src/6.png"), 
-						g.carregar_imagem("/src/7.png"), g.carregar_imagem("/src/8.png"), g.carregar_imagem("/src/9.png")}
-	inteiro end = g.carregar_imagem("/src/gameover.png")
+
+	// imagens
+	inteiro fundo = g.carregar_imagem("/src/images/background.png")
+	inteiro piso = g.carregar_imagem("/src/images/floor.png")
+	inteiro tela_inicial = g.carregar_imagem("/src/images/message.png")
+	inteiro cano = g.carregar_imagem("/src/images/pipe-green.png")
+	inteiro bird[3] = {g.carregar_imagem("/src/images/f_low.png"), g.carregar_imagem("/src/images/f_mid.png"), g.carregar_imagem("/src/images/f_high.png")}
+	inteiro n_contador[10] = {g.carregar_imagem("/src/images/0.png"), g.carregar_imagem("/src/images/1.png"), g.carregar_imagem("/src/images/2.png"), g.carregar_imagem("/src/images/3.png"), 
+						g.carregar_imagem("/src/images/4.png"), g.carregar_imagem("/src/images/5.png"), g.carregar_imagem("/src/images/6.png"), 
+						g.carregar_imagem("/src/images/7.png"), g.carregar_imagem("/src/images/8.png"), g.carregar_imagem("/src/images/9.png")}
+	inteiro end = g.carregar_imagem("/src/images/gameover.png")
+
+	// audios
+	inteiro tap = s.carregar_som("src/audios/wing.wav")
+	inteiro passagem = s.carregar_som("src/audios/point.wav")
+	inteiro hit = s.carregar_som("/src/audios/hit.wav")
 	
 	inteiro index = 0
 
@@ -125,8 +132,10 @@ programa
 				y -= altura
 			}
 			se(t.tecla_pressionada(t.TECLA_ESPACO) ou m.botao_pressionado(0)){
+				s.definir_posicao_atual_musica(tap, 0)
 				altura = 2.5
 				trava_bird = 1
+				s.reproduzir_som(tap, falso)
 			}
 		}
 		g.desenhar_imagem(x, y, bird[index])
@@ -146,6 +155,7 @@ programa
 			se(y + h_bird > h_fundo - 112 ou y <= 0) retorne verdadeiro
 			
 			se(x > w_cano + canos_x[i] e x + w_bird < canos_x[i] + 100 e trava_cont == 0){
+				s.reproduzir_som(passagem, falso)
 				contador++
 				trava_cont = 1
 			}
@@ -157,6 +167,10 @@ programa
 
 	funcao game_over(){
 		se(colisao()){
+			s.interromper_som(passagem)
+			s.interromper_som(tap)
+			s.definir_posicao_atual_musica(hit, 0)
+			s.reproduzir_som(hit, falso)
 			g.desenhar_imagem(w_fundo / 2 - w_end / 2, h_fundo / 2 - h_end / 2, end)
 			se(t.tecla_pressionada(t.TECLA_ESPACO) ou m.botao_pressionado(0) e trava_end == 1){
 				u.aguarde(1000)
@@ -191,10 +205,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 4492; 
- * @DOBRAMENTO-CODIGO = [59, 91, 120, 138, 176];
+ * @POSICAO-CURSOR = 3876; 
+ * @DOBRAMENTO-CODIGO = [66];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {x, 57, 9, 1};
+ * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
