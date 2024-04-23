@@ -93,19 +93,19 @@ programa
 			g.desenhar_texto(78 + c * 92, 120, formula[c])
 			
 			//desenha o operador
-			se(trava >= 0){
-				se(casas[trava] >= 0){
-					se(trava != 0
-					operadores[trava] = "+"
-					g.definir_tamanho_texto(20.0)
-					g.desenhar_texto(46 + c * 92, 126, casas[c]+"")
+			se(casas[c] >= 0){
+				se(c != 0){
+					operadores[c] = "+"
 				}
-				se(casas[trava] < 0){
-					operadores[trava] = "-"
-					g.definir_tamanho_texto(20.0)
-					g.desenhar_texto(46 + c * 92, 126, (casas[c] * -1)+"")
-				}
+				g.definir_tamanho_texto(20.0)
+				g.desenhar_texto(46 + c * 92, 126, casas[c]+"")
 			}
+			se(casas[c] < 0){
+				operadores[c] = "-"
+				g.definir_tamanho_texto(20.0)
+				g.desenhar_texto(46 + c * 92, 126, (casas[c] * -1)+"")
+			}
+			
 			g.definir_tamanho_texto(30.0)
 			g.desenhar_texto(20 + c * 92, 120, operadores[c])
 			
@@ -166,8 +166,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2457; 
- * @DOBRAMENTO-CODIGO = [16, 54, 58];
+ * @POSICAO-CURSOR = 1483; 
+ * @DOBRAMENTO-CODIGO = [16, 54, 58, 62, 131, 152];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
