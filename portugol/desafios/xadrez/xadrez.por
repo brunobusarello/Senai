@@ -87,7 +87,7 @@ programa
 	funcao inicio()
 	{
 		g.iniciar_modo_grafico(verdadeiro)
-		g.definir_dimensoes_janela(1400, 900)
+		g.definir_dimensoes_janela(1200, 700)
 		g.definir_titulo_janela("Xadrez")
 		enquanto(verdadeiro){
 			verificar_movimento()
@@ -100,7 +100,7 @@ programa
 
 	// desenha o tabuleiro, desenha as peças e verifica se alguma peça foi clicada
 	funcao desenhar(){
-		g.definir_cor(g.COR_BRANCO)
+		g.definir_cor(g.COR_PRETO)
 		g.limpar()
 		
 		inteiro comeco = 0
@@ -121,14 +121,14 @@ programa
 					cor = cor_branco
 				}
 				g.definir_cor(cor)
-				g.desenhar_retangulo(c*100 + 50, l*100 + 50, 100, 100, falso, verdadeiro)
+				g.desenhar_retangulo(c*80 + 30, l*80 + 30, 80, 80, falso, verdadeiro)
 
 				// animação de hover
-				se(m.posicao_x() >= c*100 + 50 e m.posicao_x() <= c*100 + 100 + 50){
-					se(m.posicao_y() >= l*100 + 50 e m.posicao_y() <= l*100 + 100 + 50){
+				se(m.posicao_x() >= c*80 + 30 e m.posicao_x() <= c*80 + 80 + 30){
+					se(m.posicao_y() >= l*80 + 30 e m.posicao_y() <= l*80 + 80 + 30){
 						g.definir_cor(g.COR_PRETO)
 						g.definir_opacidade(50)
-						g.desenhar_retangulo(c*100 + 50, l*100 + 50, 100, 100, falso, verdadeiro)
+						g.desenhar_retangulo(c*80 + 30, l*80 + 30, 80, 80, falso, verdadeiro)
 						g.definir_opacidade(255)
 						se(m.botao_pressionado(m.BOTAO_ESQUERDO)){
 							se(cor_peca(l, c) == vez){
@@ -141,10 +141,10 @@ programa
 
 				// desenho das peças
 				se(cor_peca(l, c) == 1){
-					g.desenhar_imagem(70 + c * 100, 70 + l * 100, pretas[tipo_peca(l, c)])
+					g.desenhar_imagem(40 + c * 80, 40 + l * 80, pretas[tipo_peca(l, c)])
 				}
 				senao se(cor_peca(l, c) == 2){
-					g.desenhar_imagem(70 + c * 100, 70 + l * 100, brancas[tipo_peca(l, c)])
+					g.desenhar_imagem(40 + c * 80, 40 + l * 80, brancas[tipo_peca(l, c)])
 				}
 				
 			}
@@ -286,15 +286,15 @@ programa
 	// desenha as casas que a peça pode se movimentar e armazena essas posições em um vetor
 	funcao desenhar_possibilidade(inteiro linha, inteiro coluna){
 		g.definir_cor(cor_movimento)
-		g.desenhar_elipse(coluna * 100 + 40 + 50, linha * 100 + 40 + 50, 20, 20, verdadeiro)
+		g.desenhar_elipse(coluna * 80 + 30 + 30, linha * 80 + 30 + 30, 20, 20, verdadeiro)
 	}
 
 	// desenhar as casas que a peça pode atacar e armazena essas posições em um vetor
 	funcao desenhar_ataque(inteiro linha, inteiro coluna){
 		g.definir_cor(g.COR_AZUL)
-		g.desenhar_elipse(coluna * 100 + 20 + 50, linha * 100 + 20 + 50, 60, 60, verdadeiro)
-		se(cor_peca(linha,coluna) == 1) g.desenhar_imagem(coluna * 100 + 70, linha * 100+ 70, pretas[tipo_peca(linha, coluna)])
-		senao g.desenhar_imagem(coluna * 100 + 70, linha * 100 + 70, brancas[tipo_peca(linha, coluna)])
+		g.desenhar_elipse(coluna * 80 + 10 + 30, linha * 80 + 10 + 30, 60, 60, verdadeiro)
+		se(cor_peca(linha,coluna) == 1) g.desenhar_imagem(coluna * 80 + 40, linha * 80+ 40, pretas[tipo_peca(linha, coluna)])
+		senao g.desenhar_imagem(coluna * 80 + 40, linha * 80 + 40, brancas[tipo_peca(linha, coluna)])
 	}
 
 	// muda a posição da peça na matriz
@@ -330,15 +330,15 @@ programa
 	funcao verificar_movimento(){
 		se(m.botao_pressionado(0)){
 			para(inteiro v = 1; v < c_possibilidades; v+=2){
-				se(m.posicao_y() >= possibilidades[v-1] * 100 + 50 e m.posicao_y() <= possibilidades[v-1] * 100 + 100 + 50){
-					se(m.posicao_x() >= possibilidades[v] * 100 + 50 e m.posicao_x() <= possibilidades[v] * 100 + 100 + 50){
+				se(m.posicao_y() >= possibilidades[v-1] * 80 + 30 e m.posicao_y() <= possibilidades[v-1] * 80 + 80 + 30){
+					se(m.posicao_x() >= possibilidades[v] * 80 + 30 e m.posicao_x() <= possibilidades[v] * 80 + 80 + 30){
 						mover_peca(aux_linha, aux_coluna, possibilidades[v-1], possibilidades[v])
 					}
 				}
 			}
 			para(inteiro v = 1; v < c_ataques; v+=2){
-				se(m.posicao_y() >= ataques[v-1] * 100 + 50 e m.posicao_y() <= ataques[v-1] * 100 + 100 + 50){
-					se(m.posicao_x() >= ataques[v] * 100 + 50 e m.posicao_x() <= ataques[v] * 100 + 100 + 50){
+				se(m.posicao_y() >= ataques[v-1] * 80 + 30 e m.posicao_y() <= ataques[v-1] * 80 + 80 + 30){
+					se(m.posicao_x() >= ataques[v] * 80 + 30 e m.posicao_x() <= ataques[v] * 80 + 80 + 30){
 						matar_peca(aux_linha, aux_coluna, ataques[v-1], ataques[v])
 					}
 				}
@@ -383,8 +383,8 @@ programa
 			peca = brancas[1]
 		}
 		g.definir_cor(g.COR_VERMELHO)
-		g.desenhar_elipse(posX * 100 + 20 + 50, posY * 100 + 20 + 50, 60, 60, verdadeiro)
-		g.desenhar_imagem(70 + posX * 100, 70 + posY * 100, peca)
+		g.desenhar_elipse(posX * 80 + 10 + 30, posY * 80 + 10 + 30, 60, 60, verdadeiro)
+		g.desenhar_imagem(40 + posX * 80, 40 + posY * 80, peca)
 	}
 
 	funcao verifica_cheque(inteiro peca){
@@ -488,8 +488,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2882; 
- * @DOBRAMENTO-CODIGO = [67, 76, 154, 160, 165, 286, 292, 300, 319, 329, 349, 370, 389, 418];
+ * @POSICAO-CURSOR = 2836; 
+ * @DOBRAMENTO-CODIGO = [67, 76, 86, 101, 154, 160, 165, 286, 292, 300, 319, 329, 349, 370, 389, 418];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = {branco_x, 28, 9, 8}-{branco_y, 29, 9, 8}-{preto_x, 30, 9, 7}-{preto_y, 31, 9, 7};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
