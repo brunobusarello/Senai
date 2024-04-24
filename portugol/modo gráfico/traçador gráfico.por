@@ -9,6 +9,8 @@ programa
 	inteiro cor_quadrado = g.COR_PRETO
 	inteiro cor_traco = g.criar_cor(212, 212, 212)
 	inteiro cor_traco_f = g.criar_cor(140, 140, 140)
+	real x1, x2
+	real delta
 
 	inteiro casas[3]
 	caracter operador
@@ -16,11 +18,11 @@ programa
 	
 	funcao eixo(){
 		// desenho linhas de grade
-		para(inteiro c = 1; c < 20; c++){
-			se(c % 2 == 0) g.definir_cor(cor_traco_f)
+		para(inteiro i = 1; i < 20; i++){
+			se(i % 2 == 0) g.definir_cor(cor_traco_f)
 			senao g.definir_cor(cor_traco)
-			g.desenhar_linha(500, 100 + 25 * c, 1000, 100 + 25 * c)
-			g.desenhar_linha(500 + 25 * c, 100, 500 + 25 * c, 600)
+			g.desenhar_linha(500, 100 + 25 * i, 1000, 100 + 25 * i)
+			g.desenhar_linha(500 + 25 * i, 100, 500 + 25 * i, 600)
 		}
 
 		// definindo o eixo X
@@ -33,23 +35,38 @@ programa
 
 		inteiro espacamentos[2] = {-5, 5}
 		para(inteiro i = 0; i < 2; i++){
-			para(inteiro c = 1; c <= 50; c++){
+			para(inteiro j = 1; j <= 50; j++){
 				// desehna as linhas de marcação
-				se(c % 10 == 0){
-					 g.desenhar_linha(750 + espacamentos[i] * c, 342, 750 + espacamentos[i] * c, 358)
+				se(j % 10 == 0){
+					 g.desenhar_linha(750 + espacamentos[i] * j, 342, 750 + espacamentos[i] * j, 358)
 				}
 				senao{
-					g.desenhar_linha(750 + espacamentos[i] * c, 347, 750 + espacamentos[i] * c, 353)
+					g.desenhar_linha(750 + espacamentos[i] * j, 347, 750 + espacamentos[i] * j, 353)
 				}
 
-				se(c % 10 == 0){
-					 g.desenhar_linha(742, 350 + espacamentos[i] * c, 758, 350 + espacamentos[i] * c)
+				se(j % 10 == 0){
+					 g.desenhar_linha(742, 350 + espacamentos[i] * j, 758, 350 + espacamentos[i] * j)
 				}
 				senao{
-					g.desenhar_linha(747, 350 + espacamentos[i] * c, 753, 350 + espacamentos[i] * c)
+					g.desenhar_linha(747, 350 + espacamentos[i] * j, 753, 350 + espacamentos[i] * j)
 				}
 			}
 		}
+	}
+
+	funcao equacao(){
+		inteiro a = casas[0], b = casas[1], c = casas[2]
+		
+		delta = m.potencia(b, 2.0) - 4 * a * c
+		escreva(delta)
+
+		se(delta >= 0){
+			x1 = (-b + m.raiz(delta, 2))/2*a
+			x2 = (-b - m.raiz(delta, 2))/2*a
+		}
+
+		escreva(x1)
+		escreva(x2)
 	}
 
 	funcao texto(){
@@ -64,12 +81,12 @@ programa
 		cadeia formula[3] = {"x²", "x ", "= 0"}
 		inteiro cores[3] = {g.COR_PRETO, g.COR_PRETO, g.COR_PRETO}
 		cadeia operadores[3] = {" ", "+", "+"}
-		para(inteiro c = 0; c < 3; c++){
+		para(inteiro i = 0; i < 3; i++){
 			// verifica se o ponteiro do mouse clicou em alguma das caixas
 			se(mo.botao_pressionado(0)){
 				se(mo.posicao_y() >= 120 e mo.posicao_y() <= 120 + 30){
-					se(mo.posicao_x() >= 45 + c * 95 e mo.posicao_x() <= 45 + c * 95 + 45){
-						trava = c
+					se(mo.posicao_x() >= 45 + i * 95 e mo.posicao_x() <= 45 + i * 95 + 45){
+						trava = i
 					}
 				}
 				senao{
@@ -79,35 +96,35 @@ programa
 					trava = -1
 				}
 			}
-			se(trava == c){
-				cores[c] = g.COR_VERMELHO
+			se(trava == i){
+				cores[i] = g.COR_VERMELHO
 			}
 			
 			// desenha os quadrados
-			g.definir_cor(cores[c])
-			g.desenhar_retangulo(45 + c * 92, 120, 30, 30, falso, falso)
+			g.definir_cor(cores[i])
+			g.desenhar_retangulo(45 + i * 92, 120, 30, 30, falso, falso)
 			
 			// desenha a fórmula
 			g.definir_cor(g.COR_AZUL)
 			g.definir_tamanho_texto(30.0)
-			g.desenhar_texto(78 + c * 92, 120, formula[c])
+			g.desenhar_texto(78 + i * 92, 120, formula[i])
 			
 			//desenha o operador
-			se(casas[c] >= 0){
-				se(c != 0){
-					operadores[c] = "+"
+			se(casas[i] >= 0){
+				se(i != 0){
+					operadores[i] = "+"
 				}
 				g.definir_tamanho_texto(20.0)
-				g.desenhar_texto(46 + c * 92, 126, casas[c]+"")
+				g.desenhar_texto(46 + i * 92, 126, casas[i]+"")
 			}
-			se(casas[c] < 0){
-				operadores[c] = "-"
+			se(casas[i] < 0){
+				operadores[i] = "-"
 				g.definir_tamanho_texto(20.0)
-				g.desenhar_texto(46 + c * 92, 126, (casas[c] * -1)+"")
+				g.desenhar_texto(46 + i * 92, 126, (casas[i] * -1)+"")
 			}
 			
 			g.definir_tamanho_texto(30.0)
-			g.desenhar_texto(20 + c * 92, 120, operadores[c])
+			g.desenhar_texto(20 + i * 92, 120, operadores[i])
 			
 			// desenha o valor desejado dentro do quadrado
 			
@@ -155,10 +172,11 @@ programa
 		g.iniciar_modo_grafico(verdadeiro)
 		g.definir_dimensoes_janela(1024, 630)
 		g.definir_titulo_janela("Traçador Gráfico de Funções")
-	
-		enquanto(verdadeiro){
+		
+		enquanto(nao t.tecla_pressionada(t.TECLA_ESC)){
 			paint()
 		}
+		equacao()
 	}
 }
 /* $$$ Portugol Studio $$$ 
@@ -166,8 +184,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1483; 
- * @DOBRAMENTO-CODIGO = [16, 54, 58, 62, 131, 152];
+ * @POSICAO-CURSOR = 1688; 
+ * @DOBRAMENTO-CODIGO = [71, 75];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
