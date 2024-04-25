@@ -11,27 +11,33 @@ programa
 	inteiro y_vertice = g.carregar_imagem("/src/y_vertice.png")
 	inteiro img_delta = g.carregar_imagem("/src/delta.png")
 
-	inteiro zoom = 50
-
+	
 	// constantes que indicam as posições iniciais, finais e do meio do quadrado
 	const inteiro INICIO_X = 500
 	const inteiro FINAL_X = 1000
-	const inteiro MEIO_X = 750
+	inteiro MEIO_X = 750
 	const inteiro INICIO_Y = 100
 	const inteiro FINAL_Y = 600
-	const inteiro MEIO_Y = 350
+	inteiro MEIO_Y = 350
 
 	// inicialização de cores
 	inteiro cor_traco = g.criar_cor(212, 212, 212)
-	inteiro cor_traco_f = g.criar_cor(140, 140, 140)
+	inteiro cor_traco_f = g.criar_cor(180, 180, 180)
 
+	inteiro pos_anterior_x = 0
+	inteiro pos_anterior_y = 0
+	inteiro trava_m = 0
 	
 	real x1, x2
 	real delta
 	real xV, yV
 	
-	real xt[2000]
-	real fx[2000]
+	real xt[10000]
+	real fx[10000]
+
+	real x = 0.0
+	real y = 0.0
+	real valorX = -50.0
 
 	real a = 0.0, b = 0.0, c = 0.0
 
@@ -39,14 +45,21 @@ programa
 	inteiro casas[3] = {1, 6, 5}
 	caracter operador
 	inteiro trava = -1
+
+	inteiro zoom = 50
+
+	inteiro limite
 	
 	funcao eixo(){
+		limite = 250 / zoom
 		// desenho linhas de grade
-		para(inteiro i = 1; i < 20; i++){
-			se(i % 2 == 0) g.definir_cor(cor_traco_f)
+		para(inteiro i = 0; i <= limite; i++){
+			se(i % 10 == 0) g.definir_cor(cor_traco_f)
 			senao g.definir_cor(cor_traco)
-			g.desenhar_linha(INICIO_X, 100 + 25 * i, FINAL_X, 100 + 25 * i)
-			g.desenhar_linha(500 + 25 * i, 100, 500 + 25 * i, 600)
+			g.desenhar_linha(INICIO_X, MEIO_Y + zoom * i, FINAL_X, MEIO_Y + zoom * i)
+			g.desenhar_linha(INICIO_X, MEIO_Y - zoom * i, FINAL_X, MEIO_Y - zoom * i)
+			g.desenhar_linha(MEIO_X + zoom * i, INICIO_Y, MEIO_X + zoom * i, FINAL_Y)
+			g.desenhar_linha(MEIO_X - zoom * i, INICIO_Y, MEIO_X - zoom * i, FINAL_Y)
 		}
 
 		// definindo o eixo X
@@ -56,27 +69,20 @@ programa
 
 		// definindo o eixo Y
 		g.desenhar_linha(MEIO_X, INICIO_Y, MEIO_X, FINAL_Y)
-
-		inteiro limite = 50
 		
-		para(inteiro j = 1; j <= limite; j++){
+		para(inteiro j = 0; j <= limite; j++){
 			// desehna as linhas de marcação
 			se(j % 10 == 0){
-				 g.desenhar_linha(MEIO_X + 5 * j, 342, MEIO_X + 5 * j, 358)
-				 g.desenhar_linha(MEIO_X - 5 * j, 342, MEIO_X - 5 * j, 358)
+				g.desenhar_linha(MEIO_X + zoom * j, 342, MEIO_X + zoom * j, 358)
+				g.desenhar_linha(742, MEIO_Y + zoom * j, 758, MEIO_Y + zoom * j)
+				g.desenhar_linha(MEIO_X - zoom * j, 342, MEIO_X - zoom * j, 358)
+				g.desenhar_linha(742, MEIO_Y - zoom * j, 758, MEIO_Y - zoom * j)
 			}
 			senao{
-				g.desenhar_linha(MEIO_X + 5 * j, 347, MEIO_X + 5 * j, 353)
-				g.desenhar_linha(MEIO_X - 5 * j, 347, MEIO_X - 5 * j, 353)
-			}
-
-			se(j % 10 == 0){
-				 g.desenhar_linha(742, MEIO_Y + 5 * j, 758, MEIO_Y + 5 * j)
-				 g.desenhar_linha(742, MEIO_Y - 5 * j, 758, MEIO_Y - 5 * j)
-			}
-			senao{
-				g.desenhar_linha(747, MEIO_Y + 5 * j, 753, MEIO_Y + 5 * j)
-				g.desenhar_linha(747, MEIO_Y - 5 * j, 753, MEIO_Y - 5 * j)
+				g.desenhar_linha(MEIO_X + zoom * j, 347, MEIO_X + zoom * j, 353)
+				g.desenhar_linha(747, MEIO_Y + zoom * j, 753, MEIO_Y + zoom * j)
+				g.desenhar_linha(MEIO_X - zoom * j, 347, MEIO_X - zoom * j, 353)
+				g.desenhar_linha(747, MEIO_Y - zoom * j, 753, MEIO_Y - zoom * j)
 			}
 		}
 	}
@@ -94,8 +100,8 @@ programa
 		xV = -b / 2 * a
 
 		se(delta >= 0){
-			x1 = (-b + m.raiz(delta, 2)) / 2 * a 
-			x2 = (-b - m.raiz(delta, 2)) / 2 * a 
+			x1 = (-b + m.raiz(delta, 2)) / (2 * a)
+			x2 = (-b - m.raiz(delta, 2)) / (2 * a) 
 		}
 		senao{
 			escreva("A equação não possui raízes reais\n")
@@ -104,16 +110,32 @@ programa
 			x2 = 0.0
 		}
 
-		real valorX = -5.0
-		para(inteiro x = 0; x < 2000; x++){
+		limite = (250 / zoom) + 1
+		real valorX = -limite
+		para(inteiro x = 0; x < 10000; x++){
 			valorX += 0.02
 			xt[x] = valorX
 			fx[x] = (a*m.potencia(xt[x], 2.0) + b*xt[x] + c) * -zoom
 
-			se(xt[x] + MEIO_X > 500 e xt[x] + MEIO_X < 755 e fx[x] + MEIO_Y > 100 e fx[x] + MEIO_Y < 600){
+			se(xt[x] * zoom + MEIO_X > 500 e xt[x] * zoom + MEIO_X < 1000 e fx[x] + MEIO_Y > 100 e fx[x] + MEIO_Y < 600){
 				g.definir_cor(cor_p1)
 				g.desenhar_elipse(xt[x] * zoom + MEIO_X, fx[x] + MEIO_Y, 2, 2, verdadeiro)
 			}
+		}
+	}
+
+	funcao quant_zoom(){
+		g.definir_cor(g.COR_PRETO)
+		g.desenhar_retangulo(430, 110, 30, 30, falso, falso)
+		g.desenhar_retangulo(430, 150, 30, 30, falso, falso)
+		g.desenhar_texto(436, 113, "+")
+		g.desenhar_texto(440, 153, "-")
+
+		se(zoom < 5){
+			zoom = 5
+		}
+		se(zoom > 99){
+			zoom = 99
 		}
 	}
 
@@ -125,11 +147,23 @@ programa
 		para(inteiro i = 0; i < 3; i++){
 			// verifica se o ponteiro do mouse clicou em alguma das caixas
 			se(mo.botao_pressionado(0)){
+				se(mo.posicao_x() >= 430 e mo.posicao_x() <= 430 + 30){
+					se(mo.posicao_y() >= 110 e mo.posicao_y() <= 110 + 30){
+						zoom++
+						u.aguarde(50)
+					}
+					se(mo.posicao_y() >= 150 e mo.posicao_y() <= 150 + 30){
+						zoom--
+						u.aguarde(50)
+					}
+				}
+		
 				se(mo.posicao_y() >= 120 e mo.posicao_y() <= 120 + 30){
 					se(mo.posicao_x() >= pos_quadrados[i] e mo.posicao_x() <= pos_quadrados[i] + 30){
 						trava = i
 					}
 				}
+		
 				senao{
 					cores[0] = g.COR_PRETO
 					cores[1] = g.COR_PRETO
@@ -237,10 +271,31 @@ programa
 		g.desenhar_texto(40, 450, "x2 = " + m.arredondar(x2, 2)+"")
 
 		eixo()
+		quant_zoom()
 		coeficientes()
 		parabola()
 		
 		g.renderizar()
+	}
+
+	funcao mouse(){
+		se(mo.posicao_x() >= 500 e mo.posicao_x() <= 1000){
+			se(mo.posicao_y() >= 100 e mo.posicao_y() <= 600){
+				se(mo.botao_pressionado(1) e trava_m == 0){
+					pos_anterior_x = mo.posicao_x()
+					pos_anterior_y = mo.posicao_y()
+					trava_m = 1
+				}
+				se(trava_m == 1){
+					MEIO_X += mo.posicao_x() - pos_anterior_x
+					MEIO_Y += mo.posicao_y() - pos_anterior_y
+					trava_m = 0
+				}
+				se(nao mo.botao_pressionado(1)){
+					trava_m = 0
+				}
+			}
+		}
 	}
 	
 	funcao inicio()
@@ -251,6 +306,7 @@ programa
 		
 		enquanto(nao t.tecla_pressionada(t.TECLA_ESC)){
 			paint()
+			mouse()
 		}
 	}
 }
@@ -259,10 +315,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2534; 
- * @DOBRAMENTO-CODIGO = [42, 119, 198, 245];
+ * @POSICAO-CURSOR = 7725; 
+ * @DOBRAMENTO-CODIGO = [52, 89, 126, 141, 232];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
+ * @SIMBOLOS-INSPECIONADOS = {MEIO_X, 18, 9, 6}-{MEIO_Y, 21, 9, 6}-{pos_anterior_x, 27, 9, 14}-{pos_anterior_y, 28, 9, 14}-{x, 38, 6, 1}-{y, 39, 6, 1}-{valorX, 40, 6, 6};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
