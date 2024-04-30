@@ -13,11 +13,11 @@ programa
 
 	
 	// constantes que indicam as posições iniciais, finais e do meio do quadrado
-	const inteiro INICIO_X = 500
-	const inteiro FINAL_X = 1000
+	inteiro INICIO_X = 500
+	inteiro FINAL_X = 1000
 	inteiro MEIO_X = 750
-	const inteiro INICIO_Y = 100
-	const inteiro FINAL_Y = 600
+	inteiro INICIO_Y = 100
+	inteiro FINAL_Y = 600
 	inteiro MEIO_Y = 350
 
 	// inicialização de cores
@@ -53,9 +53,10 @@ programa
 	funcao eixo(){
 		limite = 250 / zoom
 		// desenho linhas de grade
-		para(inteiro i = 0; i <= limite; i++){
+		para(inteiro i = 0; i <= 100; i++){
 			se(i % 10 == 0) g.definir_cor(cor_traco_f)
 			senao g.definir_cor(cor_traco)
+			
 			g.desenhar_linha(INICIO_X, MEIO_Y + zoom * i, FINAL_X, MEIO_Y + zoom * i)
 			g.desenhar_linha(INICIO_X, MEIO_Y - zoom * i, FINAL_X, MEIO_Y - zoom * i)
 			g.desenhar_linha(MEIO_X + zoom * i, INICIO_Y, MEIO_X + zoom * i, FINAL_Y)
@@ -70,7 +71,7 @@ programa
 		// definindo o eixo Y
 		g.desenhar_linha(MEIO_X, INICIO_Y, MEIO_X, FINAL_Y)
 		
-		para(inteiro j = 0; j <= limite; j++){
+		para(inteiro j = 0; j <= 100; j++){
 			// desehna as linhas de marcação
 			se(j % 10 == 0){
 				g.desenhar_linha(MEIO_X + zoom * j, MEIO_Y - 8, MEIO_X + zoom * j, MEIO_Y + 8)
@@ -101,7 +102,9 @@ programa
 
 		se(delta >= 0){
 			x1 = (-b + m.raiz(delta, 2)) / (2 * a)
-			x2 = (-b - m.raiz(delta, 2)) / (2 * a) 
+			x2 = (-b - m.raiz(delta, 2)) / (2 * a)
+			g.desenhar_elipse(x1 * zoom + MEIO_X - 5, MEIO_Y - 5, 10, 10, verdadeiro)
+			g.desenhar_elipse(x2 * zoom + MEIO_X - 5, MEIO_Y - 5, 10, 10, verdadeiro)
 		}
 		senao{
 			escreva("A equação não possui raízes reais\n")
@@ -279,21 +282,17 @@ programa
 	}
 
 	funcao mouse(){
-		se(t.tecla_pressionada(t.TECLA_SETA_ACIMA)){
-			MEIO_Y--
-			u.aguarde(50)
-		}
-		se(t.tecla_pressionada(t.TECLA_SETA_ABAIXO)){
-			MEIO_Y++
-			u.aguarde(50)
-		}
-		se(t.tecla_pressionada(t.TECLA_SETA_ESQUERDA)){
-			MEIO_X--
-			u.aguarde(50)
-		}
-		se(t.tecla_pressionada(t.TECLA_SETA_DIREITA)){
-			MEIO_X++
-			u.aguarde(50)
+		inteiro inicio_m_x = mo.posicao_x() - MEIO_X
+		inteiro inicio_m_y = mo.posicao_y() - MEIO_Y
+		se(mo.posicao_x() >= 500 e mo.posicao_x() <= 1000){
+			se(mo.posicao_y() >= 100 e mo.posicao_y() <= 600){
+				enquanto(mo.botao_pressionado(1)){
+					MEIO_X = mo.posicao_x() - inicio_m_x
+					MEIO_Y = mo.posicao_y() - inicio_m_y
+
+					paint()
+				}
+			}
 		}
 	}
 	
@@ -314,10 +313,10 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2570; 
- * @DOBRAMENTO-CODIGO = [89, 126, 141, 232, 280];
+ * @POSICAO-CURSOR = 1287; 
+ * @DOBRAMENTO-CODIGO = [90, 129, 144, 235, 283, 298];
  * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = {MEIO_X, 18, 9, 6}-{MEIO_Y, 21, 9, 6}-{pos_anterior_x, 27, 9, 14}-{pos_anterior_y, 28, 9, 14}-{x, 38, 6, 1}-{y, 39, 6, 1}-{valorX, 40, 6, 6};
+ * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
  * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
