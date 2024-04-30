@@ -73,16 +73,16 @@ programa
 		para(inteiro j = 0; j <= limite; j++){
 			// desehna as linhas de marcação
 			se(j % 10 == 0){
-				g.desenhar_linha(MEIO_X + zoom * j, 342, MEIO_X + zoom * j, 358)
-				g.desenhar_linha(742, MEIO_Y + zoom * j, 758, MEIO_Y + zoom * j)
-				g.desenhar_linha(MEIO_X - zoom * j, 342, MEIO_X - zoom * j, 358)
-				g.desenhar_linha(742, MEIO_Y - zoom * j, 758, MEIO_Y - zoom * j)
+				g.desenhar_linha(MEIO_X + zoom * j, MEIO_Y - 8, MEIO_X + zoom * j, MEIO_Y + 8)
+				g.desenhar_linha(MEIO_X - 8, MEIO_Y + zoom * j, MEIO_X + 8, MEIO_Y + zoom * j)
+				g.desenhar_linha(MEIO_X - zoom * j, MEIO_Y - 8, MEIO_X - zoom * j, MEIO_Y + 8)
+				g.desenhar_linha(MEIO_X - 8, MEIO_Y - zoom * j, MEIO_X + 8, MEIO_Y - zoom * j)
 			}
 			senao{
-				g.desenhar_linha(MEIO_X + zoom * j, 347, MEIO_X + zoom * j, 353)
-				g.desenhar_linha(747, MEIO_Y + zoom * j, 753, MEIO_Y + zoom * j)
-				g.desenhar_linha(MEIO_X - zoom * j, 347, MEIO_X - zoom * j, 353)
-				g.desenhar_linha(747, MEIO_Y - zoom * j, 753, MEIO_Y - zoom * j)
+				g.desenhar_linha(MEIO_X + zoom * j, MEIO_Y - 3, MEIO_X + zoom * j, MEIO_Y + 3)
+				g.desenhar_linha(MEIO_X - 3, MEIO_Y + zoom * j, MEIO_X + 3, MEIO_Y + zoom * j)
+				g.desenhar_linha(MEIO_X - zoom * j, MEIO_Y - 3, MEIO_X - zoom * j, MEIO_Y + 3)
+				g.desenhar_linha(MEIO_X - 3, MEIO_Y - zoom * j, MEIO_X + 3, MEIO_Y - zoom * j)
 			}
 		}
 	}
@@ -279,22 +279,21 @@ programa
 	}
 
 	funcao mouse(){
-		se(mo.posicao_x() >= 500 e mo.posicao_x() <= 1000){
-			se(mo.posicao_y() >= 100 e mo.posicao_y() <= 600){
-				se(mo.botao_pressionado(1) e trava_m == 0){
-					pos_anterior_x = mo.posicao_x()
-					pos_anterior_y = mo.posicao_y()
-					trava_m = 1
-				}
-				se(trava_m == 1){
-					MEIO_X += mo.posicao_x() - pos_anterior_x
-					MEIO_Y += mo.posicao_y() - pos_anterior_y
-					trava_m = 0
-				}
-				se(nao mo.botao_pressionado(1)){
-					trava_m = 0
-				}
-			}
+		se(t.tecla_pressionada(t.TECLA_SETA_ACIMA)){
+			MEIO_Y--
+			u.aguarde(50)
+		}
+		se(t.tecla_pressionada(t.TECLA_SETA_ABAIXO)){
+			MEIO_Y++
+			u.aguarde(50)
+		}
+		se(t.tecla_pressionada(t.TECLA_SETA_ESQUERDA)){
+			MEIO_X--
+			u.aguarde(50)
+		}
+		se(t.tecla_pressionada(t.TECLA_SETA_DIREITA)){
+			MEIO_X++
+			u.aguarde(50)
 		}
 	}
 	
@@ -315,8 +314,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 7725; 
- * @DOBRAMENTO-CODIGO = [52, 89, 126, 141, 232];
+ * @POSICAO-CURSOR = 2570; 
+ * @DOBRAMENTO-CODIGO = [89, 126, 141, 232, 280];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = {MEIO_X, 18, 9, 6}-{MEIO_Y, 21, 9, 6}-{pos_anterior_x, 27, 9, 14}-{pos_anterior_y, 28, 9, 14}-{x, 38, 6, 1}-{y, 39, 6, 1}-{valorX, 40, 6, 6};
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
