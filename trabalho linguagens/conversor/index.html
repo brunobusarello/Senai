@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de moedas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <h1>Conversor de moedas</h1>
+        <section>
+            <form action="conversao.php" method="post">
+                <label for="quantia">Digite o valor que deseja converter</label>
+                <input type="number" step="0.01" name="valor" min="0.01" placeholder="R$">
+                <select name="moedas">
+                    <option value="dolar">Dolar</option>
+                </select>
+                <input type="submit" name="submit" value="Converter">
+            </form>
+        </section>
+    </main>
+</body>
+</html>
