@@ -10,10 +10,10 @@ programa{
         inteiro i
         
         // preenchimento do vetor e saída do vetor original
-        escreva("Vetor Original: ")
         para(i = 0; i < tam; i++){
-            vetor[i] = u.sorteia(10, 50)
-            escreva(vetor[i], " ")
+            escreva("Digite o ", i + 1, "º valor: ")
+            leia(vetor[i])
+            limpa()
         }
         
         escreva("\n")
@@ -62,7 +62,7 @@ programa{
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 640; 
+ * @POSICAO-CURSOR = 380; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
