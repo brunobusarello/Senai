@@ -14,23 +14,27 @@ public class AppBanco {
         System.out.println("=======================================");
         
         // instanciar um novo objeta Conta
-        Conta conta1 = new Conta();
+        Conta c101 = new Conta();
+        c101.tpConta = '0';
+        c101.nConta = 101;
+        c101.titular = "Bruno";
+        c101.saldo = 50.0f;
+        c101.limite = 3000.0f;
         
-        conta1.tpConta = '0';
-        conta1.titular = "João Sem Braço";
-        conta1.saldo = 500.00f;
+        System.out.println("------------------------------");
+        System.out.println("Deposito: 1800");
+        c101.depositar(1800.0f);
+        c101.statusConta("c101");
         
-        conta1.sacar(1300.00f);
-        conta1.statusConta("conta1");
-        System.out.println("");
+        System.out.println("------------------------------");
+        System.out.println("Saque: 450");
+        c101.sacar(450.0f);
+        c101.statusConta("c101");
         
-        Conta c2 = new Conta();
-        c2.nConta = 100;
-        c2.tpConta = '2';
-        c2.titular = "Abirobaldo Silva";
-        c2.saldo = 230.00f;
-        
-        c2.statusConta("c2");
+        System.out.println("------------------------------");
+        System.out.println("Transferencia: 2000, c102");
+        c101.transferir(2000, 102);
+        c101.statusConta("c101");
     }
     
 }
