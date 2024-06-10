@@ -32,12 +32,17 @@ public class BankProject {
                     id101.saldo = ler.nextFloat();
                     System.out.print("Qual o limite da conta? R$ ");
                     id101.limite = ler.nextFloat();
+                    System.out.println("");
+                    System.out.println("=================================");
+                    System.out.println("|   Conta criada com sucesso!   |");
+                    System.out.println("=================================");
+                    System.out.println("");
                     break;
                 case 2:
                     id101.status();
                     break;
                 case 3:
-                    System.out.print("Qual o valor deseja sacar? R$ ");
+                    System.out.print("--\nQual o valor deseja sacar? R$ ");
                     float vl3 = ler.nextFloat();
                     id101.sacar(vl3);
                     break;

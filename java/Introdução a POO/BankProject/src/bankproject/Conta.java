@@ -10,6 +10,7 @@ public class Conta {
     
     // métodos da classe
     public void status(){
+        System.out.println("");
         System.out.println("-------- Informacoes da Conta --------");
         System.out.println("Tipo.............: " + this.tpConta);
         System.out.println("Numero...........: " + this.nConta);
@@ -22,12 +23,22 @@ public class Conta {
     public void sacar(float vlSaq){
         if(this.saldo >= vlSaq){
             this.saldo -= vlSaq;
+            System.out.println("");
+            System.out.println("=================================");
+            System.out.println("| Saque de" + vlSaq + " feito com sucesso");
+            System.out.println("=================================");
         }
         else if(this.tpConta == 0){
             if(this.saldo + this.limite >= vlSaq){
+                float limOriginal = this.limite;
                 this.saldo -= vlSaq;
                 this.limite += this.saldo;
                 this.saldo = 0;
+                System.out.println("");
+                System.out.println("=================================");
+                System.out.println("| Saque de " + vlSaq + "feito com sucesso");
+                System.out.println("| Foi utilizado " + (limOriginal - this.limite) + " do limite");
+                System.out.println("=================================");
             }
             else{
                 System.out.println("Limite insuficiente para a operação");
