@@ -14,12 +14,10 @@ public class AppBanco {
         System.out.println("=======================================");
         
         // instanciar um novo objeta Conta
-        Conta c101 = new Conta();
-        c101.tpConta = '0';
-        c101.nConta = 101;
-        c101.titular = "Bruno";
-        c101.saldo = 50.0f;
-        c101.limite = 3000.0f;
+        Conta c101 = new Conta('0', 101, "Bruno");
+        
+        System.out.println("------------------------------");
+        c101.statusConta("conta1");
         
         System.out.println("------------------------------");
         System.out.println("Deposito: 1800");

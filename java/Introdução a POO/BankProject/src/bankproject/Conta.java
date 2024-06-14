@@ -2,11 +2,34 @@ package bankproject;
 
 public class Conta {
     // atributos da classe
-    int tpConta;
-    int nConta;
-    String titular;
-    float saldo;
-    float limite;
+    private int tpConta;
+    private int nConta;
+    private String titular;
+    private float saldo;
+    private float limite;
+    private float limiteMax;
+    
+    //construtor da classe
+    public Conta(int tp, int nC, String tit){
+        this.tpConta = tp;
+        this.nConta = nC;
+        this.titular = tit;
+        this.saldo = 0.0f;
+        this.limite = 500.0f;
+    }
+    
+    // definindo getters 
+    public int getTpConta() {
+        return tpConta;
+    }
+
+    public int getnConta() {
+        return nConta;
+    }
+
+    public float getSaldo() {
+        return saldo;
+    }
     
     // métodos da classe
     public void status(){
@@ -50,10 +73,10 @@ public class Conta {
     }
     
     public void depositar(float vlDep){
-        if(this.limite < 1000){
-            if(vlDep >= 1000 - this.limite){
-                vlDep -= (1000 - this.limite);
-                this.limite = 1000;
+        if(this.limite < limiteMax){
+            if(vlDep >= limiteMax - this.limite){
+                vlDep -= (limiteMax - this.limite);
+                this.limite = limiteMax;
             }
             else{
                 this.limite += vlDep;

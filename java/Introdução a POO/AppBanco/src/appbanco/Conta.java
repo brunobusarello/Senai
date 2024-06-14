@@ -8,11 +8,33 @@ public class Conta {
     // =============
     
     // atributos de classe
-    char tpConta;
-    int nConta;
-    String titular;
-    float saldo = 0.0f;
-    float limite = 1000.0f;
+    private char tpConta;
+    private int nConta;
+    private String titular;
+    private float saldo = 0.0f;
+    private float limite = 0.0f;
+    
+     //construtor da classe
+    public Conta(char tp, int nC, String tit){
+        this.tpConta = tp;
+        this.nConta = nC;
+        this.titular = tit;
+        this.saldo = 0.0f;
+        this.limite = 500.0f;
+    }
+    
+    // definindo getters 
+    public int getTpConta() {
+        return tpConta;
+    }
+
+    public int getnConta() {
+        return nConta;
+    }
+
+    public float getSaldo() {
+        return saldo;
+    }
     
     // métodos da Classe
     public void sacar(float vlSaq){

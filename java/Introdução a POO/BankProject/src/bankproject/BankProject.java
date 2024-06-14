@@ -13,7 +13,7 @@ public class BankProject {
     
     public static void main(String[] args) {
         int i = 0;
-        Conta id101 = new Conta();
+        Conta id101 = new Conta(0, 101, "Bruno");
         while (i < 5) {
             Scanner lerStr = new Scanner(System.in);
             i = menuInicial();
@@ -32,6 +32,7 @@ public class BankProject {
                     id101.saldo = ler.nextFloat();
                     System.out.print("Qual o limite da conta? R$ ");
                     id101.limite = ler.nextFloat();
+                    id101.limiteMax = id101.limite;
                     System.out.println("");
                     System.out.println("=================================");
                     System.out.println("|   Conta criada com sucesso!   |");
