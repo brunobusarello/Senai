@@ -1,5 +1,6 @@
 
 import Classes.Carro;
+import java.awt.font.TextAttribute;
 import java.util.Scanner;
 
 /**
@@ -13,7 +14,7 @@ public class Main {
         // carro = objeto
         // Carro() = constructor
         int opc = 1;
-        Carro carro = new Carro();
+        Carro carro = new Carro(20);
         Scanner ler = new Scanner(System.in);
 
         // menu
@@ -29,42 +30,39 @@ public class Main {
             opc = ler.nextInt();
 
             switch (opc) {
+                case 0:
+                    System.out.println("== Saindo do sistema! ==");
+                    break;
                 case 1:
-                    
+                    if(!carro.isStatus()){
+                        System.out.println("Ligue o carro primeiro");
+                    }
+                    else{
+                        System.out.print("Qual velocidade deseja acelerar? ");
+                        int vel = ler.nextInt();
+                        carro.acelerar(vel);
+                    }
                     break;
                 case 2:
-
+                    if(!carro.isStatus() || carro.getVelocidade() <= 0){
+                        System.out.println("Ligue ou acelere o carro primeiro");
+                    }
+                    else{
+                        System.out.print("Informe a velocidade final: ");
+                        int velocidade = ler.nextInt();
+                        carro.frear(velocidade);
+                    }
                     break;
                 case 3:
-
+                    carro.ligar();
                     break;
                 case 4:
-
+                    carro.desligar();
                     break;
                 default:
                     System.out.println("Opção incorreta");
             }
+            carro.status();
         }
-
-        carro.setStatus(true);
-        if (!carro.isStatus()) {
-            carro.setStatus(true);
-            System.out.println("O carro foi ligado");
-        } else {
-            System.out.println("Carro já está ligado");
-        }
-
-        carro.setVelocidade(50); // colocar velocidade no meu objeto
-        if (carro.isStatus()) {
-            carro.acelerar(100);
-        } else {
-            System.out.println("Não foi possível acelerar o carro");
-        }
-        int armazenarV = carro.getVelocidade(); // pegar velocidade do meu objeto
-
-        System.out.println("Velocidade: " + armazenarV + " Km/h");
-        System.out.println("Status: " + carro.isStatus());
-
     }
-
 }
