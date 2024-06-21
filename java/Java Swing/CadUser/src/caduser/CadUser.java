@@ -35,6 +35,7 @@ public class CadUser {
         JLabel lblNome = new JLabel();
         
         lblNome.setText("Nome:");
+        lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
         lblNome.setBounds(20, 80, 90, 30);
         lblNome.setFont(new Font("Arial", Font.PLAIN, 18));
         
@@ -46,6 +47,7 @@ public class CadUser {
         JLabel lblCPF = new JLabel();
         
         lblCPF.setText("CPF:");
+        lblCPF.setHorizontalAlignment(SwingConstants.RIGHT);
         lblCPF.setBounds(20, 120, 90, 30);
         lblCPF.setFont(new Font("Arial", Font.PLAIN, 18));
         
@@ -57,6 +59,7 @@ public class CadUser {
         JLabel lblEmail = new JLabel();
         
         lblEmail.setText("Email:");
+        lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
         lblEmail.setBounds(20, 160, 90, 30);
         lblEmail.setFont(new Font("Arial", Font.PLAIN, 18));
         
@@ -68,6 +71,7 @@ public class CadUser {
         JLabel lblTel = new JLabel();
         
         lblTel.setText("Telefone:");
+        lblTel.setHorizontalAlignment(SwingConstants.RIGHT);
         lblTel.setBounds(20, 200, 90, 30);
         lblTel.setFont(new Font("Arial", Font.PLAIN, 18));
         
