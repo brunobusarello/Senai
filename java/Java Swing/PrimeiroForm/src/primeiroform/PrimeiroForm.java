@@ -55,7 +55,7 @@ public class PrimeiroForm {
         // seta o tamanho do campo do nome
         jTfNome.setBounds(50, 90, 200, 30);
         
-        JButton botao = new JButton("Confirmar");
+        JButton botao = new JButton("5");
         
         // define as dimensões do botão
         botao.setBounds(70, 130, 160, 30);
@@ -63,7 +63,7 @@ public class PrimeiroForm {
         botao.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Você clicou no botão");
+                jTfNome.setText(jTfNome.getText()+"5");
             }
             
         });
