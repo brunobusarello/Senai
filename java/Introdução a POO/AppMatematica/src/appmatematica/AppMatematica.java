@@ -8,7 +8,7 @@ public class AppMatematica {
     public static void main(String[] args) {
         System.out.println("\nRetângulo 1");
         Retangulo rec1 = new Retangulo(10, 5);
-        
+
         rec1.calcArea();
         rec1.calcPerimetro();
         

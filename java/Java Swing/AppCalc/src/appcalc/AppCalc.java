@@ -31,24 +31,51 @@ public class AppCalc {
         // visor da calculadora
         JTextField visor = new JTextField();
         visor.setHorizontalAlignment(SwingConstants.RIGHT);
+        visor.setFont(new Font("Arial", Font.PLAIN, 28));
         visor.setBounds(20, 20, 300, 80);
         
         // botões
         JButton btnClear = new JButton("C");
         btnClear.setFont(new Font("Arial", Font.PLAIN, 22));
         btnClear.setBounds(espaco, 120, wBtn, hBtn);
+        btnClear.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText("");
+            }
+            
+        });
         
         JButton btnBack = new JButton("<");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
         btnBack.setBounds(espaco * 2 + wBtn, 120, wBtn, hBtn);
+        btnBack.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(visor.getText().length() > 0) visor.setText(visor.getText().substring(0, visor.getText().length() - 1));
+            }
+        });
         
         JButton btnOpnPar = new JButton("(");
         btnOpnPar.setFont(new Font("Arial", Font.PLAIN, 22));
         btnOpnPar.setBounds(espaco * 3 + wBtn * 2, 120, wBtn, hBtn);
+        btnOpnPar.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText(visor.getText() + "(");
+            }
+            
+        });
         
         JButton btnClsPar = new JButton(")");
         btnClsPar.setFont(new Font("Arial", Font.PLAIN, 22));
         btnClsPar.setBounds(espaco * 4 + wBtn * 3, 120, wBtn, hBtn);
+        btnClsPar.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText(visor.getText() + ")");
+            }
+        });
         
         JButton btn7 = new JButton("7");
         btn7.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -86,6 +113,13 @@ public class AppCalc {
         JButton btnBarr = new JButton("/");
         btnBarr.setFont(new Font("Arial", Font.PLAIN, 22));
         btnBarr.setBounds(espaco * 4 + wBtn * 3, 120 + 60 + 20, wBtn, hBtn);
+        btnBarr.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText(visor.getText() + "/");
+            }
+            
+        });
         
         JButton btn4 = new JButton("4");
         btn4.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -123,6 +157,13 @@ public class AppCalc {
         JButton btnMult = new JButton("X");
         btnMult.setFont(new Font("Arial", Font.PLAIN, 22));
         btnMult.setBounds(espaco * 4 + wBtn * 3, 120 + 80 * 2, wBtn, hBtn);
+        btnMult.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText(visor.getText() + "X");
+            }
+            
+        });
         
         JButton btn1 = new JButton("1");
         btn1.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -160,6 +201,13 @@ public class AppCalc {
         JButton btnLess = new JButton("-");
         btnLess.setFont(new Font("Arial", Font.PLAIN, 22));
         btnLess.setBounds(espaco * 4 + wBtn * 3, 120 + 80 * 3, wBtn, hBtn);
+        btnLess.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText(visor.getText() + "-");
+            }
+            
+        });
         
         JButton btn0 = new JButton("0");
         btn0.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -175,14 +223,35 @@ public class AppCalc {
         JButton btnDot = new JButton(".");
         btnDot.setFont(new Font("Arial", Font.PLAIN, 22));
         btnDot.setBounds(espaco * 2 + wBtn, 120 + 80 * 4, wBtn, hBtn);
+        btnDot.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText(visor.getText() + ".");
+            }
+            
+        });
         
         JButton btnEquals = new JButton("=");
         btnEquals.setFont(new Font("Arial", Font.PLAIN, 22));
         btnEquals.setBounds(espaco * 3 + wBtn * 2, 120 + 80 * 4, wBtn, hBtn);
+        btnEquals.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+            
+        });
         
         JButton btnPlus = new JButton("+");
         btnPlus.setFont(new Font("Arial", Font.PLAIN, 22));
         btnPlus.setBounds(espaco * 4 + wBtn * 3, 120 + 80 * 4, wBtn, hBtn);
+        btnPlus.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visor.setText(visor.getText() + "+");
+            }
+            
+        });
         
         form.add(btnPlus);
         form.add(btnEquals);
@@ -200,7 +269,6 @@ public class AppCalc {
         form.add(btn9);
         form.add(btn8);
         form.add(btn7);
-        form.add(btnLess);
         form.add(btnClsPar);
         form.add(btnOpnPar);
         form.add(btnBack);
