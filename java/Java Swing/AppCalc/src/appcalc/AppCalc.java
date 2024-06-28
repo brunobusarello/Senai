@@ -154,13 +154,13 @@ public class AppCalc {
             
         });
         
-        JButton btnMult = new JButton("X");
+        JButton btnMult = new JButton("*");
         btnMult.setFont(new Font("Arial", Font.PLAIN, 22));
         btnMult.setBounds(espaco * 4 + wBtn * 3, 120 + 80 * 2, wBtn, hBtn);
         btnMult.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                visor.setText(visor.getText() + "X");
+                visor.setText(visor.getText() + "*");
             }
             
         });
@@ -237,7 +237,12 @@ public class AppCalc {
         btnEquals.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                String exp = visor.getText();
                 
+                System.out.println(">>>"+exp);
+                Calculadora calculo = new Calculadora();
+                String resultado = calculo.evalExp(exp);
+                visor.setText(resultado);
             }
             
         });

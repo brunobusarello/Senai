@@ -1,6 +1,5 @@
 package appcalc;
 
-import java.security.spec.NamedParameterSpec;
 
 /**
  *
@@ -31,7 +30,7 @@ public class Calculadora {
             System.out.println("Expressão Balanceada!");
             
             for (int i = 0; npr[i] != null; i++) {
-                System.out.println(npr[i] + " ");
+                System.out.print(npr[i] + " ");
             }
             this.resultado = calcular();
         }
@@ -81,7 +80,8 @@ public class Calculadora {
                 operando = true;
                 fimOperando = false;
             }
-            else if ((ch == '(') || (ch == ')') || (ch == '*') || (ch == '/') || (ch == '+') || (ch == '-')) {
+            else if ((ch == '(') || (ch == ')') || (ch == '*')
+                    || (ch == '/') || (ch == '+') || (ch == '-')) {
                 if (operando) {
                     fimOperando = true;
                 }
@@ -102,7 +102,7 @@ public class Calculadora {
                 indexArray++;
                 indexIni = i + 1;
             }
-            else if (fimOperando && operando) { // se era um operador coloca na matriz
+            else if (!fimOperando && !operando) { // se era um operador coloca na matriz
                 arrayInfixa[indexArray] = infixa.substring(indexIni, i+1);
                 indexArray++;
                 indexIni = i + 1;
@@ -116,6 +116,7 @@ public class Calculadora {
         return arrayInfixa;
     }
     
+    // converter arrayInfixa para Notação Polonesa Reversa (pós-fixa)
     public String[] posFixa(){
         String[] arrayNpr = new String[100];
         Pilha p = new Pilha();
@@ -150,5 +151,106 @@ public class Calculadora {
             arrayNpr[indexArray] = p.desempilha().toString();
             indexArray++;
         }
+        return arrayNpr;
+    }
+
+    // === Métodos para executar a operação === 
+    // Criar a operação
+    public double calcular(){
+        Pilha p = new Pilha();
+        double res = 0;
+        for (int i = 0; npr[i] != null; i++) {
+            input = npr[i];
+            
+            // 1º verificar se é um operando ou um operador
+            // criar a operação ==> Resultado = esquerdo OPERA Direito (res = x + y)
+            // Calcular a operação e retornar o valor
+            if (isOperando(input)) {
+                p.empilha(Double.parseDouble(input));
+            }
+            else if (isOperador(input)) {
+                double atual = fazOperacao(input, p);
+                p.empilha(atual);
+                res = atual;
+            }
+        }
+        return res;
+    }
+
+    // preparar os operandos
+    public double fazOperacao(String operador, Pilha p){
+        double temp;
+        if (p.vazia()) {
+            temp = 0; 
+        }
+        else {
+            temp = Double.parseDouble(p.desempilha().toString());
+        }
+        if (!p.vazia()) {
+            temp = calcValores(operador, Double.parseDouble(p.desempilha().toString()), temp);
+        }
+        return temp;
+    }
+
+    // calcular valores
+    public double calcValores(String operador, double esquerdo, double direito){
+        if (operador.equals("+")) {
+            return esquerdo + direito;
+        }
+        else if (operador.equals("-")) {
+            return esquerdo - direito;
+        }
+        else if (operador.equals("*")) {
+            return esquerdo * direito;
+        }
+        else if (operador.equals("/")) {
+            if (direito == 0) {
+                System.out.println("Erro: não pode dividir por zero");
+                return esquerdo;
+            }
+            return esquerdo / direito;
+        }
+        else {
+            return esquerdo;
+        }
+    }
+
+    // === Métodos auxiliares ===
+    // verificar se é um operador
+    public boolean isOperador(String input){
+        if (input == null) {
+            return false;
+        }
+        return input.equals("+") || input.equals("-") || input.equals("/") || input.equals("*");
+    }
+    
+    // verificar se é um operando
+    public boolean isOperando(String input){
+        if (input == null) {
+            return false;
+        }
+        
+        try {
+            Double.parseDouble(input);
+            return true;
+        }
+        catch(NumberFormatException ex){
+            return false;
+        }
+    }
+    
+    // verificar e retornar a prioridade do operador
+    private int pri(char op){
+        int nPri = 0;
+        if (op == '/' || op == '*') {
+            nPri = 3;
+        }
+        if (op == '+' || op == '-') {
+            nPri = 2;
+        }
+        if (op == '(') {
+            nPri = 1;
+        }
+        return nPri;
     }
 }
