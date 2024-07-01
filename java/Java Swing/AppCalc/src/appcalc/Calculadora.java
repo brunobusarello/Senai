@@ -42,7 +42,7 @@ public class Calculadora {
     
     // verifica se a expressão está balanceada (OK)
     public boolean expOk(String str){
-        
+        /*
         Pilha p = new Pilha();
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == '[' || str.charAt(i) == '(') {
@@ -64,8 +64,8 @@ public class Calculadora {
             ok = false;
         }
         return ok;
+        */
         
-        /*
         int contPar = 0;
         int contCol = 0;
         for (int i = 0; i < str.length(); i++) {
@@ -93,7 +93,7 @@ public class Calculadora {
         else {
             return false;
         }
-        */
+        
     }
     
     public String[] decompor(String str){
