@@ -41,3 +41,8 @@ function del(){
         tbody.removeChild(tr);
     }
 }
+
+$(document).ready(function () { 
+    var $phoneMask = $("#phone");
+    $phoneMask.mask('(00) 0000-0000', {reverse: true});
+});
