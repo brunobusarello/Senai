@@ -1,0 +1,15 @@
+body{
+    padding: 0px;
+    margin: 0px;
+    height: calc(100vh - 80px);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
+    border-radius: 10px;
+    max-width: 800px;
+    padding: 20px;
+}
