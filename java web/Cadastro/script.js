@@ -1,3 +1,14 @@
+var mask = '(00) 0000-0000';
+let phone = document.getElementById('phone').value.length;
+console.log(phone);
+if(phone > 15) mask = '(00) 0 0000-0000';
+else mask = '(00) 0000-0000'; 
+
+$(document).ready(function () { 
+    var $phoneMask = $("#phone");
+    $phoneMask.mask(mask, {reverse: false});
+});
+
 document.getElementById('addButton').addEventListener('click', function () {
     // Captura os valores do formulário
     const name = document.getElementById('name').value.trim();
@@ -28,11 +39,6 @@ document.getElementById('addButton').addEventListener('click', function () {
     }
 });
 
-document.getElementById('clearButton').addEventListener('click', function () {
-    // Limpa o formulário ao clicar no botão "Limpar"
-    document.getElementById('userForm').reset();
-});
-
 const tbody = document.querySelector("tbody");
 
 function del(){
@@ -41,8 +47,3 @@ function del(){
         tbody.removeChild(tr);
     }
 }
-
-$(document).ready(function () { 
-    var $phoneMask = $("#phone");
-    $phoneMask.mask('(00) 0000-0000', {reverse: true});
-});
