@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comp2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            border-radius: 5px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .checkbox-group,
+        .radio-group,
+        .select-group {
+            margin-bottom: 20px;
+        }
+
+        .output {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Exemplo de Interação com Formulário</h2>
+
+        <div class="checkbox-group">
+            <label>Escolha seu navegador favorito:</label>
+            <input type="checkbox" id="opera" value="opera"> Opera
+            <input type="checkbox" id="chrome" value="chrome"> Google
+            <input type="checkbox" id="firefox" value="Firefox"> Mozilla Firefox
+        </div>
+
+        <div class="radio-group">
+            <label>Escolha seu nível de experiência:</label>
+            <input type="radio" name="experience" id="beginner" value="Iniciante"> Iniciante
+            <input type="radio" name="experience" id="intermadiate" value="Intermediário"> Intermediário
+            <input type="radio" name="experience" id="advanced" value="Avançado"> Avançado
+        </div>
+
+        <div class="select-group">
+            <label for="country">Selecione seu país:</label>
+            <select id="country">
+                <option value="">--Selecione--</option>
+                <option value="Brasil">Brasil</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Estados Unidos">Estados Unidos</option>
+                <option value="Canadá">Canadá</option>
+            </select>
+        </div>
+
+        <button onclick="exibirselecionados()">Mostrar Seleções</button>
+
+        <div class="output" id="output">
+            
+        </div>
+    </div>
+
+    <script>
+        function exibirselecionados() {
+            var checkBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            var checkValues = [];
+            checkBoxes.forEach((checkbox) => {
+                checkValues.push(checkbox.value);
+            });
+
+            var radioButtons = document.querySelector('input[name="experience"]:checked');
+            var radioValue = radioButtons ? radioButtons.value : "Nenhum";
+
+            var selectValue = document.getElementById("country").value || "Nenhum";
+
+            var output = document.getElementById("output");
+            output.innerHTML = "<strong>Navegadores selecionados:</strong> " + (checkValues.length > 0 ? checkValues.join(", ") : "Nenhuma") + "<br><strong>Nível de experiência</strong> " + radioValue + "<br><strong>País selecionado:</strong> " + selectValue;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comp1</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container{
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            border-radius: 5px;
+        }
+
+        h2{
+            text-align: center;
+            color: #333;
+        }
+
+        label{
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type = "text"],
+        textarea {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        textarea{
+            resize: vertical;
+        }
+
+        button{
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover{
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Interação com Input, Textarea e Botão</h2>
+        <label for="inputText">Digite algo:</label>
+        <input type="text" id="inputText" placeholder="Escreva algo aqui">
+        <button onclick="adicionarTexto()">Adicionar ao Textarea</button>
+        <label for="textArea">Área do Texto:</label>
+        <textarea id="textArea" cols="30" rows="10" readonly></textarea>
+    </div>
+
+    <script>
+        function adicionarTexto(){
+            var inputText = document.getElementById("inputText").value;
+            var textArea = document.getElementById("textArea");
+
+            if (inputText.trim() !== "") {
+                textArea.innerHTML += inputText + "\n";
+                document.getElementById("inputText").value = "";
+            }
+            else{
+                alert("Digite um valor no campo");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenho de Parábola</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="parabolaCanvas" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById("parabolaCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Função para desenhar a parábola
+        function drawParabola(a, b, c) {
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+
+            for (let x = 0; x <= canvas.width; x++) {
+                const y = a * x * x + b * x + c;
+                ctx.lineTo(x, canvas.height - y); // Invertendo o eixo Y para desenhar a parábola "para cima"
+            }
+
+            ctx.strokeStyle = "blue";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // Desenha a parábola com os coeficientes a, b e c
+        const a = 0.01;  // Coeficiente quadrático
+        const b = 0;     // Coeficiente linear
+        const c = 0;     // Termo constante
+
+        drawParabola(a, b, c);
+    </script>
+</body>
+</html>
