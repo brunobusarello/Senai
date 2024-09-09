@@ -154,6 +154,14 @@
             background-color: white;
             margin-bottom: 20px;
         }
+
+        #out-area {
+            min-height: 25px;
+            word-break: break-word;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+        }
+
     </style>
 </head>
 <body>
@@ -260,9 +268,19 @@
             const outRadio = document.getElementById('out-radio')
 
             outText.innerHTML = "Input text: " + txtBox.value
-            outArea.innerHTML = "Text area: " + txtArea.value
+            outArea.textContent = "Text area: " + txtArea.value
             outCheck.innerHTML = "Checkbox: " + checkedBoxes.join(', ')
             outRadio.innerHTML = "Radio: " + radioBtn.value
+
+            // Limpa os inputs após o envio
+            txtBox.value = ""
+            txtArea.value = ""
+            chkBoxes.forEach((chkBox) => {
+                chkBox.checked = false
+            })
+            if (radioBtn) {
+                radioBtn.checked = false
+            }
         }
 
         function personValues(){
