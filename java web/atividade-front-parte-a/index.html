@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interação com componentes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .box-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 4px;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .box-container legend {
+            font-weight: bold;
+            padding: 0 10px;
+            background-color: white;
+            position: absolute;
+            top: -12px;
+            left: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #444;
+        }
+
+        h2{
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #444;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            padding: 5px;
+        }
+
+        .checkbox-group label,
+        .radio-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .checkbox-group input[type="checkbox"],
+        .radio-group input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #333; /* Borda externa da tabela */
+        }
+
+        thead {
+            background-color: #333;
+            color: white;
+        }
+
+        thead td {
+            padding: 12px;
+            text-align: center; /* Alinhamento à esquerda */
+        }
+
+        tbody td {
+            padding: 12px;
+            text-align: left; /* Alinhamento à esquerda */
+            border: 1px solid #333; /* Bordas ao redor das células do corpo */
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Cor de fundo alternada para linhas pares */
+        }
+
+        .value-container {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Atividade de Interação com Componentes</h1>
+        <label for="txtBox">Caixa de Texto:</label>
+        <input type="text" name="txtBox" id="txtBox">
+
+        <label for="txtArea">Textarea:</label>
+        <textarea name="txtArea" id="txtArea"></textarea>
+
+        <div class="box-container">
+            <legend>Checkboxex:</legend>
+            <div class="checkbox-group">
+                <label class="checkbox">
+                    <input type="checkbox" name="opt1" id="opt1" class="check" value="Opção 1">Opção 1
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" name="opt2" id="opt2" class="check" value="Opção 2">Opção 2
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" name="opt3" id="opt3" class="check" value="Opção 3">Opção 3
+                </label>
+            </div>
+        </div>
+
+        <div class="box-container">
+            <legend>Radio Buttons:</legend>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="radio" value="radio1">Radio 1
+                </label>
+                <label>
+                    <input type="radio" name="radio" value="radio2">Radio 2
+                </label>
+                <label>
+                    <input type="radio" name="radio" value="radio3">Radio 3
+                </label>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="inputsValues()">Enviar</button>
+
+        <h2>Adicionar linha à Tabela</h2>
+
+        <label>Nome:
+            <input type="text" name="name" id="name">
+        </label>
+        <label>Idade:
+            <input type="text" name="age" id="age">
+        </label>
+        <label>E-mail:
+            <input type="text" name="email" id="email">
+        </label>
+
+        <button class="submit-btn" onclick="personValues()">Adicionar linha</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Nome</td>
+                    <td>Idade</td>
+                    <td>E-mail</td>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <tr>
+                    <td>João</td>
+                    <td>33</td>
+                    <td>teste@teste.com</td>
+                </tr>
+                <tr>
+                    <td>Maria</td>
+                    <td>14</td>
+                    <td>teste@teste.com</td>
+                </tr>
+                <tr>
+                    <td>Teste</td>
+                    <td>12412</td>
+                    <td>text@teste.com</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="value-container" id="out-text"></div>
+        <div class="value-container" id="out-area"></div>
+        <div class="value-container" id="out-check"></div>
+        <div class="value-container" id="out-radio"></div>
+    </div>
+    <script>
+        function inputsValues(){
+            const txtBox = document.getElementById("txtBox")
+            const txtArea = document.getElementById("txtArea")
+            const chkBoxes = document.querySelectorAll("input[type='checkbox']:checked")
+            var checkedBoxes = []
+            chkBoxes.forEach((chkBox) => {
+                checkedBoxes.push(chkBox.value)
+            })
+            const radioBtn = document.querySelector('input[type="radio"]:checked')
+
+            const outArea = document.getElementById('out-area')
+            const outText = document.getElementById('out-text')
+            const outCheck = document.getElementById('out-check')
+            const outRadio = document.getElementById('out-radio')
+
+            outText.innerHTML = "Input text: " + txtBox.value
+            outArea.innerHTML = "Text area: " + txtArea.value
+            outCheck.innerHTML = "Checkbox: " + checkedBoxes.join(', ')
+            outRadio.innerHTML = "Radio: " + radioBtn.value
+        }
+
+        function personValues(){
+             // Pegue os valores dos inputs
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const email = document.getElementById('email').value;
+
+            if(name && age && email){
+                // Pegue a referência do tbody da tabela
+                const table = document.getElementById('tbody');
+
+                // Crie uma nova linha (tr)
+                const newRow = table.insertRow();
+
+                // Crie e adicione células (td) na nova linha
+                const cell1 = newRow.insertCell(0);
+                const cell2 = newRow.insertCell(1);
+                const cell3 = newRow.insertCell(2);
+
+                // Adicione os valores nas células
+                cell1.innerHTML = name;
+                cell2.innerHTML = age;
+                cell3.innerHTML = email;
+
+                // Limpe os inputs
+                document.getElementById('name').value = '';
+                document.getElementById('age').value = '';
+                document.getElementById('email').value = '';
+            }
+            else{
+                alert("Preencha todos os campos!")
+            }
+        }
+    </script>
+</body>
+</html>
