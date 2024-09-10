@@ -12,7 +12,7 @@ const bird = {
     draw() {
         ctx.fillStyle = "yellow";
         ctx.fillRect(this.x, this.y, this.width, this.height);
-    },
+    }
     update() {
         this.velocity += this.gravity;
         this.y += this.velocity;
