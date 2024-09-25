@@ -16,6 +16,7 @@ public class FormTabbed extends javax.swing.JFrame {
     /*
     * * Creates new form FormTabbed
      */
+    public static int selectedCli;
     public static ArrayList<Cliente> listaCliente;
     public static ArrayList<Produto> listaProduto;
     public static ArrayList<Fornecedor> listaFornecedor;
@@ -240,7 +241,16 @@ public class FormTabbed extends javax.swing.JFrame {
     }
     
     public FormTabbed() {
+        listaCliente = new ArrayList<>();
+        listaProduto = new ArrayList<>();
+        listaFornecedor = new ArrayList<>();
+        loadCli();
+        loadPro();
+        loadFor();
         initComponents();
+        tblCliente();
+        tblFornecedor();
+        tblProduto();
     }
 
     /**
@@ -350,6 +360,11 @@ public class FormTabbed extends javax.swing.JFrame {
                 "Código", "Nome", "Telefone", "Email", "Endereço"
             }
         ));
+        jTbCli.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTbCliMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTbCli);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -357,10 +372,20 @@ public class FormTabbed extends javax.swing.JFrame {
         btnNewCli.setText("Novo");
 
         btnEditCli.setText("Editar");
+        btnEditCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditCliActionPerformed(evt);
+            }
+        });
 
         btnDltCli.setText("Excluir");
 
         btnSaveCli.setText("Salvar");
+        btnSaveCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveCliActionPerformed(evt);
+            }
+        });
 
         btnCnlCli.setText("Cancelar");
 
@@ -501,6 +526,11 @@ public class FormTabbed extends javax.swing.JFrame {
                 "Codigo", "Descrição", "Unidade", "Quantidade", "Preço"
             }
         ));
+        jTbPro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTbProMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTbPro);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -512,6 +542,11 @@ public class FormTabbed extends javax.swing.JFrame {
         btnDltPro.setText("Excluir");
 
         btnSavePro.setText("Salvar");
+        btnSavePro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveProActionPerformed(evt);
+            }
+        });
 
         btnCnlPro.setText("Cancelar");
 
@@ -653,6 +688,11 @@ public class FormTabbed extends javax.swing.JFrame {
                 "Codigo", "Nome", "Contato", "Telefone", "Email"
             }
         ));
+        jTbFor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTbForMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jTbFor);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -664,6 +704,11 @@ public class FormTabbed extends javax.swing.JFrame {
         btnDltFor.setText("Excluir");
 
         btnSaveFor.setText("Salvar");
+        btnSaveFor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveForActionPerformed(evt);
+            }
+        });
 
         btnCnlFor.setText("Cancelar");
 
@@ -798,6 +843,136 @@ public class FormTabbed extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveCliActionPerformed
+        // TODO add your handling code here:
+        int cod = Integer.parseInt(jTfCodCli.getText());
+        String nome = jTfNameCli.getText();
+        String telefone = jTfPhoneCli.getText();
+        String email = jTfMailCli.getText();
+        String endereco = jTaAddrCli.getText();
+        
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente salvar essas informações?\n\n" + 
+                "Código: " + cod +
+                "\nNome: " + nome +
+                "\nTelefone: " + telefone +
+                "\nEmail: " + email +
+                "\nEndereço: " + endereco,
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+                );
+        
+        if (opt == JOptionPane.YES_OPTION) {
+            Cliente cliente = new Cliente(nome, telefone);
+            cliente.setEndereco(endereco);
+            cliente.setEmail(email);
+            cliente.setCodigo(cod);
+            
+            listaCliente.add(cliente);
+            tblCliente();
+            saveCli();
+        }
+    }//GEN-LAST:event_btnSaveCliActionPerformed
+
+    private void btnSaveProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProActionPerformed
+        // TODO add your handling code here:
+        int cod = Integer.parseInt(jTfCodPro.getText());
+        String unidade = jTfUnitPro.getText();
+        float preco = Float.parseFloat(jTfPricePro.getText());
+        float qtd = Float.parseFloat(jTfQtdPro.getText());
+        String desc = jTaDescPro.getText();
+        
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente salvar essas informações?\n\n" + 
+                "Código: " + cod +
+                "\nUnidade: " + unidade +
+                "\nPreço: " + preco +
+                "\nQuantidade: " + qtd +
+                "\nDescrição: " + desc,
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+                );
+        
+        if (opt == JOptionPane.YES_OPTION) {
+            Produto produto = new Produto(cod, desc, unidade, qtd, preco);
+            
+            listaProduto.add(produto);
+            tblProduto();
+            savePro();
+        }
+    }//GEN-LAST:event_btnSaveProActionPerformed
+
+    private void btnSaveForActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveForActionPerformed
+        // TODO add your handling code here:
+        
+        /*
+        private int cod;
+        private String empresa;
+        private String contato;
+        private String fone;
+        private String email;
+        */
+        int cod = Integer.parseInt(jTfCodFor.getText());
+        String comp = jTaCompFor.getText();
+        String contato = jTfCttFor.getText();
+        String fone = jTfPhoneFor.getText();
+        String email = jTfMailFor.getText();
+        
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente salvar essas informações?\n\n" + 
+                "Código: " + cod +
+                "\nEmpresa: " + comp +
+                "\nContato: " + contato +
+                "\nFone: " + fone +
+                "\nEmail: " + email,
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+                );
+        
+        if (opt == JOptionPane.YES_OPTION) {
+            Fornecedor fornecedor = new Fornecedor(cod, comp, contato, fone, email);
+            
+            listaFornecedor.add(fornecedor);
+            tblFornecedor();
+            saveFor();
+        }
+    }//GEN-LAST:event_btnSaveForActionPerformed
+
+    private void jTbCliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbCliMouseClicked
+        // TODO add your handling code here:
+        selectedCli = jTbCli.getSelectedRow();
+        jTfCodCli.setText(jTbCli.getValueAt(selectedCli, 0).toString());
+        jTfNameCli.setText(jTbCli.getValueAt(selectedCli, 1).toString());
+        jTfPhoneCli.setText(jTbCli.getValueAt(selectedCli, 2).toString());
+        jTfMailCli.setText(jTbCli.getValueAt(selectedCli, 3).toString());
+        jTaAddrCli.setText(jTbCli.getValueAt(selectedCli, 4).toString());
+    }//GEN-LAST:event_jTbCliMouseClicked
+
+    private void jTbProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbProMouseClicked
+        // TODO add your handling code here:
+        int linhaSelecionada = jTbPro.getSelectedRow();
+        jTfCodPro.setText(jTbPro.getValueAt(linhaSelecionada, 0).toString());
+        jTfPricePro.setText(jTbPro.getValueAt(linhaSelecionada, 1).toString());
+        jTfQtdPro.setText(jTbPro.getValueAt(linhaSelecionada, 2).toString());
+        jTfUnitPro.setText(jTbPro.getValueAt(linhaSelecionada, 3).toString());
+        jTaDescPro.setText(jTbPro.getValueAt(linhaSelecionada, 4).toString());
+    }//GEN-LAST:event_jTbProMouseClicked
+
+    private void jTbForMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbForMouseClicked
+        // TODO add your handling code here:
+        int linhaSelecionada = jTbFor.getSelectedRow();
+        jTfCodFor.setText(jTbFor.getValueAt(linhaSelecionada, 0).toString());
+        jTaCompFor.setText(jTbFor.getValueAt(linhaSelecionada, 1).toString());
+        jTfCttFor.setText(jTbFor.getValueAt(linhaSelecionada, 2).toString());
+        jTfPhoneFor.setText(jTbFor.getValueAt(linhaSelecionada, 3).toString());
+        jTfMailFor.setText(jTbFor.getValueAt(linhaSelecionada, 4).toString());
+    }//GEN-LAST:event_jTbForMouseClicked
+
+    private void btnEditCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCliActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnEditCliActionPerformed
 
     /**
      * @param args the command line arguments
