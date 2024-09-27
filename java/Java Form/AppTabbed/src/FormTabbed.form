@@ -260,10 +260,14 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Novo"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewCliActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEditCli">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Editar"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditCliActionPerformed"/>
@@ -272,6 +276,7 @@
                 <Component class="javax.swing.JButton" name="btnDltCli">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Excluir"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDltCliActionPerformed"/>
@@ -280,6 +285,7 @@
                 <Component class="javax.swing.JButton" name="btnSaveCli">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Salvar"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveCliActionPerformed"/>
@@ -288,7 +294,11 @@
                 <Component class="javax.swing.JButton" name="btnCnlCli">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cancelar"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCnlCliActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel20">
                   <Properties>
@@ -296,6 +306,12 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTfCodCli">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTfCodCliKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel21">
                   <Properties>
@@ -303,6 +319,12 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTfNameCli">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTfNameCliKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel22">
                   <Properties>
@@ -310,6 +332,12 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTfMailCli">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTfMailCliKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel23">
                   <Properties>
@@ -317,6 +345,12 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTfPhoneCli">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTfPhoneCliKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
@@ -334,7 +368,11 @@
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTaAddrCliKeyReleased"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -539,6 +577,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Novo"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewProActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEditPro">
                   <Properties>
@@ -568,6 +609,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cancelar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCnlProActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel24">
                   <Properties>
@@ -818,6 +862,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Novo"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewForActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEditFor">
                   <Properties>
@@ -847,6 +894,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cancelar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCnlForActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel28">
                   <Properties>
