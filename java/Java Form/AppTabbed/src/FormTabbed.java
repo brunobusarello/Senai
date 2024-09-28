@@ -16,16 +16,22 @@ public class FormTabbed extends javax.swing.JFrame {
     /*
     * * Creates new form FormTabbed
      */
-    public static boolean edit = false;
-    public static boolean[] vetor = new boolean[5];
-    public static int qtd = 0;
+    // <editor-fold defaultstate="collapsed" desc="VARIÁVEIS">
+    // Guarda a informação se será salvo uma edição ou um novo registro
+    public static boolean editCli = false;
+    public static boolean editPro = false;
+    public static boolean editFor = false;
+    // Guarda a linha selecionada da tabela
     public static int selectedCli;
     public static int selectedPro;
     public static int selectedFor;
+    // Listas para guardar as informações de cada seção
     public static ArrayList<Cliente> listaCliente;
     public static ArrayList<Produto> listaProduto;
     public static ArrayList<Fornecedor> listaFornecedor;
+    //</editor-fold>
     
+    /* ====== FUNÇÕES PARA ATUALIZAR AS TABELAS ====== */
     public void tblCliente(){
         DefaultTableModel modeloCli = new DefaultTableModel(new Object[]{
             "Código",
@@ -110,6 +116,7 @@ public class FormTabbed extends javax.swing.JFrame {
         jTbFor.getColumnModel().getColumn(4).setPreferredWidth(80);
     }
     
+    /* ====== FUNÇÕES PARA SALVAR REGISTROS NO NOTEPAD ====== */
     public static void saveCli(){
         String fileCli = "cliente.db";
         String linhaCli = "";
@@ -173,6 +180,7 @@ public class FormTabbed extends javax.swing.JFrame {
         }
     }
     
+    /* ====== FUNÇÕES PARA CARREGAR OS DADOS DO NOTEPAD ====== */
     public static void loadCli(){
         String fileCli = "cliente.db";
         String content = Arquivo.read(fileCli);
@@ -245,6 +253,7 @@ public class FormTabbed extends javax.swing.JFrame {
         }
     }
     
+    // Método construtor
     public FormTabbed() {
         listaCliente = new ArrayList<>();
         listaProduto = new ArrayList<>();
@@ -258,6 +267,8 @@ public class FormTabbed extends javax.swing.JFrame {
         tblProduto();
     }
     
+    // <editor-fold defaultstate="collapsed" desc="CLIENTE: FUNÇÕES ADICIONAIS">
+    // Habilita ou desabilita os inputs
     public void enableCli(boolean ena){
         jTfCodCli.setEnabled(ena);
         jTfMailCli.setEnabled(ena);
@@ -266,6 +277,8 @@ public class FormTabbed extends javax.swing.JFrame {
         jTaAddrCli.setEnabled(ena);
     }
     
+    // Desabilita todos botões e inputs
+    // Habilita o botão NOVO
     public void newCli(){
         btnNewCli.setEnabled(true);
         btnSaveCli.setEnabled(false);
@@ -276,6 +289,7 @@ public class FormTabbed extends javax.swing.JFrame {
         limpaCli();
     }
     
+    // Reseta todos os inputs
     public void limpaCli(){
         jTaAddrCli.setText("");
         jTfCodCli.setText("");
@@ -285,11 +299,49 @@ public class FormTabbed extends javax.swing.JFrame {
         
     }
     
+    // Verifica se todos os inputs estão preenchidos
     public boolean verificaEdicaoCli(){
         return (!jTfCodCli.getText().isBlank() && !jTfNameCli.getText().isBlank() &&
             !jTfPhoneCli.getText().isBlank() && !jTfMailCli.getText().isBlank()
             && !jTaAddrCli.getText().isBlank());
     }
+    // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="PRODUTO: FUNÇÕES ADICIONAIS">
+    public void enablePro(boolean ena){
+        
+    }
+    
+    public void newPro(){
+        
+    }
+    
+    public void limpaPro(){
+        
+    }
+    
+    public boolean verificaEdicaoPro(){
+        
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="FORNECEDOR: FUNÇÕES ADICIONAIS">
+    public void enableFor(boolean ena){
+        
+    }
+    
+    public void newFor(){
+        
+    }
+    
+    public void limpaFor(){
+        
+    }
+    
+    public boolean verificaEdicaoFor(){
+        
+    }
+    //</editor-fold>
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -976,9 +1028,7 @@ public class FormTabbed extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    /*
-        ========== BOTÕES DE SALVAR ==========
-    */
+    /* ========== BOTÕES DE SALVAR ========== */
     // Cliente
     private void btnSaveCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveCliActionPerformed
         // TODO add your handling code here:
@@ -1010,11 +1060,11 @@ public class FormTabbed extends javax.swing.JFrame {
             btnNewCli.setEnabled(true);
             btnSaveCli.setEnabled(false);
             btnCnlCli.setEnabled(false);
-            if (edit) {
+            if (editCli) {
                 selectedCli = jTbCli.getSelectedRow();
                 listaCliente.add(selectedCli, cliente);
                 listaCliente.remove(selectedCli+1);
-                edit = false;
+                editCli = false;
             }
             else{
                 listaCliente.add(cliente);
@@ -1048,7 +1098,17 @@ public class FormTabbed extends javax.swing.JFrame {
         if (opt == JOptionPane.YES_OPTION) {
             Produto produto = new Produto(cod, desc, unidade, qtd, preco);
             
-            listaProduto.add(produto);
+            if (editPro) {
+                selectedPro = jTbPro.getSelectedRow();
+                editPro = false;
+                listaProduto.add(selectedPro, produto);
+                listaProduto.remove(selectedPro+1);
+                
+            }
+            else{
+                listaProduto.add(produto);
+            }
+            newPro();
             tblProduto();
             savePro();
         }
@@ -1077,15 +1137,23 @@ public class FormTabbed extends javax.swing.JFrame {
         if (opt == JOptionPane.YES_OPTION) {
             Fornecedor fornecedor = new Fornecedor(cod, comp, contato, fone, email);
             
-            listaFornecedor.add(fornecedor);
+            if (editFor) {
+                selectedFor = jTbFor.getSelectedRow();
+                editFor = false;
+                listaFornecedor.add(selectedFor, fornecedor);
+                listaFornecedor.remove(selectedFor);
+            }
+            else{
+                listaFornecedor.add(fornecedor);
+            }
+            newFor();
             tblFornecedor();
             saveFor();
         }
     }//GEN-LAST:event_btnSaveForActionPerformed
 
-    /*
-        ========== AÇÃO DE CLICAR NA LINHA DA TABELA ==========
-    */
+    
+    /* ========== AÇÃO DE CLICAR NA LINHA DA TABELA ========== */
     // Cliente
     private void jTbCliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbCliMouseClicked
         // TODO add your handling code here:
@@ -1108,6 +1176,13 @@ public class FormTabbed extends javax.swing.JFrame {
     private void jTbProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbProMouseClicked
         // TODO add your handling code here:
         int selectedPro = jTbPro.getSelectedRow();
+        
+        enablePro(false);
+        btnNewPro.setEnabled(false);
+        btnCnlPro.setEnabled(true);
+        btnEditPro.setEnabled(true);
+        btnDltPro.setEnabled(true);
+        
         jTfCodPro.setText(jTbPro.getValueAt(selectedPro, 0).toString());
         jTfPricePro.setText(jTbPro.getValueAt(selectedPro, 1).toString());
         jTfQtdPro.setText(jTbPro.getValueAt(selectedPro, 2).toString());
@@ -1119,6 +1194,13 @@ public class FormTabbed extends javax.swing.JFrame {
     private void jTbForMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbForMouseClicked
         // TODO add your handling code here:
         int selectedFor = jTbFor.getSelectedRow();
+        
+        enableFor(false);
+        btnNewFor.setEnabled(false);
+        btnCnlFor.setEnabled(true);
+        btnEditFor.setEnabled(true);
+        btnDltFor.setEnabled(true);
+        
         jTfCodFor.setText(jTbFor.getValueAt(selectedFor, 0).toString());
         jTaCompFor.setText(jTbFor.getValueAt(selectedFor, 1).toString());
         jTfCttFor.setText(jTbFor.getValueAt(selectedFor, 2).toString());
@@ -1126,9 +1208,8 @@ public class FormTabbed extends javax.swing.JFrame {
         jTfMailFor.setText(jTbFor.getValueAt(selectedFor, 4).toString());
     }//GEN-LAST:event_jTbForMouseClicked
 
-    /*
-        ========== BOTÃO DE DELETAR ==========
-    */
+    
+    /* ========== BOTÃO DE DELETAR ========== */
     // Cliente
     private void btnDltCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDltCliActionPerformed
         // TODO add your handling code here:
@@ -1151,6 +1232,7 @@ public class FormTabbed extends javax.swing.JFrame {
             listaProduto.remove(selectedPro);
             savePro();
             tblProduto();
+            newPro();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada para exclusão");
         }
@@ -1164,6 +1246,7 @@ public class FormTabbed extends javax.swing.JFrame {
             listaFornecedor.remove(selectedFor);
             saveFor();
             tblFornecedor();
+            newFor();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada para exclusão");
         }
@@ -1253,7 +1336,7 @@ public class FormTabbed extends javax.swing.JFrame {
     */
     private void btnEditCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCliActionPerformed
         // TODO add your handling code here:
-        edit = true;
+        editCli = true;
         btnDltCli.setEnabled(false);
         enableCli(true);
     }//GEN-LAST:event_btnEditCliActionPerformed
