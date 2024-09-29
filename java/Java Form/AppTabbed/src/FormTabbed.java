@@ -309,37 +309,69 @@ public class FormTabbed extends javax.swing.JFrame {
     
     //<editor-fold defaultstate="collapsed" desc="PRODUTO: FUNÇÕES ADICIONAIS">
     public void enablePro(boolean ena){
-        
+        jTfCodPro.setEnabled(ena);
+        jTfPricePro.setEnabled(ena);
+        jTfQtdPro.setEnabled(ena);
+        jTfUnitPro.setEnabled(ena);
+        jTaDescPro.setEnabled(ena);
     }
     
     public void newPro(){
-        
+        btnNewPro.setEnabled(true);
+        btnSavePro.setEnabled(false);
+        btnDltPro.setEnabled(false);
+        btnCnlPro.setEnabled(false);
+        btnEditPro.setEnabled(false);
+        enablePro(false);
+        limpaPro();
     }
     
     public void limpaPro(){
-        
+        jTaDescPro.setText("");
+        jTfCodPro.setText("");
+        jTfPricePro.setText("");
+        jTfQtdPro.setText("");
+        jTfUnitPro.setText("");
     }
     
     public boolean verificaEdicaoPro(){
-        
+        return (!jTfCodPro.getText().isBlank() && !jTfPricePro.getText().isBlank() &&
+            !jTfQtdPro.getText().isBlank() && !jTfUnitPro.getText().isBlank()
+            && !jTaDescPro.getText().isBlank());
     }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="FORNECEDOR: FUNÇÕES ADICIONAIS">
     public void enableFor(boolean ena){
-        
+        jTfCodFor.setEnabled(ena);
+        jTfCttFor.setEnabled(ena);
+        jTfMailFor.setEnabled(ena);
+        jTfPhoneFor.setEnabled(ena);
+        jTaCompFor.setEnabled(ena);
     }
     
     public void newFor(){
-        
+        btnNewFor.setEnabled(true);
+        btnSaveFor.setEnabled(false);
+        btnDltFor.setEnabled(false);
+        btnCnlFor.setEnabled(false);
+        btnEditFor.setEnabled(false);
+        enableFor(false);
+        limpaFor();
     }
     
     public void limpaFor(){
-        
+        jTaCompFor.setText("");
+        jTfCodFor.setText("");
+        jTfMailFor.setText("");
+        jTfPhoneFor.setText("");
+        jTfCttFor.setText("");
     }
     
     public boolean verificaEdicaoFor(){
-        
+        return (!jTfCodFor.getText().isBlank() && !jTfCttFor.getText().isBlank() &&
+            !jTfPhoneFor.getText().isBlank() && !jTfMailFor.getText().isBlank()
+            && !jTaCompFor.getText().isBlank());
     }
     //</editor-fold>
     
@@ -686,6 +718,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnEditPro.setText("Editar");
+        btnEditPro.setEnabled(false);
         btnEditPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditProActionPerformed(evt);
@@ -693,6 +726,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnDltPro.setText("Excluir");
+        btnDltPro.setEnabled(false);
         btnDltPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDltProActionPerformed(evt);
@@ -700,6 +734,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnSavePro.setText("Salvar");
+        btnSavePro.setEnabled(false);
         btnSavePro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveProActionPerformed(evt);
@@ -707,6 +742,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnCnlPro.setText("Cancelar");
+        btnCnlPro.setEnabled(false);
         btnCnlPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCnlProActionPerformed(evt);
@@ -715,16 +751,50 @@ public class FormTabbed extends javax.swing.JFrame {
 
         jLabel24.setText("Código");
 
+        jTfCodPro.setEnabled(false);
+        jTfCodPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfCodProKeyReleased(evt);
+            }
+        });
+
         jLabel25.setText("Unidade");
+
+        jTfUnitPro.setEnabled(false);
+        jTfUnitPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfUnitProKeyReleased(evt);
+            }
+        });
 
         jLabel26.setText("Quantidade");
 
+        jTfQtdPro.setEnabled(false);
+        jTfQtdPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfQtdProKeyReleased(evt);
+            }
+        });
+
         jLabel27.setText("Preço");
+
+        jTfPricePro.setEnabled(false);
+        jTfPricePro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfPriceProKeyReleased(evt);
+            }
+        });
 
         jLabel2.setText("Descrição");
 
         jTaDescPro.setColumns(20);
         jTaDescPro.setRows(5);
+        jTaDescPro.setEnabled(false);
+        jTaDescPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTaDescProKeyReleased(evt);
+            }
+        });
         jScrollPane6.setViewportView(jTaDescPro);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -868,6 +938,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnEditFor.setText("Editar");
+        btnEditFor.setEnabled(false);
         btnEditFor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditForActionPerformed(evt);
@@ -875,6 +946,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnDltFor.setText("Excluir");
+        btnDltFor.setEnabled(false);
         btnDltFor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDltForActionPerformed(evt);
@@ -882,6 +954,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnSaveFor.setText("Salvar");
+        btnSaveFor.setEnabled(false);
         btnSaveFor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveForActionPerformed(evt);
@@ -889,6 +962,7 @@ public class FormTabbed extends javax.swing.JFrame {
         });
 
         btnCnlFor.setText("Cancelar");
+        btnCnlFor.setEnabled(false);
         btnCnlFor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCnlForActionPerformed(evt);
@@ -897,16 +971,50 @@ public class FormTabbed extends javax.swing.JFrame {
 
         jLabel28.setText("Código");
 
+        jTfCodFor.setEnabled(false);
+        jTfCodFor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfCodForKeyReleased(evt);
+            }
+        });
+
         jLabel29.setText("Contato");
+
+        jTfCttFor.setEnabled(false);
+        jTfCttFor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfCttForKeyReleased(evt);
+            }
+        });
 
         jLabel30.setText("Email");
 
+        jTfMailFor.setEnabled(false);
+        jTfMailFor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfMailForKeyReleased(evt);
+            }
+        });
+
         jLabel31.setText("Fone");
+
+        jTfPhoneFor.setEnabled(false);
+        jTfPhoneFor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfPhoneForKeyReleased(evt);
+            }
+        });
 
         jLabel3.setText("Empresa");
 
         jTaCompFor.setColumns(20);
         jTaCompFor.setRows(5);
+        jTaCompFor.setEnabled(false);
+        jTaCompFor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTaCompForKeyReleased(evt);
+            }
+        });
         jScrollPane7.setViewportView(jTaCompFor);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1141,7 +1249,7 @@ public class FormTabbed extends javax.swing.JFrame {
                 selectedFor = jTbFor.getSelectedRow();
                 editFor = false;
                 listaFornecedor.add(selectedFor, fornecedor);
-                listaFornecedor.remove(selectedFor);
+                listaFornecedor.remove(selectedFor+1);
             }
             else{
                 listaFornecedor.add(fornecedor);
@@ -1266,11 +1374,17 @@ public class FormTabbed extends javax.swing.JFrame {
     // Produto
     private void btnNewProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewProActionPerformed
         // TODO add your handling code here:
+        btnCnlPro.setEnabled(true);
+        btnNewPro.setEnabled(false);
+        enablePro(true);
     }//GEN-LAST:event_btnNewProActionPerformed
 
     // Fornecedor
     private void btnNewForActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewForActionPerformed
         // TODO add your handling code here:
+        btnCnlFor.setEnabled(true);
+        btnNewFor.setEnabled(false);
+        enableFor(true);
     }//GEN-LAST:event_btnNewForActionPerformed
 
     /*
@@ -1291,11 +1405,25 @@ public class FormTabbed extends javax.swing.JFrame {
     // Produto
     private void btnCnlProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCnlProActionPerformed
         // TODO add your handling code here:
+        limpaPro();
+        enablePro(false);
+        btnNewPro.setEnabled(true);
+        btnSavePro.setEnabled(false);
+        btnCnlPro.setEnabled(false);
+        btnEditPro.setEnabled(false);
+        btnDltPro.setEnabled(false);
     }//GEN-LAST:event_btnCnlProActionPerformed
 
     // Fornecedor
     private void btnCnlForActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCnlForActionPerformed
         // TODO add your handling code here:
+        limpaFor();
+        enableFor(false);
+        btnNewFor.setEnabled(true);
+        btnSaveFor.setEnabled(false);
+        btnCnlFor.setEnabled(false);
+        btnEditFor.setEnabled(false);
+        btnDltFor.setEnabled(false);
     }//GEN-LAST:event_btnCnlForActionPerformed
 
     /*
@@ -1334,6 +1462,7 @@ public class FormTabbed extends javax.swing.JFrame {
     /*
         ========== BOTÃO EDITAR =============
     */
+    // Cliente
     private void btnEditCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCliActionPerformed
         // TODO add your handling code here:
         editCli = true;
@@ -1341,13 +1470,73 @@ public class FormTabbed extends javax.swing.JFrame {
         enableCli(true);
     }//GEN-LAST:event_btnEditCliActionPerformed
 
+    // Produto
     private void btnEditProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProActionPerformed
         // TODO add your handling code here:
+        editPro = true;
+        btnDltPro.setEnabled(false);
+        enablePro(true);
     }//GEN-LAST:event_btnEditProActionPerformed
 
+    // Fornecedor
     private void btnEditForActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditForActionPerformed
         // TODO add your handling code here:
+        editFor = true;
+        btnDltFor.setEnabled(false);
+        enableFor(true);
     }//GEN-LAST:event_btnEditForActionPerformed
+
+    /* ========== PRODUTO: INPUT WRITE ========== */ 
+    private void jTfCodProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCodProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfCodProKeyReleased
+
+    private void jTfUnitProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfUnitProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfUnitProKeyReleased
+
+    private void jTfQtdProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfQtdProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfQtdProKeyReleased
+
+    private void jTfPriceProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfPriceProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfPriceProKeyReleased
+
+    private void jTaDescProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTaDescProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTaDescProKeyReleased
+
+    /* ========== FORNECEDOR: INPUT WRITE ========== */ 
+    private void jTfCodForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCodForKeyReleased
+        // TODO add your handling code here:
+        btnSaveFor.setEnabled(verificaEdicaoFor());
+    }//GEN-LAST:event_jTfCodForKeyReleased
+
+    private void jTfCttForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCttForKeyReleased
+        // TODO add your handling code here:
+        btnSaveFor.setEnabled(verificaEdicaoFor());
+    }//GEN-LAST:event_jTfCttForKeyReleased
+
+    private void jTfMailForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfMailForKeyReleased
+        // TODO add your handling code here:
+        btnSaveFor.setEnabled(verificaEdicaoFor());
+    }//GEN-LAST:event_jTfMailForKeyReleased
+
+    private void jTfPhoneForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfPhoneForKeyReleased
+        // TODO add your handling code here:
+        btnSaveFor.setEnabled(verificaEdicaoFor());
+    }//GEN-LAST:event_jTfPhoneForKeyReleased
+
+    private void jTaCompForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTaCompForKeyReleased
+        // TODO add your handling code here:
+        btnSaveFor.setEnabled(verificaEdicaoFor());
+    }//GEN-LAST:event_jTaCompForKeyReleased
 
     
     
