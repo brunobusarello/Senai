@@ -1273,6 +1273,8 @@ public class FormTabbed extends javax.swing.JFrame {
         btnEditCli.setEnabled(true);
         btnDltCli.setEnabled(true);
         
+        jTbCli.setRowSelectionAllowed(true);
+        
         jTfCodCli.setText(jTbCli.getValueAt(selectedCli, 0).toString());
         jTfNameCli.setText(jTbCli.getValueAt(selectedCli, 1).toString());
         jTfPhoneCli.setText(jTbCli.getValueAt(selectedCli, 2).toString());
@@ -1290,6 +1292,8 @@ public class FormTabbed extends javax.swing.JFrame {
         btnCnlPro.setEnabled(true);
         btnEditPro.setEnabled(true);
         btnDltPro.setEnabled(true);
+        
+        jTbPro.setRowSelectionAllowed(true);
         
         jTfCodPro.setText(jTbPro.getValueAt(selectedPro, 0).toString());
         jTfPricePro.setText(jTbPro.getValueAt(selectedPro, 1).toString());
@@ -1309,6 +1313,8 @@ public class FormTabbed extends javax.swing.JFrame {
         btnEditFor.setEnabled(true);
         btnDltFor.setEnabled(true);
         
+        jTbFor.setRowSelectionAllowed(true);
+        
         jTfCodFor.setText(jTbFor.getValueAt(selectedFor, 0).toString());
         jTaCompFor.setText(jTbFor.getValueAt(selectedFor, 1).toString());
         jTfCttFor.setText(jTbFor.getValueAt(selectedFor, 2).toString());
@@ -1321,48 +1327,52 @@ public class FormTabbed extends javax.swing.JFrame {
     // Cliente
     private void btnDltCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDltCliActionPerformed
         // TODO add your handling code here:
-        try {
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente excluir este registro?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
             selectedCli = jTbCli.getSelectedRow();
             listaCliente.remove(selectedCli);
             saveCli();
             tblCliente();
             newCli();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada para exclusão");
         }
     }//GEN-LAST:event_btnDltCliActionPerformed
 
     // Produto
     private void btnDltProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDltProActionPerformed
         // TODO add your handling code here:
-        try {
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente excluir este registro?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
             selectedPro = jTbPro.getSelectedRow();
             listaProduto.remove(selectedPro);
             savePro();
             tblProduto();
             newPro();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada para exclusão");
         }
     }//GEN-LAST:event_btnDltProActionPerformed
 
     // Fornecedor
     private void btnDltForActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDltForActionPerformed
         // TODO add your handling code here:
-        try {
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente excluir este registro?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
             selectedFor = jTbFor.getSelectedRow();
             listaFornecedor.remove(selectedFor);
             saveFor();
             tblFornecedor();
             newFor();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada para exclusão");
         }
     }//GEN-LAST:event_btnDltForActionPerformed
 
-    /*
-        ========== BOTÃO DE NOVO ==========
-    */
+    /* ========== BOTÃO DE NOVO ========== */
     // Cliente
     private void btnNewCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCliActionPerformed
         // TODO add your handling code here:
@@ -1387,9 +1397,7 @@ public class FormTabbed extends javax.swing.JFrame {
         enableFor(true);
     }//GEN-LAST:event_btnNewForActionPerformed
 
-    /*
-        ========== BOTÃO DE CANCELAR ==========
-    */
+    /* ========== BOTÃO DE CANCELAR ========== */
     // Cliente
     private void btnCnlCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCnlCliActionPerformed
         // TODO add your handling code here:
@@ -1400,6 +1408,7 @@ public class FormTabbed extends javax.swing.JFrame {
         btnCnlCli.setEnabled(false);
         btnEditCli.setEnabled(false);
         btnDltCli.setEnabled(false);
+        jTbCli.setRowSelectionAllowed(false);
     }//GEN-LAST:event_btnCnlCliActionPerformed
 
     // Produto
@@ -1412,6 +1421,7 @@ public class FormTabbed extends javax.swing.JFrame {
         btnCnlPro.setEnabled(false);
         btnEditPro.setEnabled(false);
         btnDltPro.setEnabled(false);
+        jTbPro.setRowSelectionAllowed(false);
     }//GEN-LAST:event_btnCnlProActionPerformed
 
     // Fornecedor
@@ -1424,11 +1434,11 @@ public class FormTabbed extends javax.swing.JFrame {
         btnCnlFor.setEnabled(false);
         btnEditFor.setEnabled(false);
         btnDltFor.setEnabled(false);
+        
+        jTbFor.setRowSelectionAllowed(false);
     }//GEN-LAST:event_btnCnlForActionPerformed
 
-    /*
-        ========== CLIENTE: INPUT WRITE ==========
-    */
+    /* ========== CLIENTE: TECLA PRESSIONADA ========== */
     // Input cod
     private void jTfCodCliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCodCliKeyReleased
         // TODO add your handling code here:
@@ -1459,9 +1469,7 @@ public class FormTabbed extends javax.swing.JFrame {
         btnSaveCli.setEnabled(verificaEdicaoCli());
     }//GEN-LAST:event_jTaAddrCliKeyReleased
 
-    /*
-        ========== BOTÃO EDITAR =============
-    */
+    /* ========== BOTÃO EDITAR ============= */
     // Cliente
     private void btnEditCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCliActionPerformed
         // TODO add your handling code here:
@@ -1486,60 +1494,68 @@ public class FormTabbed extends javax.swing.JFrame {
         enableFor(true);
     }//GEN-LAST:event_btnEditForActionPerformed
 
-    /* ========== PRODUTO: INPUT WRITE ========== */ 
+    /* ========== PRODUTO: TECLA PRESSIONADA ========== */ 
+    // input cod
     private void jTfCodProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCodProKeyReleased
         // TODO add your handling code here:
         btnSavePro.setEnabled(verificaEdicaoPro());
     }//GEN-LAST:event_jTfCodProKeyReleased
 
+    // input unit
     private void jTfUnitProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfUnitProKeyReleased
         // TODO add your handling code here:
         btnSavePro.setEnabled(verificaEdicaoPro());
     }//GEN-LAST:event_jTfUnitProKeyReleased
 
+    // input qtd
     private void jTfQtdProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfQtdProKeyReleased
         // TODO add your handling code here:
         btnSavePro.setEnabled(verificaEdicaoPro());
     }//GEN-LAST:event_jTfQtdProKeyReleased
 
+    // input price
     private void jTfPriceProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfPriceProKeyReleased
         // TODO add your handling code here:
         btnSavePro.setEnabled(verificaEdicaoPro());
     }//GEN-LAST:event_jTfPriceProKeyReleased
 
+    // input desc
     private void jTaDescProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTaDescProKeyReleased
         // TODO add your handling code here:
         btnSavePro.setEnabled(verificaEdicaoPro());
     }//GEN-LAST:event_jTaDescProKeyReleased
 
-    /* ========== FORNECEDOR: INPUT WRITE ========== */ 
+    /* ========== FORNECEDOR: TECLA PRESSIONADA ========== */
+    // input cod
     private void jTfCodForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCodForKeyReleased
         // TODO add your handling code here:
         btnSaveFor.setEnabled(verificaEdicaoFor());
     }//GEN-LAST:event_jTfCodForKeyReleased
 
+    // input ctt
     private void jTfCttForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCttForKeyReleased
         // TODO add your handling code here:
         btnSaveFor.setEnabled(verificaEdicaoFor());
     }//GEN-LAST:event_jTfCttForKeyReleased
 
+    // input mail
     private void jTfMailForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfMailForKeyReleased
         // TODO add your handling code here:
         btnSaveFor.setEnabled(verificaEdicaoFor());
     }//GEN-LAST:event_jTfMailForKeyReleased
 
+    // input phone
     private void jTfPhoneForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfPhoneForKeyReleased
         // TODO add your handling code here:
         btnSaveFor.setEnabled(verificaEdicaoFor());
     }//GEN-LAST:event_jTfPhoneForKeyReleased
 
+    // input comp
     private void jTaCompForKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTaCompForKeyReleased
         // TODO add your handling code here:
         btnSaveFor.setEnabled(verificaEdicaoFor());
     }//GEN-LAST:event_jTaCompForKeyReleased
 
-    
-    
     /**
      * @param args the command line arguments
      */

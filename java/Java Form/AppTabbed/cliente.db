@@ -1,4 +1,10 @@
-123;123;123;123;123
-1234;123;123;123;123
-12345;1234;123;abc;12
-123;1234;123;123;123
+001;Lucas Silva;(11) 91234-5678;lucas.silva@example.com;Rua das Flores, 123 - São Paulo, SP
+002;Maria Oliveira;(21) 98765-4321;maria.oliveira@example.com;Avenida Central, 456 - Rio de Janeiro, RJ
+003;João Santos;(31) 97654-3210;joao.santos@example.com;Rua Nova, 789 - Belo Horizonte, MG
+004;Ana Costa;(41) 96543-2109;ana.costa@example.com;Rua Bela Vista, 321 - Curitiba, PR
+005;Pedro Almeida;(51) 95432-1098;pedro.almeida@example.com;Rua do Comércio, 654 - Porto Alegre, RS
+006;Juliana Martins;(61) 94321-0987;juliana.martins@example.com;Avenida Brasil, 987 - Brasília, DF
+007;Felipe Souza;(71) 93210-9876;felipe.souza@example.com;Rua da Paz, 159 - Salvador, BA
+008;Gabriela Lima;(81) 92109-8765;gabriela.lima@example.com;Rua Esperança, 753 - Recife, PE
+009;Rafael Rocha;(91) 91098-7654;rafael.rocha@example.com;Avenida das Américas, 951 - Belém, PA
+010;Isabela Mendes;(31) 90987-6543;isabela.mendes@example.com;Rua das Palmeiras, 357 - Belo Horizonte, MG
