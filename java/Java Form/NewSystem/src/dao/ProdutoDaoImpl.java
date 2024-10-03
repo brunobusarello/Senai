@@ -85,7 +85,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     @Override
     public void updateProduto(Produto produto) {
         try {
-            String query = "UPDATE produto SET nome = ?, fone = ?, email = ?, endereco = ? WHERE id = ?";
+            String query = "UPDATE produto SET desc = ?, unit = ?, qtd = ?, preco = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, produto.getDesc());
             statement.setString(2, produto.getUnit());

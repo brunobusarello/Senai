@@ -31,9 +31,9 @@ public class ClienteDaoImpl implements ClienteDao {
         try {
             String query = "INSERT INTO cliente (nome, fone, email, endereco) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, cliente.getEmail());
-            statement.setString(2, cliente.getNome());
-            statement.setString(3, cliente.getFone());
+            statement.setString(1, cliente.getNome());
+            statement.setString(2, cliente.getFone());
+            statement.setString(3, cliente.getEmail());
             statement.setString(4, cliente.getEndereco());
             statement.executeUpdate();
         } catch (SQLException e) {
