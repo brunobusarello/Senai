@@ -45,6 +45,7 @@ create table ItemNotaFiscal (
 );
 
 desc Produto;
+desc ItemNotaFiscal;
 desc NotaFiscal;
 desc Cliente;
 desc Vendedor;
