@@ -1,3 +1,10 @@
+
+import dao.ProdutoDaoImpl;
+import javax.swing.table.DefaultTableModel;
+import java.util.*;
+import javax.swing.JOptionPane;
+import model.Produto;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
@@ -8,12 +15,74 @@
  * @author bruno_busarello
  */
 public class CadProduto extends javax.swing.JInternalFrame {
-
+    public static boolean editPro = false;
+    
+    ProdutoDaoImpl produtoDao = new ProdutoDaoImpl();
+    
+    public void loadPro(){
+        DefaultTableModel defaultPro = new DefaultTableModel(new Object[]{
+            "Código",
+            "Preço",
+            "Unidade",
+            "Quantidade",
+            "Descricao"
+        }, 0);
+        
+        
+        List<Produto> produtos = produtoDao.getAllProdutos();
+        for (Produto produto : produtos) {
+            Object linha[] = new Object[] {
+                produto.getCod(),
+                produto.getPreco(),
+                produto.getUnit(),
+                produto.getQtd(),
+                produto.getDesc(),
+            };
+            defaultPro.addRow(linha);
+        }
+        jTbPro.setModel(defaultPro);
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="PRODUTO: FUNÇÕES ADICIONAIS">
+    public void enablePro(boolean ena){
+        jTfCodPro.setEnabled(false);
+        jTfPricePro.setEnabled(ena);
+        jTfQtdPro.setEnabled(ena);
+        jTfUnitPro.setEnabled(ena);
+        jTaDescPro.setEnabled(ena);
+    }
+    
+    public void newPro(){
+        btnNewPro.setEnabled(true);
+        btnSavePro.setEnabled(false);
+        btnDltPro.setEnabled(false);
+        btnCnlPro.setEnabled(false);
+        btnEditPro.setEnabled(false);
+        enablePro(false);
+        limpaPro();
+    }
+    
+    public void limpaPro(){
+        jTaDescPro.setText("");
+        jTfCodPro.setText("");
+        jTfPricePro.setText("");
+        jTfQtdPro.setText("");
+        jTfUnitPro.setText("");
+    }
+    
+    public boolean verificaEdicaoPro(){
+        return (!jTfPricePro.getText().isBlank() &&
+            !jTfQtdPro.getText().isBlank() && !jTfUnitPro.getText().isBlank()
+            && !jTaDescPro.getText().isBlank());
+    }
+    //</editor-fold>
+    
     /**
      * Creates new form CadProduto
      */
     public CadProduto() {
         initComponents();
+        loadPro();
     }
 
     /**
@@ -58,25 +127,70 @@ public class CadProduto extends javax.swing.JInternalFrame {
                 "Código", "Preço", "Unidade", "Quantidade", "Descrição"
             }
         ));
+        jTbPro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTbProMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTbPro);
 
         jLabel2.setText("Código");
 
+        jTfCodPro.setEnabled(false);
+        jTfCodPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfCodProKeyReleased(evt);
+            }
+        });
+
         jLabel3.setText("Preço");
+
+        jTfPricePro.setEnabled(false);
+        jTfPricePro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfPriceProKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("Unidade");
 
+        jTfUnitPro.setEnabled(false);
+        jTfUnitPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfUnitProKeyReleased(evt);
+            }
+        });
+
         jLabel5.setText("Quantidade");
+
+        jTfQtdPro.setEnabled(false);
+        jTfQtdPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfQtdProKeyReleased(evt);
+            }
+        });
 
         jLabel6.setText("Descrição");
 
         jTaDescPro.setColumns(20);
         jTaDescPro.setRows(5);
+        jTaDescPro.setEnabled(false);
+        jTaDescPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTaDescProKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTaDescPro);
 
         btnNewPro.setText("Novo");
+        btnNewPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewProActionPerformed(evt);
+            }
+        });
 
         btnEditPro.setText("Editar");
+        btnEditPro.setEnabled(false);
         btnEditPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditProActionPerformed(evt);
@@ -84,6 +198,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
         });
 
         btnCnlPro.setText("Cancelar");
+        btnCnlPro.setEnabled(false);
         btnCnlPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCnlProActionPerformed(evt);
@@ -91,6 +206,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
         });
 
         btnSavePro.setText("Salvar");
+        btnSavePro.setEnabled(false);
         btnSavePro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveProActionPerformed(evt);
@@ -98,6 +214,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
         });
 
         btnDltPro.setText("Excluir");
+        btnDltPro.setEnabled(false);
         btnDltPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDltProActionPerformed(evt);
@@ -180,21 +297,123 @@ public class CadProduto extends javax.swing.JInternalFrame {
 
     private void btnEditProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProActionPerformed
         // TODO add your handling code here:
+        editPro = true;
+        btnDltPro.setEnabled(false);
+        enablePro(true);
     }//GEN-LAST:event_btnEditProActionPerformed
 
     private void btnCnlProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCnlProActionPerformed
         // TODO add your handling code here:
+        limpaPro();
+        enablePro(false);
+        btnNewPro.setEnabled(true);
+        btnSavePro.setEnabled(false);
+        btnCnlPro.setEnabled(false);
+        btnEditPro.setEnabled(false);
+        btnDltPro.setEnabled(false);
+        jTbPro.setRowSelectionAllowed(false);
     }//GEN-LAST:event_btnCnlProActionPerformed
 
     private void btnSaveProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProActionPerformed
         // TODO add your handling code here:
+        int cod = Integer.parseInt(jTfCodPro.getText());
+        String unidade = jTfUnitPro.getText();
+        float preco = Float.parseFloat(jTfPricePro.getText());
+        float qtd = Float.parseFloat(jTfQtdPro.getText());
+        String desc = jTaDescPro.getText();
+        
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente salvar essas informações?\n\n" + 
+                "Código: " + cod +
+                "\nUnidade: " + unidade +
+                "\nPreço: " + preco +
+                "\nQuantidade: " + qtd +
+                "\nDescrição: " + desc,
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+                );
+        
+        if (opt == JOptionPane.YES_OPTION) {
+            Produto produto = new Produto(cod, desc, unidade, qtd, preco);
+            
+            if (editPro) {
+                produtoDao.updateProduto(produto);
+                editPro = false;
+            }
+            else{
+                produtoDao.addProduto(produto);
+            }
+            newPro();
+            loadPro();
+        }
     }//GEN-LAST:event_btnSaveProActionPerformed
 
     private void btnDltProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDltProActionPerformed
         // TODO add your handling code here:
+        int opt = JOptionPane.showConfirmDialog(null, 
+                "Deseja realmente excluir este registro?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
+            produtoDao.deleteProduto(Integer.parseInt(jTfCodPro.getText()));
+            loadPro();
+            newPro();
+        }
     }//GEN-LAST:event_btnDltProActionPerformed
 
+    private void btnNewProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewProActionPerformed
+        // TODO add your handling code here:
+        btnCnlPro.setEnabled(true);
+        btnNewPro.setEnabled(false);
+        enablePro(true);
+    }//GEN-LAST:event_btnNewProActionPerformed
 
+    private void jTbProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbProMouseClicked
+        // TODO add your handling code here:
+        int selectedPro = jTbPro.getSelectedRow();
+        
+        enablePro(false);
+        btnNewPro.setEnabled(false);
+        btnCnlPro.setEnabled(true);
+        btnEditPro.setEnabled(true);
+        btnDltPro.setEnabled(true);
+        
+        jTbPro.setRowSelectionAllowed(true);
+        
+        jTfCodPro.setText(jTbPro.getValueAt(selectedPro, 0).toString());
+        jTfPricePro.setText(jTbPro.getValueAt(selectedPro, 1).toString());
+        jTfQtdPro.setText(jTbPro.getValueAt(selectedPro, 2).toString());
+        jTfUnitPro.setText(jTbPro.getValueAt(selectedPro, 3).toString());
+        jTaDescPro.setText(jTbPro.getValueAt(selectedPro, 4).toString());
+    }//GEN-LAST:event_jTbProMouseClicked
+
+    private void jTfCodProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfCodProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfCodProKeyReleased
+
+    private void jTfPriceProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfPriceProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfPriceProKeyReleased
+
+    private void jTfUnitProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfUnitProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfUnitProKeyReleased
+
+    private void jTfQtdProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfQtdProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTfQtdProKeyReleased
+
+    private void jTaDescProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTaDescProKeyReleased
+        // TODO add your handling code here:
+        btnSavePro.setEnabled(verificaEdicaoPro());
+    }//GEN-LAST:event_jTaDescProKeyReleased
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCnlPro;
     private javax.swing.JButton btnDltPro;

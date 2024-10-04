@@ -82,7 +82,7 @@ public class CadClient extends javax.swing.JInternalFrame {
     
     // Verifica se todos os inputs estão preenchidos
     public boolean verificaEdicaoCli(){
-        return (!jTfCodCli.getText().isBlank() && !jTfNomeCli.getText().isBlank() &&
+        return (!jTfNomeCli.getText().isBlank() &&
             !jTfPhoneCli.getText().isBlank() && !jTfEmailCli.getText().isBlank()
             && !jTaAddCli.getText().isBlank());
     }
@@ -374,6 +374,7 @@ public class CadClient extends javax.swing.JInternalFrame {
 
     private void btnNewCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCliActionPerformed
         // TODO add your handling code here:
+        jTfCodCli.setText(String.valueOf(clienteDao.getNextId()));
         btnCnlCli.setEnabled(true);
         btnNewCli.setEnabled(false);
         enableCli(true);

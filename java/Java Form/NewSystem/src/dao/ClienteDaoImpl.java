@@ -104,4 +104,21 @@ public class ClienteDaoImpl implements ClienteDao {
         }
     }
     
+    @Override
+    public int getNextId(){
+        int maior = 0;
+        try {
+            String query = "SELECT MAX(id) AS maior_id FROM cliente";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                maior = resultSet.getInt("maior_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            maior = 0;
+        }
+        return maior + 1;
+    }
+    
 }
