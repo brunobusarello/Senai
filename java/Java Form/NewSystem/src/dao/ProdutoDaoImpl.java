@@ -35,7 +35,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     @Override
     public void addProduto(Produto produto){
         try {
-            String query = "INSERT INTO produto (desc, unit, qtd, preco) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO produto (description, unit, qtd, preco) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, produto.getDesc());
             statement.setString(2, produto.getUnit());
@@ -56,7 +56,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                produto = new Produto(resultSet.getInt("id"), resultSet.getString("desc"),
+                produto = new Produto(resultSet.getInt("id"), resultSet.getString("description"),
                         resultSet.getString("unit"), resultSet.getFloat("qtd"), resultSet.getFloat("preco"));
             }
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                produtos.add(new Produto(resultSet.getInt("id"), resultSet.getString("desc"),
+                produtos.add(new Produto(resultSet.getInt("id"), resultSet.getString("description"),
                         resultSet.getString("unit"), resultSet.getFloat("qtd"), resultSet.getFloat("preco")));
             }
         } catch (SQLException e) {
@@ -85,7 +85,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     @Override
     public void updateProduto(Produto produto) {
         try {
-            String query = "UPDATE produto SET desc = ?, unit = ?, qtd = ?, preco = ? WHERE id = ?";
+            String query = "UPDATE produto SET description = ?, unit = ?, qtd = ?, preco = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, produto.getDesc());
             statement.setString(2, produto.getUnit());
@@ -108,5 +108,22 @@ public class ProdutoDaoImpl implements ProdutoDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    @Override
+    public int getNextId(){
+        int maior = 0;
+        try {
+            String query = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_NAME = 'produto';";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                maior = resultSet.getInt("AUTO_INCREMENT");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            maior = 0;
+        }
+        return maior;
     }
 }

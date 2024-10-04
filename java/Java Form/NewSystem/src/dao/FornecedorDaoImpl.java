@@ -109,4 +109,21 @@ public class FornecedorDaoImpl implements FornecedorDao {
             e.printStackTrace();
         }
     }
+    
+    @Override
+    public int getNextId(){
+        int maior = 0;
+        try {
+            String query = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_NAME = 'fornecedor';";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                maior = resultSet.getInt("AUTO_INCREMENT");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            maior = 0;
+        }
+        return maior;
+    }
 }

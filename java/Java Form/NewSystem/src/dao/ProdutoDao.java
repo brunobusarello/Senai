@@ -17,4 +17,5 @@ public interface ProdutoDao {
     List<Produto> getAllProdutos();
     void updateProduto(Produto produto);
     void deleteProduto(int id);
+    int getNextId();
 }

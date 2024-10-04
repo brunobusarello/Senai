@@ -6,6 +6,9 @@ package dao;
 
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import model.Cliente;
 
 /**
@@ -14,15 +17,22 @@ import model.Cliente;
  */
 public class ClienteDaoImpl implements ClienteDao {
     private Connection connection;
+    
 
     public ClienteDaoImpl() {
+        connection();
+    }
+    
+    public boolean connection(){
         try {
             String url = "jdbc:mysql://localhost:3306/db_sccpf";
             String cliente = "root";
             String password = "";
             connection = DriverManager.getConnection(url, cliente, password);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
     
@@ -108,17 +118,17 @@ public class ClienteDaoImpl implements ClienteDao {
     public int getNextId(){
         int maior = 0;
         try {
-            String query = "SELECT MAX(id) AS maior_id FROM cliente";
+            String query = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_NAME = 'cliente';";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                maior = resultSet.getInt("maior_id");
+                maior = resultSet.getInt("AUTO_INCREMENT");
             }
         } catch (SQLException e) {
             e.printStackTrace();
             maior = 0;
         }
-        return maior + 1;
+        return maior;
     }
     
 }
