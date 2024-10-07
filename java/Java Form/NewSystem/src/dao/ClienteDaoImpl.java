@@ -10,37 +10,24 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import model.Cliente;
+import model.DbConnection;
 
 /**
  *
  * @author bruno_busarello
  */
 public class ClienteDaoImpl implements ClienteDao {
-    private Connection connection;
+    DbConnection dbConnection = new DbConnection();
     
-
     public ClienteDaoImpl() {
-        connection();
-    }
-    
-    public boolean connection(){
-        try {
-            String url = "jdbc:mysql://localhost:3306/db_sccpf";
-            String cliente = "root";
-            String password = "";
-            connection = DriverManager.getConnection(url, cliente, password);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        dbConnection.dbConnect();
     }
     
     @Override
     public void addCliente(Cliente cliente){
         try {
             String query = "INSERT INTO cliente (nome, fone, email, endereco) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setString(1, cliente.getNome());
             statement.setString(2, cliente.getFone());
             statement.setString(3, cliente.getEmail());
@@ -56,7 +43,7 @@ public class ClienteDaoImpl implements ClienteDao {
         Cliente cliente = null;
         try {
             String query = "SELECT * FROM cliente WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -74,8 +61,8 @@ public class ClienteDaoImpl implements ClienteDao {
         List<Cliente> clientes = new ArrayList<>();
         try {
             String query = "SELECT * FROM cliente";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 clientes.add(new Cliente(resultSet.getInt("id"), resultSet.getString("nome"),
                         resultSet.getString("fone"), resultSet.getString("email"), resultSet.getString("endereco")));
@@ -90,7 +77,7 @@ public class ClienteDaoImpl implements ClienteDao {
     public void updateCliente(Cliente cliente) {
         try {
             String query = "UPDATE cliente SET nome = ?, fone = ?, email = ?, endereco = ? WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setString(1, cliente.getNome());
             statement.setString(2, cliente.getFone());
             statement.setString(3, cliente.getEmail());
@@ -106,7 +93,7 @@ public class ClienteDaoImpl implements ClienteDao {
     public void deleteCliente(int id) {
         try {
             String query = "DELETE FROM cliente WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -119,8 +106,8 @@ public class ClienteDaoImpl implements ClienteDao {
         int maior = 0;
         try {
             String query = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_NAME = 'cliente';";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 maior = resultSet.getInt("AUTO_INCREMENT");
             }

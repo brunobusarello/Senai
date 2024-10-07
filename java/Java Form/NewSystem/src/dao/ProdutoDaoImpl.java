@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.DbConnection;
 import model.Produto;
 
 /**
@@ -19,24 +20,17 @@ import model.Produto;
  * @author bruno_busarello
  */
 public class ProdutoDaoImpl implements ProdutoDao {
-    private Connection connection;
+    DbConnection dbConnection = new DbConnection();
 
     public ProdutoDaoImpl() {
-        try {
-            String url = "jdbc:mysql://localhost:3306/db_sccpf";
-            String produto = "root";
-            String password = "";
-            connection = DriverManager.getConnection(url, produto, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        dbConnection.dbConnect();
     }
     
     @Override
     public void addProduto(Produto produto){
         try {
             String query = "INSERT INTO produto (description, unit, qtd, preco) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setString(1, produto.getDesc());
             statement.setString(2, produto.getUnit());
             statement.setFloat(3, produto.getQtd());
@@ -52,7 +46,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
         Produto produto = null;
         try {
             String query = "SELECT * FROM produto WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -70,8 +64,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
         List<Produto> produtos = new ArrayList<>();
         try {
             String query = "SELECT * FROM produto";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 produtos.add(new Produto(resultSet.getInt("id"), resultSet.getString("description"),
                         resultSet.getString("unit"), resultSet.getFloat("qtd"), resultSet.getFloat("preco")));
@@ -86,7 +80,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     public void updateProduto(Produto produto) {
         try {
             String query = "UPDATE produto SET description = ?, unit = ?, qtd = ?, preco = ? WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setString(1, produto.getDesc());
             statement.setString(2, produto.getUnit());
             statement.setFloat(3, produto.getQtd());
@@ -102,7 +96,7 @@ public class ProdutoDaoImpl implements ProdutoDao {
     public void deleteProduto(int id) {
         try {
             String query = "DELETE FROM produto WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -115,8 +109,8 @@ public class ProdutoDaoImpl implements ProdutoDao {
         int maior = 0;
         try {
             String query = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_NAME = 'produto';";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 maior = resultSet.getInt("AUTO_INCREMENT");
             }

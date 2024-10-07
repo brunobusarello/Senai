@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.DbConnection;
 import model.Fornecedor;
 
 /**
@@ -19,24 +20,17 @@ import model.Fornecedor;
  * @author bruno_busarello
  */
 public class FornecedorDaoImpl implements FornecedorDao {
-    private Connection connection;
+    DbConnection dbConnection = new DbConnection();
 
     public FornecedorDaoImpl() {
-        try {
-            String url = "jdbc:mysql://localhost:3306/db_sccpf";
-            String fornecedor = "root";
-            String password = "";
-            connection = DriverManager.getConnection(url, fornecedor, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        dbConnection.dbConnect();
     }
     
     @Override
     public void addFornecedor(Fornecedor fornecedor){
         try {
             String query = "INSERT INTO fornecedor (empresa, contato, fone, email) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setString(1, fornecedor.getEmpresa());
             statement.setString(2, fornecedor.getContato());
             statement.setString(3, fornecedor.getFone());
@@ -52,7 +46,7 @@ public class FornecedorDaoImpl implements FornecedorDao {
         Fornecedor fornecedor = null;
         try {
             String query = "SELECT * FROM fornecedor WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -70,8 +64,8 @@ public class FornecedorDaoImpl implements FornecedorDao {
         List<Fornecedor> fornecedors = new ArrayList<>();
         try {
             String query = "SELECT * FROM fornecedor";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 fornecedors.add(new Fornecedor(resultSet.getInt("id"), resultSet.getString("empresa"),
                         resultSet.getString("contato"), resultSet.getString("fone"), resultSet.getString("email")));
@@ -86,7 +80,7 @@ public class FornecedorDaoImpl implements FornecedorDao {
     public void updateFornecedor(Fornecedor fornecedor) {
         try {
             String query = "UPDATE fornecedor SET empresa = ?, contato = ?, fone = ?, email = ? WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setString(1, fornecedor.getEmpresa());
             statement.setString(2, fornecedor.getContato());
             statement.setString(3, fornecedor.getFone());
@@ -102,7 +96,7 @@ public class FornecedorDaoImpl implements FornecedorDao {
     public void deleteFornecedor(int id) {
         try {
             String query = "DELETE FROM fornecedor WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -115,8 +109,8 @@ public class FornecedorDaoImpl implements FornecedorDao {
         int maior = 0;
         try {
             String query = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_NAME = 'fornecedor';";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 maior = resultSet.getInt("AUTO_INCREMENT");
             }
