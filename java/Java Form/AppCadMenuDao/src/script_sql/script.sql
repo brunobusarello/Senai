@@ -1,5 +1,5 @@
--- create database db_sccpf;
--- use db_sccpf;
+create database db_sccpf;
+use db_sccpf;
 
 create table cliente (
 	id int auto_increment primary key,
@@ -45,6 +45,11 @@ create table produto_pedido (
     foreign key (idPedido)
     references pedido(id)
 );
+
+alter table produto_pedido
+	add column qtd int not null;
+    
+desc produto_pedido;
 
 -- truncate produto;
 -- select * from fornecedor;

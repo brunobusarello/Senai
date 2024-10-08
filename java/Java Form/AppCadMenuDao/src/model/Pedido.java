@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,12 +13,36 @@ import java.util.List;
  * @author bruno_busarello
  */
 public class Pedido {
+    public class InfPedido {
+        private int qtd;
+        private int idPedido;
+
+        public int getQtd() {
+            return qtd;
+        }
+
+        public void setQtd(int qtd) {
+            this.qtd = qtd;
+        }
+
+        public int getIdPedido() {
+            return idPedido;
+        }
+
+        public void setIdPedido(int idPedido) {
+            this.idPedido = idPedido;
+        }
+    }
+    
     private int cod;
     private Date dataEmissao;
-    private List<Integer> idProdutos;
+    private List<InfPedido> idProdutos;
     private int idCliente;
 
-    public Pedido(int cod, Date dataEmissao, List<Integer> idProdutos, int idCliente) {
+    public Pedido() {
+    }
+
+    public Pedido(int cod, Date dataEmissao, List<InfPedido> idProdutos, int idCliente) {
         this.cod = cod;
         this.dataEmissao = dataEmissao;
         this.idProdutos = idProdutos;
@@ -40,11 +65,11 @@ public class Pedido {
         this.dataEmissao = dataEmissao;
     }
 
-    public List<Integer> getIdProdutos() {
+    public List<InfPedido> getIdProdutos() {
         return idProdutos;
     }
 
-    public void setIdProdutos(List<Integer> idProdutos) {
+    public void setIdProdutos(ArrayList<InfPedido> idProdutos) {
         this.idProdutos = idProdutos;
     }
 
@@ -55,6 +80,9 @@ public class Pedido {
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
+
+    
+
     
     
 }

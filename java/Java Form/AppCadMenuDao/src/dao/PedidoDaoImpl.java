@@ -32,13 +32,13 @@ public class PedidoDaoImpl implements PedidoDao {
             statement.setInt(2, pedido.getIdCliente());
             statement.executeUpdate();
             
-            List<Integer> produtos = pedido.getIdProdutos();
-            query = "INSERT INTO produto_pedido (idPedido, idProduto) VALUES (?, ?) where id = ?";
-            for (Integer produto : produtos) {
+            List<Pedido.InfPedido> produtos = pedido.getIdProdutos();
+            query = "INSERT INTO produto_pedido (idPedido, idProduto, qtd) VALUES (?, ?, ?)";
+            for (int i = 0; i < produtos.size(); i++) {
                 statement = dbConnection.prepareStatement(query);
-                statement.setDate(2, pedido.getDataEmissao());
                 statement.setInt(1, pedido.getCod());
-                statement.setInt(3, pedido.getIdCliente());
+                statement.setInt(2, produtos.get(i).getIdPedido());
+                statement.setInt(3, produtos.get(i).getQtd());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -73,17 +73,17 @@ public class PedidoDaoImpl implements PedidoDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                query = "SELECT * FROM pedido_produto WHERE id = ?";
+                query = "SELECT * FROM pedido_produto WHERE idPedido = ?";
                 statement = dbConnection.prepareStatement(query);
                 statement.setInt(1, id);
                 resultSet = statement.executeQuery();
-                List<Integer> produtos = null;
+                List<Pedido.InfPedido> produtos = null;
                 int cod = resultSet.getInt("id");
                 int idCliente = resultSet.getInt("idCliente");
                 var dateEmission = resultSet.getDate("dataEmissao");
                 
                 while (resultSet.next()) {
-                    produtos.add(resultSet.getInt("idProduto"));
+                    produtos.add()
                 }
                 pedidos.add(new Pedido(cod, dateEmission, produtos, idCliente));
             }

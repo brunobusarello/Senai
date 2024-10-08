@@ -117,6 +117,9 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -207,6 +210,21 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu1.setText("Impressão");
         jMenuBar1.add(jMenu1);
 
+        jMenu5.setText("Pedido");
+
+        jMenuItem6.setText("Adicionar Pedido");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem6);
+
+        jMenuItem7.setText("Gerenciar Pedidos");
+        jMenu5.add(jMenuItem7);
+
+        jMenuBar1.add(jMenu5);
+
         jMenu4.setText("Banco de Dados");
 
         jMenuItem4.setText("Conectar");
@@ -280,6 +298,13 @@ public class MainFrame extends javax.swing.JFrame {
         jDesktopPane1.add(obj);
         obj.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        CadPedido obj = new CadPedido();
+        jDesktopPane1.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
    
     /**
      * @param args the command line arguments
@@ -324,12 +349,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblConnection;
     // End of variables declaration//GEN-END:variables
