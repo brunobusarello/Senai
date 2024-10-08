@@ -11,6 +11,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import model.Pedido;
 import model.DbConnection;
+import model.InfPedido;
 
 /**
  *
@@ -32,12 +33,12 @@ public class PedidoDaoImpl implements PedidoDao {
             statement.setInt(2, pedido.getIdCliente());
             statement.executeUpdate();
             
-            List<Pedido.InfPedido> produtos = pedido.getIdProdutos();
+            List<InfPedido> produtos = pedido.getIdProdutos();
             query = "INSERT INTO produto_pedido (idPedido, idProduto, qtd) VALUES (?, ?, ?)";
             for (int i = 0; i < produtos.size(); i++) {
                 statement = dbConnection.prepareStatement(query);
                 statement.setInt(1, pedido.getCod());
-                statement.setInt(2, produtos.get(i).getIdPedido());
+                statement.setInt(2, produtos.get(i).getIdProduto());
                 statement.setInt(3, produtos.get(i).getQtd());
                 statement.executeUpdate();
             }
@@ -77,13 +78,14 @@ public class PedidoDaoImpl implements PedidoDao {
                 statement = dbConnection.prepareStatement(query);
                 statement.setInt(1, id);
                 resultSet = statement.executeQuery();
-                List<Pedido.InfPedido> produtos = null;
+                List<InfPedido> produtos = new ArrayList<>();
                 int cod = resultSet.getInt("id");
                 int idCliente = resultSet.getInt("idCliente");
                 var dateEmission = resultSet.getDate("dataEmissao");
                 
                 while (resultSet.next()) {
-                    produtos.add()
+                    InfPedido inf = new InfPedido(resultSet.getInt("qtd"), resultSet.getInt("idProduto"));
+                    produtos.add(inf);
                 }
                 pedidos.add(new Pedido(cod, dateEmission, produtos, idCliente));
             }

@@ -13,40 +13,19 @@ import java.util.List;
  * @author bruno_busarello
  */
 public class Pedido {
-    public class InfPedido {
-        private int qtd;
-        private int idPedido;
-
-        public int getQtd() {
-            return qtd;
-        }
-
-        public void setQtd(int qtd) {
-            this.qtd = qtd;
-        }
-
-        public int getIdPedido() {
-            return idPedido;
-        }
-
-        public void setIdPedido(int idPedido) {
-            this.idPedido = idPedido;
-        }
-    }
-    
     private int cod;
     private Date dataEmissao;
     private List<InfPedido> idProdutos;
     private int idCliente;
-
-    public Pedido() {
-    }
 
     public Pedido(int cod, Date dataEmissao, List<InfPedido> idProdutos, int idCliente) {
         this.cod = cod;
         this.dataEmissao = dataEmissao;
         this.idProdutos = idProdutos;
         this.idCliente = idCliente;
+    }
+
+    public Pedido() {
     }
 
     public int getCod() {
@@ -69,7 +48,7 @@ public class Pedido {
         return idProdutos;
     }
 
-    public void setIdProdutos(ArrayList<InfPedido> idProdutos) {
+    public void setIdProdutos(List<InfPedido> idProdutos) {
         this.idProdutos = idProdutos;
     }
 
@@ -81,8 +60,5 @@ public class Pedido {
         this.idCliente = idCliente;
     }
 
-    
 
-    
-    
 }

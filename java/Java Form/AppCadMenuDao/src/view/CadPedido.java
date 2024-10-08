@@ -5,10 +5,15 @@
 package view;
 
 import dao.ClienteDaoImpl;
+import dao.PedidoDaoImpl;
 import dao.ProdutoDaoImpl;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
+import model.InfPedido;
+import model.Pedido;
 import model.Produto;
 
 /**
@@ -16,8 +21,15 @@ import model.Produto;
  * @author bruno_busarello
  */
 public class CadPedido extends javax.swing.JInternalFrame {
+    private int count = 1;
+    private int selected;
+    private float maxCount = 0;
     ClienteDaoImpl clienteDaoImpl = new ClienteDaoImpl();
     ProdutoDaoImpl produtoDaoImpl = new ProdutoDaoImpl();
+    PedidoDaoImpl pedidoDaoImpl = new PedidoDaoImpl();
+    List<InfPedido> pedidos = new ArrayList<>();
+    List<Integer> idClientes = new ArrayList<>();
+    private int idCliente;
     /**
      * Creates new form CadPedido
      */
@@ -31,25 +43,50 @@ public class CadPedido extends javax.swing.JInternalFrame {
         List<Cliente> clientes = clienteDaoImpl.getAllClientes();
         for (Cliente cliente : clientes) {
             jCbCli.addItem(cliente.getNome());
+            idClientes.add(cliente.getCodigo());
         }
+    }
+    
+    public void loadProSelected(){
+        DefaultTableModel defaultPro = new DefaultTableModel(new Object[]{
+            "ID",
+            "Quantidade"
+        }, 0);
+        
+        for (int i = 0; i < pedidos.size(); i++) {
+            Object linha[] = new Object[] {
+                pedidos.get(i).getIdProduto(),
+                pedidos.get(i).getQtd()
+            };
+            defaultPro.addRow(linha);
+        }
+        jTable1.setModel(defaultPro);
     }
     
     public void loadProdutos(){
         DefaultTableModel defaultPro = new DefaultTableModel(new Object[]{
+            "Código",
             "Nome",
-            "Preço"
+            "Preço",
+            "Quantidade"
         }, 0);
         
         
         List<Produto> produtos = produtoDaoImpl.getAllProdutos();
         for (Produto produto : produtos) {
             Object linha[] = new Object[] {
+                produto.getCod(),
                 produto.getDesc(),
                 produto.getPreco(),
+                produto.getQtd()
             };
             defaultPro.addRow(linha);
         }
         jTbPro.setModel(defaultPro);
+    }
+    
+    public int getIdCli(int index){
+        return idClientes.get(index);
     }
     
     /**
@@ -65,6 +102,18 @@ public class CadPedido extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTbPro = new javax.swing.JTable();
+        btnSavePro = new javax.swing.JButton();
+        btnAddPro = new javax.swing.JButton();
+        btnMenosPro = new javax.swing.JButton();
+        jLblQtd = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLbCodPro = new javax.swing.JLabel();
+        jLbDescPro = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTfCod = new javax.swing.JTextField();
+        btnNew = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -89,7 +138,68 @@ public class CadPedido extends javax.swing.JInternalFrame {
                 "Nome", "Preço"
             }
         ));
+        jTbPro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTbProMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTbPro);
+
+        btnSavePro.setText("Adicionar");
+        btnSavePro.setEnabled(false);
+        btnSavePro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveProActionPerformed(evt);
+            }
+        });
+
+        btnAddPro.setText("+");
+        btnAddPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProActionPerformed(evt);
+            }
+        });
+
+        btnMenosPro.setText("-");
+        btnMenosPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenosProActionPerformed(evt);
+            }
+        });
+
+        jLblQtd.setText("1");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        btnSave.setText("Salvar Pedido");
+        btnSave.setEnabled(false);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("ID pedido");
+
+        jTfCod.setEnabled(false);
+
+        btnNew.setText("Novo pedido");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,11 +207,34 @@ public class CadPedido extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCbCli, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSave)
+                        .addGap(9, 9, 9)
+                        .addComponent(btnNew))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jTfCod, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jCbCli, javax.swing.GroupLayout.Alignment.LEADING, 0, 331, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSavePro)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLbCodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLbDescPro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAddPro)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnMenosPro)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLblQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -109,12 +242,35 @@ public class CadPedido extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnAddPro)
+                                .addComponent(btnMenosPro)
+                                .addComponent(jLblQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLbDescPro, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLbCodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSavePro))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTfCod, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
-                        .addGap(4, 4, 4)
-                        .addComponent(jCbCli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(208, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCbCli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSave)
+                            .addComponent(btnNew))))
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
         pack();
@@ -124,11 +280,74 @@ public class CadPedido extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCbCliActionPerformed
 
+    private void jTbProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbProMouseClicked
+        // TODO add your handling code here:
+        selected = jTbPro.getSelectedRow();
+        
+        jLbCodPro.setText(jTbPro.getValueAt(selected, 0).toString());
+        jLbDescPro.setText(jTbPro.getValueAt(selected, 1).toString());
+        maxCount = Float.parseFloat(jTbPro.getValueAt(selected, 3).toString());
+    }//GEN-LAST:event_jTbProMouseClicked
+
+    private void btnAddProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProActionPerformed
+        // TODO add your handling code here:
+        if (count < maxCount) {
+            count++;
+        }
+        jLblQtd.setText(String.valueOf(count));
+    }//GEN-LAST:event_btnAddProActionPerformed
+
+    private void btnMenosProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosProActionPerformed
+        // TODO add your handling code here:
+        if (count > 1) {
+            count--;
+        }
+        jLblQtd.setText(String.valueOf(count));
+    }//GEN-LAST:event_btnMenosProActionPerformed
+
+    private void btnSaveProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProActionPerformed
+        // TODO add your handling code here:
+        InfPedido infPedido = new InfPedido(Integer.parseInt(jLblQtd.getText()), Integer.parseInt(jLbCodPro.getText()));
+        pedidos.add(infPedido);
+        loadProSelected();
+    }//GEN-LAST:event_btnSaveProActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        idCliente = getIdCli(jCbCli.getSelectedIndex());
+        long millis = System.currentTimeMillis();
+        Pedido pedido = new Pedido(Integer.parseInt(jTfCod.getText()), new Date(millis), pedidos, idCliente);
+        pedidoDaoImpl.addPedido(pedido);
+        btnSave.setEnabled(false);
+        btnSavePro.setEnabled(false);
+        pedidos.removeAll(pedidos);
+        loadProSelected();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        // TODO add your handling code here:
+        btnSave.setEnabled(true);
+        btnSavePro.setEnabled(true);
+        jTfCod.setText(String.valueOf(pedidoDaoImpl.getNextId()));
+    }//GEN-LAST:event_btnNewActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddPro;
+    private javax.swing.JButton btnMenosPro;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSavePro;
     private javax.swing.JComboBox<String> jCbCli;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLbCodPro;
+    private javax.swing.JLabel jLbDescPro;
+    private javax.swing.JTextField jLblQtd;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTbPro;
+    private javax.swing.JTextField jTfCod;
     // End of variables declaration//GEN-END:variables
 }

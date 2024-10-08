@@ -221,6 +221,11 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu5.add(jMenuItem6);
 
         jMenuItem7.setText("Gerenciar Pedidos");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem7);
 
         jMenuBar1.add(jMenu5);
@@ -305,6 +310,13 @@ public class MainFrame extends javax.swing.JFrame {
         jDesktopPane1.add(obj);
         obj.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        ManagePedido obj = new ManagePedido();
+        jDesktopPane1.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
    
     /**
      * @param args the command line arguments
