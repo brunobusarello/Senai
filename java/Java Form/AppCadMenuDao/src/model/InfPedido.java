@@ -9,22 +9,28 @@ package model;
  * @author bruno_busarello
  */
 public class InfPedido {
-    private int qtd;
+    private float qtd;
     private int idProduto;
+    private String desc;
 
     public InfPedido() {
     }
 
-    public InfPedido(int qtd, int idProduto) {
+    public InfPedido(float qtd, int idProduto) {
         this.qtd = qtd;
         this.idProduto = idProduto;
     }
 
-    public int getQtd() {
+    public InfPedido(float qtd, String desc) {
+        this.qtd = qtd;
+        this.desc = desc;
+    }
+
+    public float getQtd() {
         return qtd;
     }
 
-    public void setQtd(int qtd) {
+    public void setQtd(float qtd) {
         this.qtd = qtd;
     }
 
@@ -35,6 +41,16 @@ public class InfPedido {
     public void setIdProduto(int idProduto) {
         this.idProduto = idProduto;
     }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    
     
     
 }

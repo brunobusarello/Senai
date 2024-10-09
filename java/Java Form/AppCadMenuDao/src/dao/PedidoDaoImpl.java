@@ -39,7 +39,7 @@ public class PedidoDaoImpl implements PedidoDao {
                 statement = dbConnection.prepareStatement(query);
                 statement.setInt(1, pedido.getCod());
                 statement.setInt(2, produtos.get(i).getIdProduto());
-                statement.setInt(3, produtos.get(i).getQtd());
+                statement.setFloat(3, produtos.get(i).getQtd());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -74,20 +74,17 @@ public class PedidoDaoImpl implements PedidoDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                query = "SELECT * FROM pedido_produto WHERE idPedido = ?";
+                query = "SELECT * FROM produto_pedido WHERE idPedido = ?";
                 statement = dbConnection.prepareStatement(query);
                 statement.setInt(1, id);
-                resultSet = statement.executeQuery();
+                ResultSet resultSet1 = statement.executeQuery();
                 List<InfPedido> produtos = new ArrayList<>();
-                int cod = resultSet.getInt("id");
-                int idCliente = resultSet.getInt("idCliente");
-                var dateEmission = resultSet.getDate("dataEmissao");
                 
-                while (resultSet.next()) {
-                    InfPedido inf = new InfPedido(resultSet.getInt("qtd"), resultSet.getInt("idProduto"));
+                while (resultSet1.next()) {
+                    InfPedido inf = new InfPedido(resultSet1.getInt("qtd"), resultSet1.getInt("idProduto"));
                     produtos.add(inf);
                 }
-                pedidos.add(new Pedido(cod, dateEmission, produtos, idCliente));
+                pedidos.add(new Pedido(resultSet.getInt("id"), resultSet.getDate("dataEmissao"), produtos, resultSet.getInt("idCliente")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,6 +137,77 @@ public class PedidoDaoImpl implements PedidoDao {
             maior = 0;
         }
         return maior;
+    }
+    
+    @Override
+    public List<InfPedido> getProduto(int id){
+        List<InfPedido> infPedidos = new ArrayList<>();
+        try {
+            String query = "select c.description, p.qtd from produto_pedido p join produto c on p.idProduto = c.id where idPedido=?;";
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                infPedidos.add(new InfPedido(resultSet.getInt("qtd"), resultSet.getString("description")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return infPedidos;
+    }
+    
+    @Override
+    public List<Integer> getAllCliId(){
+        List<Integer> infPedidos = new ArrayList<>();
+        try {
+            String query = "select idCliente from pedido";
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                infPedidos.add(resultSet.getInt("idCliente"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return infPedidos;
+    }
+    
+    @Override
+    public String getCliName(int id){
+        String infPedidos = null;
+        try {
+            String query = "select c.nome from pedido p join cliente c on p.idCliente = c.id where idCliente=?;";
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                infPedidos = resultSet.getString("nome");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return infPedidos;
+    }
+    
+    @Override
+    public java.sql.Date getPedDate(int id){
+        java.sql.Date infPedidos = null;
+        try {
+            String query = "select dataEmissao from pedido where id=?;";
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                infPedidos = resultSet.getDate("dataEmissao");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return infPedidos;
     }
     
 }

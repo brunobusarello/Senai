@@ -4,7 +4,9 @@
  */
 package dao;
 
+import java.sql.Date;
 import java.util.List;
+import model.InfPedido;
 import model.Pedido;
 
 /**
@@ -18,4 +20,8 @@ public interface PedidoDao {
     void updatePedido(Pedido pedido);
     void deletePedido(int id);
     int getNextId();
+    List<InfPedido> getProduto(int id);
+    List<Integer> getAllCliId();
+    String getCliName(int id);
+    Date getPedDate(int id);
 }

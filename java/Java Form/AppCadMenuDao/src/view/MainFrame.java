@@ -53,7 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (Exception e) {
                 System.out.println("Erro ao testar conexão");
             }
-        }, 1, 1, TimeUnit.SECONDS);
+        }, 10, 1, TimeUnit.SECONDS);
     }
     
     public void executeSqlScript(File inputFile) {
