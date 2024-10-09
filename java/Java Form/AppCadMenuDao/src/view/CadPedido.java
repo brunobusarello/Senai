@@ -108,12 +108,13 @@ public class CadPedido extends javax.swing.JInternalFrame {
         jLblQtd = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLbCodPro = new javax.swing.JLabel();
-        jLbDescPro = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTfCod = new javax.swing.JTextField();
         btnNew = new javax.swing.JButton();
+        jLbCodPro = new javax.swing.JTextField();
+        jLbDescPro = new javax.swing.JTextField();
+        LblMaxNumber = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -138,6 +139,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
                 "Nome", "Preço"
             }
         ));
+        jTbPro.setEnabled(false);
         jTbPro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTbProMouseClicked(evt);
@@ -168,16 +170,18 @@ public class CadPedido extends javax.swing.JInternalFrame {
         });
 
         jLblQtd.setText("1");
+        jLblQtd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jLblQtdKeyReleased(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Qtd"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -201,6 +205,10 @@ public class CadPedido extends javax.swing.JInternalFrame {
             }
         });
 
+        jLbCodPro.setEditable(false);
+
+        jLbDescPro.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -223,17 +231,20 @@ public class CadPedido extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSavePro)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLbCodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLbDescPro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jLbCodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLbDescPro, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAddPro)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnMenosPro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLblQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnMenosPro))
+                            .addComponent(btnSavePro))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLblQtd, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                            .addComponent(LblMaxNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -250,12 +261,13 @@ public class CadPedido extends javax.swing.JInternalFrame {
                                 .addComponent(btnAddPro)
                                 .addComponent(btnMenosPro)
                                 .addComponent(jLblQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLbDescPro, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLbCodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSavePro))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLbCodPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLbDescPro)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSavePro)
+                            .addComponent(LblMaxNumber)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -284,9 +296,12 @@ public class CadPedido extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         selected = jTbPro.getSelectedRow();
         
-        jLbCodPro.setText(jTbPro.getValueAt(selected, 0).toString());
-        jLbDescPro.setText(jTbPro.getValueAt(selected, 1).toString());
-        maxCount = Float.parseFloat(jTbPro.getValueAt(selected, 3).toString());
+        if (selected != -1) {
+            jLbCodPro.setText(jTbPro.getValueAt(selected, 0).toString());
+            jLbDescPro.setText(jTbPro.getValueAt(selected, 1).toString());
+            maxCount = Float.parseFloat(jTbPro.getValueAt(selected, 3).toString());
+            LblMaxNumber.setText("");
+        }
     }//GEN-LAST:event_jTbProMouseClicked
 
     private void btnAddProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProActionPerformed
@@ -307,7 +322,14 @@ public class CadPedido extends javax.swing.JInternalFrame {
 
     private void btnSaveProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProActionPerformed
         // TODO add your handling code here:
-        InfPedido infPedido = new InfPedido(Integer.parseInt(jLblQtd.getText()), Integer.parseInt(jLbCodPro.getText()));
+        float qtd=0;
+        if (Integer.parseInt(jLblQtd.getText()) > maxCount) {
+            qtd = maxCount;
+        }
+        else{
+            qtd = Integer.parseInt(jLblQtd.getText());
+        }
+        InfPedido infPedido = new InfPedido(qtd, Integer.parseInt(jLbCodPro.getText()));
         pedidos.add(infPedido);
         loadProSelected();
     }//GEN-LAST:event_btnSaveProActionPerformed
@@ -326,13 +348,25 @@ public class CadPedido extends javax.swing.JInternalFrame {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
+        jTbPro.setEnabled(true);
         btnSave.setEnabled(true);
         btnSavePro.setEnabled(true);
         jTfCod.setText(String.valueOf(pedidoDaoImpl.getNextId()));
     }//GEN-LAST:event_btnNewActionPerformed
 
+    private void jLblQtdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLblQtdKeyReleased
+        // TODO add your handling code here:
+        if (Integer.parseInt(jLblQtd.getText()) > maxCount) {
+            LblMaxNumber.setText("O valor máximo permitido é: " + maxCount);
+        }
+        else{
+            LblMaxNumber.setText("");
+        }
+    }//GEN-LAST:event_jLblQtdKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LblMaxNumber;
     private javax.swing.JButton btnAddPro;
     private javax.swing.JButton btnMenosPro;
     private javax.swing.JButton btnNew;
@@ -341,8 +375,8 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jCbCli;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLbCodPro;
-    private javax.swing.JLabel jLbDescPro;
+    private javax.swing.JTextField jLbCodPro;
+    private javax.swing.JTextField jLbDescPro;
     private javax.swing.JTextField jLblQtd;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
