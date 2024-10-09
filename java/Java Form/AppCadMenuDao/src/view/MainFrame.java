@@ -50,10 +50,11 @@ public class MainFrame extends javax.swing.JFrame {
                     lblConnection.setText("Conexão má-sucedida");
                     imgConnection.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/banco-desconectado.png")));
                 }
+                dbConnection.dbClose();
             } catch (Exception e) {
                 System.out.println("Erro ao testar conexão");
             }
-        }, 10, 1, TimeUnit.SECONDS);
+        }, 2, 1, TimeUnit.SECONDS);
     }
     
     public void executeSqlScript(File inputFile) {

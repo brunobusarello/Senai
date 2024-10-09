@@ -19,7 +19,7 @@ import model.Pedido;
  */
 public class ManagePedido extends javax.swing.JInternalFrame {
     PedidoDaoImpl pedidoDaoImpl = new PedidoDaoImpl();
-    List<Integer> idClientes = pedidoDaoImpl.getAllCliId();
+    List<Integer> idClientes = pedidoDaoImpl.getAllId();
     /**
      * Creates new form ManagePedido
      */
@@ -30,7 +30,7 @@ public class ManagePedido extends javax.swing.JInternalFrame {
     
     public void loadCli(){
         for (Integer idCliente : idClientes) {
-            jCbCli.addItem(pedidoDaoImpl.getCliName(idCliente));
+            jCbCli.addItem(idCliente + pedidoDaoImpl.getCliName(pedidoDaoImpl.getClientId(idCliente)));
         }
     }
     

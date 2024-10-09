@@ -21,7 +21,8 @@ public interface PedidoDao {
     void deletePedido(int id);
     int getNextId();
     List<InfPedido> getProduto(int id);
-    List<Integer> getAllCliId();
+    List<Integer> getAllId();
     String getCliName(int id);
     Date getPedDate(int id);
+    int getClientId(int proId);
 }

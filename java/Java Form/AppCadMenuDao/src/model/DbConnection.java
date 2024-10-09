@@ -110,4 +110,8 @@ public class DbConnection {
     public Statement createStatement() throws SQLException{
         return connection.createStatement();
     }
+    
+    public void dbClose() throws SQLException{
+        connection.close();
+    }
 }

@@ -158,14 +158,32 @@ public class PedidoDaoImpl implements PedidoDao {
     }
     
     @Override
-    public List<Integer> getAllCliId(){
+    public List<Integer> getAllId(){
         List<Integer> infPedidos = new ArrayList<>();
         try {
-            String query = "select idCliente from pedido";
+            String query = "select id from pedido";
             PreparedStatement statement = dbConnection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                infPedidos.add(resultSet.getInt("idCliente"));
+                infPedidos.add(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return infPedidos;
+    }
+    
+    @Override
+    public int getClientId(int proId){
+        int infPedidos = 0;
+        try {
+            String query = "select idCliente from pedido where id=?;";
+            PreparedStatement statement = dbConnection.prepareStatement(query);
+            statement.setInt(1, proId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                infPedidos = resultSet.getInt("idCliente");
             }
         } catch (SQLException e) {
             e.printStackTrace();
