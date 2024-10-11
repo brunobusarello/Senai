@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AppProdutoApplication<app-produto>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.psii.app_produto.AppProdutoApplication",
+            "projectName": "app-produto",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

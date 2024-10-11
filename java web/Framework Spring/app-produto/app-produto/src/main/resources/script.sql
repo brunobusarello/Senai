@@ -7,4 +7,13 @@ create table produto (
     preco float not null
 );
 
-select * from produto;
+create table Pedido(
+	id int primary key auto_increment,
+    data_pedido date not null,
+    id_produto bigint not null,
+    constraint pedido_pk_produto_fk
+    foreign key (id_produto)
+    references produto(id)
+);
+
+select * from pedido;

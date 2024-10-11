@@ -2,11 +2,11 @@ package com.psii.app_produto.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
 
-import com.psii.app_produto.model.Produto;
-import com.psii.app_produto.repository.ProdutoRepository;
+import com.psii.app_produto.model.Pedido;
+import com.psii.app_produto.repository.PedidoRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,20 +14,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/")
-public class ProdutoController {
+public class PedidoController {
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private PedidoRepository pedidoRepository;
 
-    @GetMapping("/")
+    @GetMapping("/pedido")
     public String showForm(Model model) {
-        model.addAttribute("produto", new Produto());
+        model.addAttribute("pedido", new Pedido());
         return "index.html";
     }
 
-    @PostMapping("/saveProduto")
-    public String saveProduct(@ModelAttribute Produto produto) {
+    @PostMapping("/savePedido")
+    public String savePedido(@ModelAttribute Pedido pedido) {
         // TODO: process POST request
-        produtoRepository.save(produto);
+        pedidoRepository.save(pedido);
         return "redirect:/index.html";
     }
+
 }
