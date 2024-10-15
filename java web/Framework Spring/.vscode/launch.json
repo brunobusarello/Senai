@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AppProdutoApplication",
+            "request": "launch",
+            "mainClass": "com.psii.app_produto.AppProdutoApplication"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-AppProdutoApplication<app-produto>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

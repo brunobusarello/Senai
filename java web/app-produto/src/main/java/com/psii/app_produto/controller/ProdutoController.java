@@ -1,33 +1,35 @@
 package com.psii.app_produto.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.psii.app_produto.model.Produto;
-import com.psii.app_produto.repository.PedidoRepository;
 import com.psii.app_produto.repository.ProdutoRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/")
 public class ProdutoController {
     @Autowired
-    private ProdutoRepository produtoRepository;
-    @Autowired
-    private PedidoRepository pedidoRepository;
+    public ProdutoRepository produtoRepository;
 
     @GetMapping("/")
     public String showForm(Model model) {
-        model.addAttribute("produtos", produtoRepository.findAll());
-        model.addAttribute("pedidos", pedidoRepository.findAll());
+        List<Produto> produtos = produtoRepository.findAll();
+        model.addAttribute("produtos", produtos);
         return "index";
+    }
+
+    @GetMapping("/test")
+    public String testPage() {
+        return "test";
     }
 
     @PostMapping("/saveProduto")
@@ -36,4 +38,5 @@ public class ProdutoController {
         produtoRepository.save(produto);
         return "redirect:/";
     }
+
 }

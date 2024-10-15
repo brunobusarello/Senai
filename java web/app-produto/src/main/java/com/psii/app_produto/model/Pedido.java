@@ -2,8 +2,6 @@ package com.psii.app_produto.model;
 
 import java.sql.Date;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,23 +12,9 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-
-    @Basic
-    @Column(nullable = false)
     Date dataPedido;
     long idProduto;
 
-    // Construtores
-    public Pedido(long id, Date dataPedido, long idProduto) {
-        this.id = id;
-        this.dataPedido = dataPedido;
-        this.idProduto = idProduto;
-    }
-
-    public Pedido() {
-    }
-
-    // Getters and Setters
     public long getId() {
         return id;
     }
@@ -55,4 +39,12 @@ public class Pedido {
         this.idProduto = idProduto;
     }
 
+    public Pedido() {
+    }
+
+    public Pedido(long id, Date dataPedido, long idProduto) {
+        this.id = id;
+        this.dataPedido = dataPedido;
+        this.idProduto = idProduto;
+    }
 }

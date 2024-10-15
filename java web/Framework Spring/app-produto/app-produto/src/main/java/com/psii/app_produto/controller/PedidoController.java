@@ -20,15 +20,15 @@ public class PedidoController {
 
     @GetMapping("/pedido")
     public String showForm(Model model) {
-        model.addAttribute("pedido", new Pedido());
-        return "index.html";
+        model.addAttribute("pedidos", pedidoRepository.findAll());
+        return "index";
     }
 
     @PostMapping("/savePedido")
     public String savePedido(@ModelAttribute Pedido pedido) {
         // TODO: process POST request
         pedidoRepository.save(pedido);
-        return "redirect:/index.html";
+        return "redirect:/";
     }
 
 }
