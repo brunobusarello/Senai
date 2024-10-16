@@ -1,124 +1,129 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produto</title>
-    <style>
-        body{
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h2{
-            color: #333;
-        }
-
-        form{
-            
-        }
-
-        label{
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-        }
-
-        input[type='text'],
-        input[type='number'],
-        input[type='date']{
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        input[type='submit'] {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        input[type='submit']:hover{
-            background-color: #4ca049;
-        }
-
-        div.content{
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            margin: auto;
-        }
-
-        div.container {
-            display: flex;
-            flex-direction: row;
-        }
-    </style>
 </head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        gap: 25px;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    div {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        margin: auto;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+
 <body>
-    <div class="container">
-        <div class="content">
-            <h2>Cadastro de Produto</h2>
-            <form action="/saveProduto" method="post">
-                <label for="descricao">Descrição</label>
-                <input type="text" id="descricao" name="descricao" required><br>
-            
-                <label for="preco">Preço:</label>
-                <input type="number" id="preco" name="preco" step="0.01" required><br>
-                <input type="submit" value="Cadastrar Produto">
-            </form>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Preço</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="produto : ${produtos}">
-                        <td th:text="${produto.descricao}"></td>
-                        <td th:text="${produto.preco}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div>
+        <form action="/save-produto" method="post">
+            <h2>Cadastro Produto</h2>
+            <label for="descricao">Descrição:</label>
+            <input type="text" name="descricao" id="descricao" required><br>
 
-        <div class="content">
-            <h2>Cadastro de Pedido</h2>
-            <form action="/savePedido" method="post">
-                <label for="descricao">Data Pedido</label>
-                <input type="date" id="dataPedido" name="dataPedido" required><br>
+            <label for="preco">Preço: </label>
+            <input type="number" name="preco" id="preco" step="0.01" required><br>
 
-                <select name="idProduto" id="idProduto">
-                    <option th:each="produto : ${produtos}" th:value="${produto.id}" th:text="${produto.descricao}"></option>
-                </select>
+            <input type="submit" value="Cadastrar Produto">
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <td>Descrição</td>
+                    <td>Preço</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="produto : ${produtos}">
+                    <td th:text="${produto.descricao}"></td>
+                    <td th:text="${produto.preco}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form action="/save-pedido" method="post">
+            <h2>Cadastro Pedido</h2>
+            <label for="dataPedido">Data:</label>
+            <input type="date" name="dataPedido" id="dataPedido" required><br>
 
-                <input type="submit" value="Cadastrar Pedido">
-            </form>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Preço</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="pedido : ${pedidos}">
-                        <td th:text="${pedido.dataPedido}"></td>
-                        <td th:text="${pedido.idProduto}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <select name="idProduto" id="idProduto">
+                <option th:each="produto : ${produtos}" th:value="${produto.id}" th:text="${produto.descricao}"></option>
+            </select><br>
+
+            <input type="submit" value="Cadastrar Pedido">
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <td>Data Pedido</td>
+                    <td>Id Produto</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pedido : ${pedidos}">
+                    <td th:text="${pedido.dataPedido}"></td>
+                    <td th:text="${pedido.idProduto}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
+
 </html>
