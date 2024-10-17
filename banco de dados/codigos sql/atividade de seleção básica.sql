@@ -21,6 +21,7 @@ select nm_empregado, id_departamento from empregado where id_departamento in (10
 
 #8) recuperar as informações dos empregados que foram contratados no ano de 1981.
 select * from empregado where DATA_CONTRATACAO like "1981%";
+select * from empregado where year(DATA_CONTRATACAO) = 1981;
 
 #9) recuperar todos os empregados com comissão maior ou igual a 1000 por ordem alfabética de nome do empregado;
 select NM_EMPREGADO from empregado where comissao >= 1000 order by NM_EMPREGADO asc;
