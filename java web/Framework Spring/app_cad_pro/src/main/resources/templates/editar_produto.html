@@ -31,7 +31,9 @@
         <input type="text" th:field="*{fornecedor}" id="fornecedor"><br>
 
         <label for="imagem">Imagem</label>
-        <input type="file" name="imagem" id="imagem"><br>
+        <input type="file" name="imagem" th:field="*{imagem}" id="imagem"><br>
+
+        <button type="submit">Editar</button>
     </form>
 
     <a href="/listar">Cancelar</a>

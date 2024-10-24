@@ -4,48 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/list.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Lista de Produtos</title>
 </head>
 <body>
     <h1>Lista de Produtos</h1>
     <table>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Preço</th>
-            <th>Quantidade</th>
-            <th>Categoria</th>
-            <th>Fornecedor</th>
-            <th>Imagem</th>
-            <th>Ações</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Categoria</th>
+                <th>Fornecedor</th>
+                <th>Imagem</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
 
-        <tr th:each="produto : ${produtos}">
-            <td th:text="produto.id"></td>
-            <td th:text="produto.nome"></td>
-            <td th:text="produto.descricao"></td>
-            <td th:text="produto.preco"></td>
-            <td th:text="produto.quantidade"></td>
-            <td th:text="produto.categoria"></td>
-            <td th:text="produto.fornecedor"></td>
-            <td>
-                <img th:src="@{/produto/imagem/{id}(id={produto.id})}" alt="Imagem do Produto" class="produto-imagem">
-            </td>
-            <td>
-                <div class="acao">
-                    <a th:href="@{/produto/editar/{id}(id=${produto.id})}">
-                        <button type="button" class="edit">Editar</button>
-                    </a>
-                </div>
-
-                <form th:action="@{/produto/deletar/{id}(id=${produto.id})}" method="post">
-                    <button type="submit" onclick="return confirm('Tem certeza que deseja deletar o produto?');" class="del">
-                        Deletar
-                    </button>
-                </form>
-            </td>
-        </tr>
+        <tbody>
+            <tr th:each="produto : ${produtos}">
+                <td th:text="${produto.id}"></td>
+                <td th:text="${produto.nome}"></td>
+                <td th:text="${produto.descricao}"></td>
+                <td th:text="${produto.preco}"></td>
+                <td th:text="${produto.quantidade}"></td>
+                <td th:text="${produto.categoria}"></td>
+                <td th:text="${produto.fornecedor}"></td>
+                <td>
+                    <img th:src="@{/produto/imagem/{id}(id=${produto.id})}" alt="Imagem do Produto" class="produto-imagem">
+                </td>
+                <td>
+                    <div class="acao">
+                        <a th:href="@{/produto/editar/{id}(id=${produto.id})}">
+                            <button type="button" class="edit">Editar</button>
+                        </a>
+                    </div>
+                    <form th:action="@{/produto/deletar/{id}(id=${produto.id})}" method="post">
+                        <button type="submit" onclick="return confirm('Tem certeza que deseja deletar o produto?');" class="del">
+                            Deletar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
     </table>
 
     <br>

@@ -26,7 +26,7 @@ public class ProdutoController {
 
     @GetMapping("/cadastrar")
     public String mostrarFormularioCadastro(Model model) {
-        model.addAttribute("produto", new Produto());
+        model.addAttribute("produtos", new Produto());
         return "cadastrar";
     }
 
@@ -41,7 +41,7 @@ public class ProdutoController {
 
     @GetMapping("/listar")
     public String listarProdutos(Model model) {
-        model.addAttribute("produto", produtoService.listarProdutos());
+        model.addAttribute("produtos", produtoService.listarProdutos());
         return "listar";
     }
 
