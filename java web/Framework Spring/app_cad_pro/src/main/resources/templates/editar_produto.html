@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- xmlns:th Define que a página usará um template do thymeleaf -->
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -9,33 +10,63 @@
 <body>
     <h1>Editar Produto</h1>
 
+    <!-- th:action Define a URL para onde o formulário será enviado -->
+    <!-- th:object Define o objeto 'produto' para vincular os campos do formulário -->
     <form th:action="@{/produto/salvar}" th:object="${produto}" method="post" enctype="multipart/form-data">
+        <!-- th:field Vincula o campo oculto ao ID do produto -->
         <input type="hidden" th:field="*{id}">
 
         <label for="nome">Nome</label>
+        <!-- th:field Vincula o campo ao atributo 'nome' do objeto 'produto' -->
         <input type="text" th:field="*{nome}" id="nome"><br>
 
         <label for="descricao">Descrição</label>
+        <!-- th:field Vincula o campo ao atributo 'descricao' do objeto 'produto' -->
         <textarea th:field="*{descricao}" id="descricao" required></textarea><br>
 
         <label for="preco">Preço</label>
+        <!-- th:field Vincula o campo ao atributo 'preco' do objeto 'produto' -->
         <input type="number" step="0.01" th:field="*{preco}" id="preco" required><br>
 
         <label for="quantidade">Quantidade</label>
+        <!-- th:field Vincula o campo ao atributo 'quantidade' do objeto 'produto' -->
         <input type="number" th:field="*{quantidade}" id="quantidade"><br>
 
         <label for="categoria">Categoria</label>
+        <!-- th:field Vincula o campo ao atributo 'categoria' do objeto 'produto' -->
         <input type="text" th:field="*{categoria}" id="categoria"><br>
 
         <label for="fornecedor">Fornecedor</label>
+        <!-- th:field Vincula o campo ao atributo 'fornecedor' do objeto 'produto' -->
         <input type="text" th:field="*{fornecedor}" id="fornecedor"><br>
 
-        <label for="imagem">Imagem</label>
-        <input type="file" name="imagem" th:field="*{imagem}" id="imagem"><br>
+        <label for="imagem">Imagem:</label>
+        
+        <!-- <input type="file" name="imagem" id="imagem"> -->
+        <input type="file" name="" id="" onchange="mostrarImagemSelecionada(event)"></input>
+
+        <input type="text" name="imagem" id="imagem" readonly><img id="uploadedImage" th:src="@{'/produto/imagem/' + ${produto.id}}"></input>
 
         <button type="submit">Editar</button>
     </form>
 
     <a href="/listar">Cancelar</a>
 </body>
+<script>
+    function mostrarImagemSelecionada(event){
+        var input = event.target;
+        var reader = new FileReader();
+    
+        reader.onload = function() {
+            var dataURL = reader.result;
+            var output = document.getElementById("uploadedImage");
+            output.src = dataURL;
+            output.style.display = 'block'
+        };
+    
+        if(input.files && input.files[0]){
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 </html>

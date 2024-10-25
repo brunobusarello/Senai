@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- xmlns:th Define que a página usará um template do thymeleaf -->
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -25,23 +26,34 @@
         </thead>
 
         <tbody>
+            <!-- th:each Itera sobre cada objeto 'produto' na lista 'produtos' -->
             <tr th:each="produto : ${produtos}">
+                <!-- th:text Exibe o valor da propriedade 'id' do objeto 'produto' -->
                 <td th:text="${produto.id}"></td>
+                <!-- th:text Exibe o valor da propriedade 'nome' do objeto 'produto' -->
                 <td th:text="${produto.nome}"></td>
+                <!-- th:text Exibe o valor da propriedade 'descricao' do objeto 'produto' -->
                 <td th:text="${produto.descricao}"></td>
+                <!-- th:text Exibe o valor da propriedade 'preco' do objeto 'produto' -->
                 <td th:text="${produto.preco}"></td>
+                <!-- th:text Exibe o valor da propriedade 'quantidade' do objeto 'produto' -->
                 <td th:text="${produto.quantidade}"></td>
+                <!-- th:text Exibe o valor da propriedade 'categoria' do objeto 'produto' -->
                 <td th:text="${produto.categoria}"></td>
+                <!-- th:text Exibe o valor da propriedade 'fornecedor' do objeto 'produto' -->
                 <td th:text="${produto.fornecedor}"></td>
                 <td>
+                    <!-- th:src Gera o URL da imagem do produto com base no ID do produto -->
                     <img th:src="@{/produto/imagem/{id}(id=${produto.id})}" alt="Imagem do Produto" class="produto-imagem">
                 </td>
                 <td>
                     <div class="acao">
+                        <!-- th:href Gera o link para a página de edição do produto com base no ID -->
                         <a th:href="@{/produto/editar/{id}(id=${produto.id})}">
                             <button type="button" class="edit">Editar</button>
                         </a>
                     </div>
+                    <!-- th:action Define a URL de ação para deletar o produto usando o ID -->
                     <form th:action="@{/produto/deletar/{id}(id=${produto.id})}" method="post">
                         <button type="submit" onclick="return confirm('Tem certeza que deseja deletar o produto?');" class="del">
                             Deletar
@@ -53,6 +65,7 @@
     </table>
 
     <br>
+    <!-- th:href Define o link para a página de cadastro de novos produtos -->
     <a th:href="@{/cadastrar}">
         <button type="button">Cadastrar Novo Produto</button>
     </a>

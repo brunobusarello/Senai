@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- xmlns:th Define que a página usará um template do thymeleaf -->
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +9,7 @@
 </head>
 <body>
     <h1>Cadastrar Produto</h1>
+    <!-- th:action Define a URL para onde o formulário será enviado usando o método POST -->
     <form th:action="@{/cadastrar}" method="post" enctype="multipart/form-data">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" required><br>
@@ -33,6 +35,7 @@
         <button type="submit">Cadastrar</button>
     </form>
     <br>
+    <!-- th:href Define o link para a página de listagem de produtos -->
     <a th:href="@{/listar}">
         <button type="button">Listar Produto</button>
     </a>
