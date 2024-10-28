@@ -1,0 +1,29 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contêiner para as duas divs */
+.container {
+    display: flex;
+    gap: 20px; /* Espaço entre as divs */
+}
+
+/* Estilos para as divs */
+.box {
+    padding: 20px;
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.box a {
+    align-self: flex-start; /* Alinha o link à esquerda */
+    margin-top: auto; /* Move o link para o final da div */
+    text-decoration: none;
+}

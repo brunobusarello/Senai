@@ -19,7 +19,6 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "produto_id")
-
     private Produto produto;
 
     public long getId() {
